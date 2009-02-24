@@ -1,0 +1,1 @@
+{ test of boolean type}$c+module test3private integer a,b; Boolean x,y; begin b := 10; a := 10; x := true; y := a < b; if  y  -> write 0; [] ~ y  -> write 1; fi; if     x  -> write 1;  [] ~ x  -> write 0; fi; if false < true -> write 1; [] false >= true -> write 0; fi;end.{ output 1 1 1. } 
