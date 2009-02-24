@@ -1,0 +1,35 @@
+8
+
+dir
+0
+http://sandbox.stoopdev.com/svn/gcl/src
+http://sandbox.stoopdev.com/svn/gcl
+add
+
+
+
+
+
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+4fa7dd81-f51c-40ba-b225-232ed1c6a424
+
+gcl
+dir
+
+
+
+add
+
