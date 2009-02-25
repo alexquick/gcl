@@ -273,8 +273,8 @@ class StartStates {
 public class Scanner {
 	static final char EOL = '\n';
 	static final int  eofSym = 0;
-	static final int maxT = 35;
-	static final int noSym = 35;
+	static final int maxT = 44;
+	static final int noSym = 44;
 
 
 	private PrintWriter out;
@@ -303,33 +303,42 @@ public class Scanner {
 		start.set(36, 13); 
 		start.set(46, 16); 
 		start.set(59, 17); 
-		start.set(44, 18); 
-		start.set(91, 33); 
-		start.set(93, 19); 
-		start.set(58, 20); 
-		start.set(45, 34); 
-		start.set(43, 24); 
-		start.set(40, 25); 
-		start.set(41, 26); 
-		start.set(61, 27); 
-		start.set(35, 28); 
-		start.set(60, 35); 
-		start.set(62, 36); 
-		start.set(42, 31); 
-		start.set(47, 32); 
+		start.set(61, 18); 
+		start.set(44, 19); 
+		start.set(91, 37); 
+		start.set(93, 20); 
+		start.set(58, 21); 
+		start.set(45, 38); 
+		start.set(124, 25); 
+		start.set(38, 26); 
+		start.set(43, 27); 
+		start.set(40, 28); 
+		start.set(41, 29); 
+		start.set(126, 30); 
+		start.set(35, 31); 
+		start.set(60, 39); 
+		start.set(62, 40); 
+		start.set(42, 34); 
+		start.set(47, 35); 
+		start.set(92, 36); 
 		start.set(Buffer.EOF, -1);
 		literals.put("module", new Integer(3));
 		literals.put("private", new Integer(4));
 		literals.put("begin", new Integer(6));
 		literals.put("end", new Integer(7));
-		literals.put("integer", new Integer(10));
-		literals.put("Boolean", new Integer(11));
-		literals.put("tuple", new Integer(12));
-		literals.put("skip", new Integer(15));
-		literals.put("read", new Integer(16));
-		literals.put("write", new Integer(17));
-		literals.put("if", new Integer(19));
-		literals.put("fi", new Integer(20));
+		literals.put("constant", new Integer(9));
+		literals.put("integer", new Integer(12));
+		literals.put("Boolean", new Integer(13));
+		literals.put("tuple", new Integer(14));
+		literals.put("skip", new Integer(17));
+		literals.put("read", new Integer(18));
+		literals.put("write", new Integer(19));
+		literals.put("if", new Integer(21));
+		literals.put("fi", new Integer(22));
+		literals.put("do", new Integer(23));
+		literals.put("od", new Integer(24));
+		literals.put("true", new Integer(33));
+		literals.put("false", new Integer(34));
 
 	}
 	
@@ -460,25 +469,25 @@ public class Scanner {
 					if (ch == '+' || ch == '-') {tval[tlen++] = (char)ch; NextCh(); state = 4; break;}
 					else {t.kind = noSym; done = true; break;}
 				case 4:
-					{t.kind = 36; done = true; break;}
+					{t.kind = 45; done = true; break;}
 				case 5:
 					if (ch == '+' || ch == '-') {tval[tlen++] = (char)ch; NextCh(); state = 6; break;}
 					else {t.kind = noSym; done = true; break;}
 				case 6:
-					{t.kind = 37; done = true; break;}
+					{t.kind = 46; done = true; break;}
 				case 7:
-					{t.kind = 38; done = true; break;}
+					{t.kind = 47; done = true; break;}
 				case 8:
-					{t.kind = 39; done = true; break;}
+					{t.kind = 48; done = true; break;}
 				case 9:
 					if (ch == '+' || ch == '-') {tval[tlen++] = (char)ch; NextCh(); state = 10; break;}
 					else {t.kind = noSym; done = true; break;}
 				case 10:
-					{t.kind = 40; done = true; break;}
+					{t.kind = 49; done = true; break;}
 				case 11:
-					{t.kind = 41; done = true; break;}
+					{t.kind = 50; done = true; break;}
 				case 12:
-					{t.kind = 42; done = true; break;}
+					{t.kind = 51; done = true; break;}
 				case 13:
 					if (ch == 'C' || ch == 'c') {tval[tlen++] = (char)ch; NextCh(); state = 3; break;}
 					else if (ch == 'O' || ch == 'o') {tval[tlen++] = (char)ch; NextCh(); state = 5; break;}
@@ -499,48 +508,56 @@ public class Scanner {
 				case 17:
 					{t.kind = 8; done = true; break;}
 				case 18:
-					{t.kind = 9; done = true; break;}
+					{t.kind = 10; done = true; break;}
 				case 19:
-					{t.kind = 14; done = true; break;}
+					{t.kind = 11; done = true; break;}
 				case 20:
-					if (ch == '=') {tval[tlen++] = (char)ch; NextCh(); state = 21; break;}
-					else {t.kind = noSym; done = true; break;}
+					{t.kind = 16; done = true; break;}
 				case 21:
-					{t.kind = 18; done = true; break;}
+					if (ch == '=') {tval[tlen++] = (char)ch; NextCh(); state = 22; break;}
+					else {t.kind = noSym; done = true; break;}
 				case 22:
-					{t.kind = 21; done = true; break;}
+					{t.kind = 20; done = true; break;}
 				case 23:
-					{t.kind = 22; done = true; break;}
-				case 24:
-					{t.kind = 23; done = true; break;}
-				case 25:
 					{t.kind = 25; done = true; break;}
-				case 26:
+				case 24:
 					{t.kind = 26; done = true; break;}
-				case 27:
+				case 25:
 					{t.kind = 27; done = true; break;}
-				case 28:
+				case 26:
 					{t.kind = 28; done = true; break;}
-				case 29:
+				case 27:
+					{t.kind = 29; done = true; break;}
+				case 28:
 					{t.kind = 31; done = true; break;}
-				case 30:
+				case 29:
 					{t.kind = 32; done = true; break;}
+				case 30:
+					{t.kind = 35; done = true; break;}
 				case 31:
-					{t.kind = 33; done = true; break;}
+					{t.kind = 36; done = true; break;}
 				case 32:
-					{t.kind = 34; done = true; break;}
+					{t.kind = 39; done = true; break;}
 				case 33:
-					if (ch == ']') {tval[tlen++] = (char)ch; NextCh(); state = 22; break;}
-					else {t.kind = 13; done = true; break;}
+					{t.kind = 40; done = true; break;}
 				case 34:
-					if (ch == '>') {tval[tlen++] = (char)ch; NextCh(); state = 23; break;}
-					else {t.kind = 24; done = true; break;}
+					{t.kind = 41; done = true; break;}
 				case 35:
-					if (ch == '=') {tval[tlen++] = (char)ch; NextCh(); state = 29; break;}
-					else {t.kind = 29; done = true; break;}
+					{t.kind = 42; done = true; break;}
 				case 36:
-					if (ch == '=') {tval[tlen++] = (char)ch; NextCh(); state = 30; break;}
+					{t.kind = 43; done = true; break;}
+				case 37:
+					if (ch == ']') {tval[tlen++] = (char)ch; NextCh(); state = 23; break;}
+					else {t.kind = 15; done = true; break;}
+				case 38:
+					if (ch == '>') {tval[tlen++] = (char)ch; NextCh(); state = 24; break;}
 					else {t.kind = 30; done = true; break;}
+				case 39:
+					if (ch == '=') {tval[tlen++] = (char)ch; NextCh(); state = 32; break;}
+					else {t.kind = 37; done = true; break;}
+				case 40:
+					if (ch == '=') {tval[tlen++] = (char)ch; NextCh(); state = 33; break;}
+					else {t.kind = 38; done = true; break;}
 
 			}
 		}

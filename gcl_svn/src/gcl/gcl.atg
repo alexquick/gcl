@@ -66,7 +66,10 @@ statementPart<SymbolTable scope>
 /*----------------------------------------------------------*/
 definition<SymbolTable scope>  
 =  
-	variableDefinition<scope, ParameterKind.NOT_PARAM>  .
+	variableDefinition<scope, ParameterKind.NOT_PARAM> |(.Identifier id;Expression expression;.)
+	"constant" identifier (. id = new Identifier(currentToken().spelling());.) 
+		"=" expression<^expression, scope>
+		(.semantic.declareConstant(scope, id, expression); .) .
 /*----------------------------------------------------------*/
 variableDefinition<SymbolTable scope, ParameterKind kindOfParam> 
 	(. TypeDescriptor type; Identifier id; .)
@@ -76,7 +79,7 @@ variableDefinition<SymbolTable scope, ParameterKind kindOfParam>
 			semantic.declareVariable(scope, type, id, kindOfParam);
 		.)
 	{	"," identifier
-		(. 	id = new Identifier(currentToken().spelling());
+		(.id = new Identifier(currentToken().spelling());
 			semantic.declareVariable(scope, type, id, kindOfParam);
 		.)
 	}.
@@ -104,7 +107,7 @@ tupleType<^TupleType result, SymbolTable scope>   (. TypeDescriptor type; Identi
 statement<SymbolTable scope>
 =
 	emptyStatement | readStatement<scope>  | writeStatement<scope> 
-	| assignStatement<scope> | ifStatement<scope>.
+	| assignStatement<scope> | ifStatement<scope> | doStatement<scope>.
 /*----------------------------------------------------------*/
 emptyStatement     = "skip".
 /*----------------------------------------------------------*/
@@ -134,18 +137,29 @@ ifStatement<SymbolTable scope>  (. GCRecord ifRecord; .)
 	"if" (. ifRecord = semantic.startIf(); .)  guardedCommandList<scope, ifRecord > 
 	"fi" (. semantic.endIf(ifRecord); .).
 /*----------------------------------------------------------*/
-guardedCommandList<SymbolTable scope, GCRecord ifRecord>
+doStatement<SymbolTable scope>  (. GCRecord doRecord; .)
 =
-	guardedCommand<scope, ifRecord> { "[]" guardedCommand<scope, ifRecord> }.
+	"do" (. doRecord = semantic.startDo(); .)  guardedCommandList<scope, doRecord > 
+	"od" (. semantic.endDo(doRecord); .).
 /*----------------------------------------------------------*/
-guardedCommand<SymbolTable scope, GCRecord  ifRecord >  (.  Expression expr; .)
+guardedCommandList<SymbolTable scope, GCRecord record>
 =
-	expression<^expr, scope> (. semantic.ifTest(expr, ifRecord); .)  "->"
-	statementPart<scope>  (. semantic.elseIf(ifRecord); .).
+	guardedCommand<scope, record> { "[]" guardedCommand<scope, record> }.
+/*----------------------------------------------------------*/
+guardedCommand<SymbolTable scope, GCRecord  record >  (.  Expression expr; .)
+=
+	expression<^expr, scope> (. semantic.ifTest(expr, record); .)  "->"
+	statementPart<scope>  (. semantic.elseIf(record); .).
 /*----------------------------------------------------------*/
 expression<^Expression left, SymbolTable scope>
+	(. Expression right; .)
 =
-	relationalExpr<^left, scope> .
+	andExpr<^left, scope> {"|" andExpr<^right, scope>  (.left = semantic.orExpression(left, right);.)}.
+/*----------------------------------------------------------*/
+andExpr<^Expression left, SymbolTable scope>
+	(. Expression right; .)
+=
+	relationalExpr<^left, scope> {"&" relationalExpr<^right, scope> (.left = semantic.andExpression(left, right);.)}.
 /*----------------------------------------------------------*/
 relationalExpr<^Expression left, SymbolTable scope>
 	(. Expression right; RelationalOperator op; .)
@@ -170,7 +184,7 @@ term<^Expression left, SymbolTable scope>
 	(. Expression right; MultiplyOperator op; .)
 =
 	factor<^ left, scope> { multiplyOperator<^op>  factor<^right, scope>
-	(. left = semantic.multiplyExpression(left, op, right); .) }.
+	(. left = semantic.multiplyExpression(left, op, right); .)}.
 /*----------------------------------------------------------*/
 factor<^Expression result, SymbolTable scope>  (. result = null; .)
 =
@@ -179,6 +193,9 @@ factor<^Expression result, SymbolTable scope>  (. result = null; .)
 	  (. result = new ConstantExpression (integerType, Integer.parseInt(currentToken().spelling()));
 	  .)
 	| "(" expression<^result, scope> ")"
+	| "true"  (. result = new ConstantExpression(booleanType, 1); .)
+	| "false" (. result = new ConstantExpression(booleanType, 0); .)
+	| "~" factor<^result, scope> (. result = semantic.notExpression(result);.)
 	| (. Expression exp;
 		 ExpressionList tupleFields = new ExpressionList();
 	  .)
@@ -206,7 +223,8 @@ addOperator<^AddOperator op > (. op = null; .)
 multiplyOperator<^MultiplyOperator op > 	(. op = null; .)
 =
 	"*"   (. op = MultiplyOperator.TIMES; .)
-	| "/"  (. op = MultiplyOperator.DIVIDE; .).
+	| "/"  (. op = MultiplyOperator.DIVIDE; .)
+	| "\\"  (. op = MultiplyOperator.MODULUS; .).
 /*----------------------------------------------------------*/
 qualifiedIdentifier<^SemanticItem result, SymbolTable scope> 
 =

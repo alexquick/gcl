@@ -1,5 +1,7 @@
 package gcl;
 
+import gcl.Mnemonic.SamOp;
+
 import java.util.Enumeration;
 import java.util.Vector;
 import java.util.Hashtable;
@@ -107,7 +109,14 @@ abstract class Operator extends SemanticItem implements Mnemonic {
 		value = op;
 		this.opcode = opcode;
 	}
-
+	public Expression operate(Expression left, Expression right, Codegen codegen)
+	{
+		if(left.isConstant() && right.isConstant())
+		{
+			return performConstantEvaluation((ConstantExpression)left, (ConstantExpression)right);
+		}
+		return performEvaluation(left, right, codegen);
+	}
 	public String toString() {
 		return value;
 	}
@@ -115,7 +124,19 @@ abstract class Operator extends SemanticItem implements Mnemonic {
 	public final SamOp opcode() {
 		return opcode;
 	}
-
+	
+	public final Expression performSimpleEvaluation(Expression left, Expression right, Codegen codegen)
+	{
+		int reg = codegen.loadRegister(left);
+		Codegen.Location rightLocation = codegen.buildOperands(right);
+		codegen.gen2Address(opcode(), reg, rightLocation);
+		codegen.freeTemp(rightLocation);
+		return new VariableExpression(IntegerType.INTEGER_TYPE, reg, CodegenConstants.DIRECT); // temporary
+	}
+	
+	protected abstract Expression performConstantEvaluation(ConstantExpression left, ConstantExpression right);
+	protected abstract Expression performEvaluation(Expression left, Expression right, Codegen codegen);
+	
 	private String value;
 	private SamOp opcode;
 }
@@ -124,49 +145,138 @@ abstract class Operator extends SemanticItem implements Mnemonic {
  * Relational operators such as = and # Typesafe enumeration pattern as well as
  * immutable
  */
-final class RelationalOperator extends Operator {
+abstract class RelationalOperator extends Operator {
 	public static final RelationalOperator EQUAL = new RelationalOperator(
-			"equal", JEQ);
+			"equal", JEQ){
+				protected Expression performConstantEvaluation(ConstantExpression left, ConstantExpression right){
+					int res = (left.value() == right.value())?1:0;
+					return new ConstantExpression(BooleanType.BOOLEAN_TYPE, res);
+				}
+			};
 	public static final RelationalOperator NOT_EQUAL = new RelationalOperator(
-			"notequal", JNE);
+			"notequal", JNE){
+				protected Expression performConstantEvaluation(ConstantExpression left, ConstantExpression right){
+					int res = (left.value() != right.value())?1:0;
+					return new ConstantExpression(BooleanType.BOOLEAN_TYPE, res);
+				}
+			};
 	public static final RelationalOperator LESS_THAN = new RelationalOperator(
-			"lessthan", JLT);
+			"lessthan", JLT){
+				protected Expression performConstantEvaluation(ConstantExpression left, ConstantExpression right){
+					int res = (left.value() < right.value())?1:0;
+					return new ConstantExpression(BooleanType.BOOLEAN_TYPE, res);
+				}
+			};
 	public static final RelationalOperator GREATER_THAN = new RelationalOperator(
-			"greaterthan", JGT);
+			"greaterthan", JGT){
+				protected Expression performConstantEvaluation(ConstantExpression left, ConstantExpression right){
+					int res = (left.value() > right.value())?1:0;
+					return new ConstantExpression(BooleanType.BOOLEAN_TYPE, res);
+				}
+			};
 	public static final RelationalOperator GT_EQUAL = new RelationalOperator(
-			"greaterthanequal", JGE);
+			"greaterthanequal", JGE){
+				protected Expression performConstantEvaluation(ConstantExpression left, ConstantExpression right){
+					int res = (left.value() >= right.value())?1:0;
+					return new ConstantExpression(BooleanType.BOOLEAN_TYPE, res);
+				}
+			};
 	public static final RelationalOperator LT_EQUAL = new RelationalOperator(
-			"lessthanequal", JLE);
-
+			"lessthanequal", JLE){
+		protected Expression performConstantEvaluation(ConstantExpression left, ConstantExpression right){
+			int res = (left.value() <= right.value())?1:0;
+			return new ConstantExpression(BooleanType.BOOLEAN_TYPE, res);
+		}
+	};
 	private RelationalOperator(String op, SamOp opcode) {
 		super(op, opcode);
 	}
+	@Override
+	protected Expression performEvaluation(Expression left, Expression right, Codegen codegen) {
+		int booleanreg = codegen.getTemp(1);
+		int resultreg = codegen.loadRegister(left);
+		Codegen.Location rightLocation = codegen.buildOperands(right);
+		codegen.gen2Address(LD, booleanreg, CodegenConstants.IMMED, CodegenConstants.UNUSED, 1);
+		codegen.gen2Address(IC, resultreg, rightLocation);
+		codegen.gen1Address(opcode(), CodegenConstants.PCREL, CodegenConstants.UNUSED, 4);
+		codegen.gen2Address(LD, booleanreg, CodegenConstants.IMMED, CodegenConstants.UNUSED, 0);
+		codegen.freeTemp(CodegenConstants.DREG, resultreg);
+		codegen.freeTemp(rightLocation);
+		return new VariableExpression(BooleanType.BOOLEAN_TYPE, booleanreg, CodegenConstants.DIRECT); // temporary
+	}
 }
-
 /**
  * Add operators such as + and - Typesafe enumeration pattern as well as
  * immutable
  */
-final class AddOperator extends Operator {
-	public static final AddOperator PLUS = new AddOperator("plus", IA);
-	public static final AddOperator MINUS = new AddOperator("minus", IS);
+abstract class AddOperator extends Operator {
+	public static final AddOperator PLUS = new AddOperator("plus", IA){
+		protected Expression performConstantEvaluation(ConstantExpression left,
+				ConstantExpression right){
+			return new ConstantExpression(IntegerType.INTEGER_TYPE, left.value()+right.value());
+		}
+	};
+	public static final AddOperator MINUS = new AddOperator("minus", IS){
+		protected Expression performConstantEvaluation(ConstantExpression left,
+				ConstantExpression right){
+			return new ConstantExpression(IntegerType.INTEGER_TYPE, left.value()-right.value());
+		}
+	};
 
 	private AddOperator(String op, SamOp opcode) {
 		super(op, opcode);
+	}
+
+	@Override
+	protected Expression performEvaluation(Expression left, Expression right,
+			Codegen codegen) {
+		return performSimpleEvaluation(left, right, codegen);
 	}
 }
 
 /**
  * Multiply operators such as * and / Typesafe enumeration pattern as well as immutable
  */
-final class MultiplyOperator extends Operator {
-	public static final MultiplyOperator TIMES = new MultiplyOperator("times",
-			IM);
-	public static final MultiplyOperator DIVIDE = new MultiplyOperator(
-			"divide", ID);
+abstract class MultiplyOperator extends Operator {
+	public static final MultiplyOperator TIMES = new MultiplyOperator("times",IM){
+		protected Expression performConstantEvaluation(ConstantExpression left,
+				ConstantExpression right){
+			return new ConstantExpression(IntegerType.INTEGER_TYPE, left.value()*right.value());
+		}
+	};
+	public static final MultiplyOperator DIVIDE = new MultiplyOperator("divide", ID){
+		protected Expression performConstantEvaluation(ConstantExpression left,
+				ConstantExpression right){
+			return new ConstantExpression(IntegerType.INTEGER_TYPE, left.value()*right.value());
+		}
+	};
+	public static final MultiplyOperator MODULUS = new MultiplyOperator("modulo", NOP){
+		protected Expression performConstantEvaluation(ConstantExpression left,
+				ConstantExpression right){
+			return new ConstantExpression(IntegerType.INTEGER_TYPE, left.value()%right.value());
+		}
+		protected Expression performEvaluation(ConstantExpression left,
+				ConstantExpression right, Codegen codegen){
+			Codegen.Location rightLocation = codegen.buildOperands(right);
+			int l = codegen.loadRegister(left);
+			int lc = codegen.loadRegister(right);
+			codegen.gen2Address(ID, l, rightLocation);
+			codegen.gen2Address(IM, l, rightLocation);
+			codegen.gen2Address(IS, lc, CodegenConstants.IREG, CodegenConstants.UNUSED, l);
+			codegen.freeTemp(rightLocation);
+			codegen.freeTemp(CodegenConstants.DREG, l);
+			return new VariableExpression(IntegerType.INTEGER_TYPE, lc, CodegenConstants.DIRECT); // temporary
+		}
+	};
 
 	private MultiplyOperator(String op, SamOp opcode) {
 		super(op, opcode);
+	}
+
+	@Override
+	protected Expression performEvaluation(Expression left, Expression right,
+			Codegen codegen) {
+		return this.performSimpleEvaluation(left, right, codegen);
 	}
 }
 
@@ -199,7 +309,12 @@ abstract class Expression extends SemanticItem implements Codegen.MaccSaveable {
 
 	public void discard() {
 	} // (Function return only) default is to do nothing
-
+	
+	public boolean isConstant()
+	{
+		return false;
+	}
+	
 	private TypeDescriptor type;
 }
 
@@ -244,7 +359,12 @@ class ConstantExpression extends Expression implements CodegenConstants,
 	public int hashCode() {
 		return value * type().baseType().hashCode();
 	}
-
+	
+	public boolean isConstant()
+	{
+		return true;
+	}
+	
 	public int value() {
 		return value;
 	}
@@ -421,6 +541,7 @@ class GCRecord extends SemanticItem // For guarded command statements if and do.
 	public GCRecord(int outLabel, int nextLabel) {
 		this.outLabel = outLabel;
 		this.nextLabel = nextLabel;
+		this.firstLabel = nextLabel;
 	}
 
 	/**
@@ -449,6 +570,15 @@ class GCRecord extends SemanticItem // For guarded command statements if and do.
 	public int outLabel() {
 		return outLabel;
 	}
+	/**
+	 * The first label of an if or do statement.
+	 * 
+	 * @return the external label's numeric value.
+	 */
+	public int firstLabel(){
+		return firstLabel;
+	}
+	
 
 	public String toString() {
 		return "GCRecord out: " + outLabel + " next: " + nextLabel;
@@ -456,6 +586,7 @@ class GCRecord extends SemanticItem // For guarded command statements if and do.
 
 	private int outLabel;
 	private int nextLabel;
+	private int firstLabel;
 }
 
 // --------------------- Types ---------------------------------
@@ -1093,11 +1224,7 @@ public class SemanticActions implements Mnemonic, CodegenConstants {
 	 * @return result expression -integer (in register)
 	 **************************************************************************/
 	Expression addExpression(Expression left, AddOperator op, Expression right) {
-		int reg = codegen.loadRegister(left);
-		Codegen.Location rightLocation = codegen.buildOperands(right);
-		codegen.gen2Address(op.opcode(), reg, rightLocation);
-		codegen.freeTemp(rightLocation);
-		return new VariableExpression(INTEGER_TYPE, reg, DIRECT); // temporary
+		return op.operate(left, right, codegen);
 	}
 
 	/***************************************************************************
@@ -1113,6 +1240,62 @@ public class SemanticActions implements Mnemonic, CodegenConstants {
 		codegen.freeTemp(expressionLocation);
 		return new VariableExpression(INTEGER_TYPE, reg, DIRECT); // temporary
 	}
+	
+	/***************************************************************************
+	 * Generate code to negate a boolean expression. Result in Register.
+	 * 
+	 * @param expression expression to be negated -must be boolean
+	 * @return result expression -boolean (in register)
+	 **************************************************************************/
+	Expression notExpression(Expression expression){
+		Codegen.Location expressionLocation = codegen.buildOperands(expression);
+		int reg = codegen.getTemp(1);
+		codegen.gen2Address(LD, reg, "#1");
+		codegen.gen2Address(IS, reg, expressionLocation);
+		codegen.freeTemp(expressionLocation);
+		return new VariableExpression(BOOLEAN_TYPE, reg, DIRECT); // temporary
+	}
+	
+	/***************************************************************************
+	 * Generate code to take the and of a boolean expression. Result in Register.
+	 * 
+	 * @param left 
+	 * @param right
+	 * @return result expression -boolean (in register)
+	 **************************************************************************/
+	Expression andExpression(Expression left, Expression right){
+		Codegen.Location leftLocation = codegen.buildOperands(left);
+		Codegen.Location rightLocation = codegen.buildOperands(right);
+		int reg = codegen.getTemp(1);
+		codegen.gen2Address(LD, reg, leftLocation);
+		codegen.gen2Address(IM, reg, rightLocation);
+		codegen.freeTemp(leftLocation);
+		codegen.freeTemp(rightLocation);
+		return new VariableExpression(BOOLEAN_TYPE, reg, DIRECT); // temporary
+	}
+	
+	
+	/***************************************************************************
+	 * Generate code to take the or of a boolean expression. Result in Register.
+	 * 
+	 * @param left 
+	 * @param right
+	 * @return result expression -boolean (in register)
+	 **************************************************************************/
+	Expression orExpression(Expression left, Expression right){
+		Codegen.Location leftLocation = codegen.buildOperands(left);
+		Codegen.Location rightLocation = codegen.buildOperands(right);
+		int reg = codegen.getTemp(1);
+		codegen.gen2Address(LD, reg, leftLocation);
+		codegen.gen2Address(IA, reg, rightLocation);
+		codegen.gen2Address(IC, reg, "#1");
+		codegen.gen2Address(LD, reg, "#1");
+		codegen.gen1Address(JGE, PCREL, UNUSED, 2);
+		codegen.gen2Address(LD, reg, "#0");
+		codegen.freeTemp(leftLocation);
+		codegen.freeTemp(rightLocation);
+		return new VariableExpression(BOOLEAN_TYPE, reg, DIRECT); // temporary
+	}
 
 	/***************************************************************************
 	 * Generate code to multiply two integer expressions. Result in Register.
@@ -1124,11 +1307,7 @@ public class SemanticActions implements Mnemonic, CodegenConstants {
 	 **************************************************************************/
 	Expression multiplyExpression(Expression left, MultiplyOperator op,
 			Expression right) {
-		int reg = codegen.loadRegister(left);
-		Codegen.Location rightLocation = codegen.buildOperands(right);
-		codegen.gen2Address(op.opcode(), reg, rightLocation);
-		codegen.freeTemp(rightLocation);
-		return new VariableExpression(INTEGER_TYPE, reg, DIRECT); // temporary
+		return op.operate(left, right, codegen);
 	}
 
 	/***************************************************************************
@@ -1141,16 +1320,7 @@ public class SemanticActions implements Mnemonic, CodegenConstants {
 	 **************************************************************************/
 	Expression compareExpression(Expression left, RelationalOperator op,
 			Expression right) {
-		int booleanreg = codegen.getTemp(1);
-		int resultreg = codegen.loadRegister(left);
-		Codegen.Location rightLocation = codegen.buildOperands(right);
-		codegen.gen2Address(LD, booleanreg, IMMED, UNUSED, 1);
-		codegen.gen2Address(IC, resultreg, rightLocation);
-		codegen.gen1Address(op.opcode(), PCREL, UNUSED, 4);
-		codegen.gen2Address(LD, booleanreg, IMMED, UNUSED, 0);
-		codegen.freeTemp(DREG, resultreg);
-		codegen.freeTemp(rightLocation);
-		return new VariableExpression(BOOLEAN_TYPE, booleanreg, DIRECT); // temporary
+		return op.operate(left, right, codegen);
 	}
 
 	/***************************************************************************
@@ -1170,6 +1340,28 @@ public class SemanticActions implements Mnemonic, CodegenConstants {
 	void endIf(GCRecord entry) {
 		codegen.gen0Address(HALT);
 		codegen.genLabel('J', entry.outLabel());
+	}
+	/***************************************************************************
+	 * Create a marker to denote top of iteration loop
+	 * 
+	 * @return GCRecord entry with two label slots for this statement.
+	 **************************************************************************/
+	GCRecord startDo() {
+		GCRecord record = new GCRecord(codegen.getLabel(),codegen.getLabel());
+		codegen.genLabel('J', record.nextLabel());
+		return record;
+	}
+
+	/***************************************************************************
+	 * Generate the final label and iteration logic for an DO. 
+	 * (repeat if we fall through to here, continue otherwise).
+	 * 
+	 * @param entry GCRecord holding the labels for this statement.
+	 **************************************************************************/
+	void endDo(GCRecord entry) {
+		codegen.gen1Address(JMP, PCREL, UNUSED, 4);
+		codegen.genLabel('J', entry.outLabel());
+		codegen.genJumpLabel(JMP,'J',entry.firstLabel());
 	}
 
 	/***************************************************************************
@@ -1247,7 +1439,21 @@ public class SemanticActions implements Mnemonic, CodegenConstants {
 		SymbolTable.Entry variable = scope.newEntry("variable", id, expr);
 		CompilerOptions.message("Entering: " + variable);
 	}
-
+	/***************************************************************************
+	 * Enter the identifier into the symbol table, marking it as a constant of
+	 * the given type. This method handles global variables as well as local
+	 * variables and procedure parameters.
+	 * 
+	 * @param scope the current symbol table
+	 * @param ID identifier to be defined
+	 * @param expression the expression that gives this constant value
+	 **************************************************************************/
+	void declareConstant(SymbolTable scope, Identifier id,
+			Expression expression) {
+		complainIfDefinedHere(scope, id);
+		SymbolTable.Entry variable = scope.newEntry("constant", id, expression);
+		CompilerOptions.message("Declaring Constant: " + variable);
+	}
 	/***************************************************************************
 	 * Set up the registers and other run time initializations.
 	 **************************************************************************/
