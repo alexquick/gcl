@@ -111,6 +111,10 @@ abstract class Operator extends SemanticItem implements Mnemonic {
 	}
 	public Expression operate(Expression left, Expression right, Codegen codegen)
 	{
+		if (left.type() != right.type())
+		{
+			return new ErrorExpression("Type:" +left.type()+" is not compatible with type: " +right.type(),ErrorType.INCOMPATIBLE_TYPES);
+		}
 		if(left.isConstant() && right.isConstant())
 		{
 			return performConstantEvaluation((ConstantExpression)left, (ConstantExpression)right);
@@ -255,14 +259,15 @@ abstract class MultiplyOperator extends Operator {
 				ConstantExpression right){
 			return new ConstantExpression(IntegerType.INTEGER_TYPE, left.value()%right.value());
 		}
-		protected Expression performEvaluation(ConstantExpression left,
-				ConstantExpression right, Codegen codegen){
+		protected Expression performEvaluation(Expression left,
+				Expression right, Codegen codegen){
 			Codegen.Location rightLocation = codegen.buildOperands(right);
 			int l = codegen.loadRegister(left);
-			int lc = codegen.loadRegister(right);
+			int lc = codegen.getTemp(1);
+			codegen.gen2Address(LD, lc, CodegenConstants.DREG, CodegenConstants.UNUSED, l);
 			codegen.gen2Address(ID, l, rightLocation);
 			codegen.gen2Address(IM, l, rightLocation);
-			codegen.gen2Address(IS, lc, CodegenConstants.IREG, CodegenConstants.UNUSED, l);
+			codegen.gen2Address(IS, lc, CodegenConstants.DREG, CodegenConstants.UNUSED, l);
 			codegen.freeTemp(rightLocation);
 			codegen.freeTemp(CodegenConstants.DREG, l);
 			return new VariableExpression(IntegerType.INTEGER_TYPE, lc, CodegenConstants.DIRECT); // temporary
@@ -326,7 +331,12 @@ class ErrorExpression extends Expression implements GeneralError,
 		this.message = message;
 		CompilerOptions.message(message);
 	}
-
+	public ErrorExpression(String message, ErrorType type)
+	{
+		super(type, GLOBAL_LEVEL);
+		this.message = message;
+		CompilerOptions.message(message);		
+	}
 	public String toString() {
 		return message;
 	}
@@ -660,6 +670,8 @@ class ErrorType extends TypeDescriptor implements GeneralError {
 	}
 
 	public static final ErrorType NO_TYPE = new ErrorType();
+	public static final ErrorType CONSTANT_MUTATION = new ErrorType();
+	public static final ErrorType INCOMPATIBLE_TYPES = new ErrorType();
 }
 
 /** Integer type. Created at initialization. Singleton. Immutable. */
@@ -871,6 +883,8 @@ abstract class GCLError {
 			"ERROR -> The Left Hand Side is not a variable access. ");
 	static final GCLError EXPRESSION_REQUIRED = new Value(7,
 			"ERROR -> Expression required. ");
+    static final GCLError INCOMPATIBLE_TYPES = new Value(8,
+    		"ERROR -> Operand types are not equivalent. ");
 	// The following are compiler errors. Repair them.
 
 	static final GCLError ILLEGAL_LOAD = new Value(92,
@@ -1163,6 +1177,14 @@ public class SemanticActions implements Mnemonic, CodegenConstants {
 		for (i = entries - 1; i >= 0; --i) {
 			Expression rightExpression = expressions.right(i);
 			Expression leftExpression = expressions.left(i);
+			if(leftExpression.isConstant())
+			{
+				this.err.semanticError(GCLError.NOT_VARIABLE);
+			}
+			if(leftExpression.type() != rightExpression.type())
+			{
+				this.err.semanticError(GCLError.INCOMPATIBLE_TYPES);
+			}
 			if (rightExpression.needsToBePushed()) {
 				popExpression(leftExpression);
 			} else { // the item wasn't pushed, so normal copy
@@ -1224,7 +1246,12 @@ public class SemanticActions implements Mnemonic, CodegenConstants {
 	 * @return result expression -integer (in register)
 	 **************************************************************************/
 	Expression addExpression(Expression left, AddOperator op, Expression right) {
-		return op.operate(left, right, codegen);
+		Expression ret = op.operate(left, right, codegen);
+		if(ret instanceof ErrorExpression)
+		{
+			this.err.semanticError(GCLError.INCOMPATIBLE_TYPES);
+		}
+		return ret;
 	}
 
 	/***************************************************************************
@@ -1234,6 +1261,11 @@ public class SemanticActions implements Mnemonic, CodegenConstants {
 	 * @return result expression -integer (in register)
 	 **************************************************************************/
 	Expression negateExpression(Expression expression) {
+		if(expression.isConstant())
+		{
+			ConstantExpression constant = (ConstantExpression) expression;
+			return new ConstantExpression(INTEGER_TYPE, -1*constant.value());
+		}
 		Codegen.Location expressionLocation = codegen.buildOperands(expression);
 		int reg = codegen.getTemp(1);
 		codegen.gen2Address(INEG, reg, expressionLocation);
@@ -1248,6 +1280,11 @@ public class SemanticActions implements Mnemonic, CodegenConstants {
 	 * @return result expression -boolean (in register)
 	 **************************************************************************/
 	Expression notExpression(Expression expression){
+		if(expression.isConstant())
+		{
+			ConstantExpression constant = (ConstantExpression) expression;
+			return new ConstantExpression(BOOLEAN_TYPE, (constant.value()==1)?0:1);
+		}
 		Codegen.Location expressionLocation = codegen.buildOperands(expression);
 		int reg = codegen.getTemp(1);
 		codegen.gen2Address(LD, reg, "#1");
@@ -1307,7 +1344,12 @@ public class SemanticActions implements Mnemonic, CodegenConstants {
 	 **************************************************************************/
 	Expression multiplyExpression(Expression left, MultiplyOperator op,
 			Expression right) {
-		return op.operate(left, right, codegen);
+		Expression ret = op.operate(left, right, codegen);
+		if(ret instanceof ErrorExpression)
+		{
+			this.err.semanticError(GCLError.INCOMPATIBLE_TYPES);
+		}
+		return ret;
 	}
 
 	/***************************************************************************
@@ -1320,7 +1362,12 @@ public class SemanticActions implements Mnemonic, CodegenConstants {
 	 **************************************************************************/
 	Expression compareExpression(Expression left, RelationalOperator op,
 			Expression right) {
-		return op.operate(left, right, codegen);
+		Expression ret = op.operate(left, right, codegen);
+		if(ret instanceof ErrorExpression)
+		{
+			this.err.semanticError(GCLError.INCOMPATIBLE_TYPES);
+		}
+		return ret;
 	}
 
 	/***************************************************************************

@@ -7,10 +7,10 @@ import java.io.PrintWriter;
  * compiler options (pragmas).
  */
 class CompilerOptions {
-	public static boolean listCode = false;
+	public static boolean listCode = true;
 	public static boolean optimize = false;
 	public static boolean showSymbolTable = false;
-	public static boolean showMessages = false;
+	public static boolean showMessages = true;
 
 	private static PrintWriter out; // Set by main to the Scanner's listing file.
 	private static Codegen codegen; // set by main

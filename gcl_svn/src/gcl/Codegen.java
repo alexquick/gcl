@@ -12,7 +12,7 @@ public class Codegen implements Mnemonic, CodegenConstants {
 		this.err = err;
 		init();
 	}
-
+	
 	void setSemanticLevel(SemanticActions.SemanticLevel currentLevel) {
 		this.currentLevel = currentLevel; // gives buildOperands access to the currentLevel.
 	}
@@ -20,7 +20,7 @@ public class Codegen implements Mnemonic, CodegenConstants {
 	public void closeCodefile() {
 		codefile.close();
 	}
-
+	
 	/**
 	 * Reserve an address for a global variable
 	 * 
