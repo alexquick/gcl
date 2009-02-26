@@ -643,6 +643,7 @@ public class Codegen implements Mnemonic, CodegenConstants {
 				displacement = constantOffset;
 				// assume integer or boolean constant
 				storage.push(new SamConstant(displacement, semanticItem));
+				//TODO: handle strings
 				constantOffset += ((Expression) semanticItem).type().size();
 			}
 			return new Location(mode, base, displacement);
@@ -653,6 +654,7 @@ public class Codegen implements Mnemonic, CodegenConstants {
 			while (elements.hasMoreElements()) {
 				ConstantLike temp = (elements.nextElement()).item();
 				ConstantExpression constant = (ConstantExpression) temp;
+				//TODO: not only ints, do strings as well
 				codegen.genIntDirective(constant.value());
 			}
 		}

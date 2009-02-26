@@ -11,11 +11,12 @@ first:   "module"
 follow:  EOF "module" 
 
 definitionPart
-first:   "constant" "integer" "Boolean" "tuple" 
+first:   identifier "constant" "typedefinition" "integer" "Boolean" "tuple" 
 follow:  "private" "." "begin" 
 
 block
-first:   "begin" "constant" "integer" "Boolean" "tuple" 
+first:   identifier "begin" "constant" "typedefinition" "integer" "Boolean" 
+         "tuple" 
 follow:  "." 
 
 statementPart
@@ -23,7 +24,7 @@ first:   identifier "skip" "read" "write" "if" "do"
 follow:  "end" "fi" "od" "[]" 
 
 definition
-first:   "constant" "integer" "Boolean" "tuple" 
+first:   identifier "constant" "typedefinition" "integer" "Boolean" "tuple" 
 follow:  ";" 
 
 statement
@@ -31,7 +32,7 @@ first:   identifier "skip" "read" "write" "if" "do"
 follow:  ";" 
 
 variableDefinition
-first:   "integer" "Boolean" "tuple" 
+first:   identifier "integer" "Boolean" "tuple" 
 follow:  ";" 
 
 expression
@@ -39,11 +40,11 @@ first:   identifier numeral "[" "+" "-" "(" "true" "false" "~"
 follow:  ";" "," "]" "->" ")" 
 
 type
-first:   "integer" "Boolean" "tuple" 
+first:   identifier "integer" "Boolean" "tuple" 
 follow:  identifier 
 
 typeSymbol
-first:   "integer" "Boolean" 
+first:   identifier "integer" "Boolean" 
 follow:  identifier 
 
 tupleType
@@ -78,6 +79,10 @@ variableAccess
 first:   identifier 
 follow:  ";" "=" "," "]" ":=" "->" "|" "&" "+" "-" ")" "#" "<" ">" "<=" ">=" 
          "*" "/" "\\" 
+
+writeItem
+first:   identifier numeral string "[" "+" "-" "(" "true" "false" "~" 
+follow:  ";" "," 
 
 guardedCommandList
 first:   identifier numeral "[" "+" "-" "(" "true" "false" "~" 
@@ -129,172 +134,178 @@ follow:  ";" "=" "," "]" ":=" "->" "|" "&" "+" "-" ")" "#" "<" ">" "<=" ">="
 Cross reference list:
 --------------------
 
-  "#"           212
-  "&"           162
-  "("           195
-  ")"           195
-  "*"           225
-  "+"           175  220
-  ","            81  101  117  122  129  132  204
-  "-"           176  221
-  "->"          151
-  "."            55
-  "/"           226
-  ":="          130
-  ";"            61   65   65
-  "<"           213
-  "<="          215
-  "="            71  211
-  ">"           214
-  ">="          216
-  "Boolean"      94
-  "["            99  202
-  "[]"          147
-  "\\"          227
-  "]"           104  207
-  "begin"        59
-  "constant"     70
-  "do"          142
-  "end"          59
-  "false"       197
-  "fi"          138
-  "if"          137
-  "integer"      93
-  "module"       52
-  "od"          143
-  "private"      54
-  "read"        116
-  "skip"        112
-  "true"        196
-  "tuple"        99
-  "write"       121
-  "|"           157
-  "~"           198
-  addOperator  -218  179
-  andExpr      -159  157  157
-  assignStatem -125  110
-  block         -57   54
-  definition    -67   61
-  definitionPa  -61   53   59
-  doStatement  -140  110
-  emptyStateme -112  109
-  expression   -154   71  121  122  131  132  151  195  202  204
-  factor       -189  186  186  198
-  gcl           -43
-  guardedComma -149  147  147
-  guardedComma -145  137  142
-  identifier     52   70   77   81   99  101  231
-  ifStatement  -135  110
-  module        -50   46   47
-  multiplyOper -223  186
-  numeral       192
-  qualifiedIde -229  237
-  readStatemen -114  109
-  relationalEx -164  162  162
-  relationalOp -209  168
-  simpleExpr   -172  167  168
-  statement    -107   65   65
-  statementPar  -63   59  152
-  term         -183  175  176  179
-  tupleType     -96   89
-  type          -87   77
-  typeSymbol    -91   89   99  101
-  variableAcce -234  116  117  128  129  191
-  variableDefi  -74   69
-  writeStateme -119  109
+  "#"           223
+  "&"           173
+  "("           206
+  ")"           206
+  "*"           236
+  "+"           186  231
+  ","            85  106  122  127  140  143  215
+  "-"           187  232
+  "->"          162
+  "."            56
+  "/"           237
+  ":="          141
+  ";"            62   66   66
+  "<"           224
+  "<="          226
+  "="            72  222
+  ">"           225
+  ">="          227
+  "Boolean"      98
+  "["           104  213
+  "[]"          158
+  "\\"          238
+  "]"           109  218
+  "begin"        60
+  "constant"     71
+  "do"          153
+  "end"          60
+  "false"       208
+  "fi"          149
+  "if"          148
+  "integer"      97
+  "module"       53
+  "od"          154
+  "private"      55
+  "read"        121
+  "skip"        117
+  "true"        207
+  "tuple"       104
+  "typedefinit   75
+  "write"       126
+  "|"           168
+  "~"           209
+  addOperator  -229  190
+  andExpr      -170  168  168
+  assignStatem -136  115
+  block         -58   55
+  definition    -68   62
+  definitionPa  -62   54   60
+  doStatement  -151  115
+  emptyStateme -117  114
+  expression   -165   72  132  142  143  162  206  213  215
+  factor       -200  197  197  209
+  gcl           -44
+  guardedComma -160  158  158
+  guardedComma -156  148  153
+  identifier     53   71   75   81   85   99  104  106  242
+  ifStatement  -146  115
+  module        -51   47   48
+  multiplyOper -234  197
+  numeral       203
+  qualifiedIde -240  248
+  readStatemen -119  114
+  relationalEx -175  173  173
+  relationalOp -220  179
+  simpleExpr   -183  178  179
+  statement    -112   66   66
+  statementPar  -64   60  163
+  string        133
+  term         -194  186  187  190
+  tupleType    -101   93
+  type          -91   75   81
+  typeSymbol    -95   93  104  106
+  variableAcce -245  121  122  139  140  202
+  variableDefi  -78   70
+  writeItem    -130  126  127
+  writeStateme -124  114
 
 
 
-45 terminals
-82 symbols
-233 nodes
-9 sets
+47 terminals
+85 symbols
+246 nodes
+11 sets
 Symbol Table:
 ------------
 
  nr name           typ  hasAt graph  del   line tokenKind
   0 EOF            t    false                 0 fixedToken
-  1 identifier     t    false                20 classLitToken
-  2 numeral        t    false                21 classToken
-  3 "module"       t    false                52 litToken
-  4 "private"      t    false                54 litToken
-  5 "."            t    false                55 fixedToken
-  6 "begin"        t    false                59 litToken
-  7 "end"          t    false                59 litToken
-  8 ";"            t    false                61 fixedToken
-  9 "constant"     t    false                70 litToken
- 10 "="            t    false                71 fixedToken
- 11 ","            t    false                81 fixedToken
- 12 "integer"      t    false                93 litToken
- 13 "Boolean"      t    false                94 litToken
- 14 "tuple"        t    false                99 litToken
- 15 "["            t    false                99 fixedToken
- 16 "]"            t    false               104 fixedToken
- 17 "skip"         t    false               112 litToken
- 18 "read"         t    false               116 litToken
- 19 "write"        t    false               121 litToken
- 20 ":="           t    false               130 fixedToken
- 21 "if"           t    false               137 litToken
- 22 "fi"           t    false               138 litToken
- 23 "do"           t    false               142 litToken
- 24 "od"           t    false               143 litToken
- 25 "[]"           t    false               147 fixedToken
- 26 "->"           t    false               151 fixedToken
- 27 "|"            t    false               157 fixedToken
- 28 "&"            t    false               162 fixedToken
- 29 "+"            t    false               175 fixedToken
- 30 "-"            t    false               176 fixedToken
- 31 "("            t    false               195 fixedToken
- 32 ")"            t    false               195 fixedToken
- 33 "true"         t    false               196 litToken
- 34 "false"        t    false               197 litToken
- 35 "~"            t    false               198 fixedToken
- 36 "#"            t    false               212 fixedToken
- 37 "<"            t    false               213 fixedToken
- 38 ">"            t    false               214 fixedToken
- 39 "<="           t    false               215 fixedToken
- 40 ">="           t    false               216 fixedToken
- 41 "*"            t    false               225 fixedToken
- 42 "/"            t    false               226 fixedToken
- 43 "\\"           t    false               227 fixedToken
- 44 ???            t    false                 0 fixedToken
- 45 option1        pr   false                24 fixedToken
- 46 option3        pr   false                26 fixedToken
- 47 option5        pr   false                28 fixedToken
- 48 option6        pr   false                29 fixedToken
- 49 option7        pr   false                30 fixedToken
- 50 option9        pr   false                32 fixedToken
- 51 option10       pr   false                33 fixedToken
-  0 gcl            nt   false     1 false    43 fixedToken
-  1 module         nt   true      9 false    50 fixedToken
-  2 definitionPa   nt   true     25 true     61 fixedToken
-  3 block          nt   true     17 false    57 fixedToken
-  4 statementPar   nt   true     26 false    63 fixedToken
-  5 definition     nt   true     41 false    67 fixedToken
-  6 statement      nt   true     75 false   107 fixedToken
-  7 variableDefi   nt   true     43 false    74 fixedToken
-  8 expression     nt   true    134 false   154 fixedToken
-  9 type           nt   true     52 false    87 fixedToken
- 10 typeSymbol     nt   false    58 false    91 fixedToken
- 11 tupleType      nt   true     60 false    96 fixedToken
- 12 emptyStateme   nt   false    85 false   112 fixedToken
- 13 readStatemen   nt   true     86 false   114 fixedToken
- 14 writeStateme   nt   true     93 false   119 fixedToken
- 15 assignStatem   nt   true    101 false   125 fixedToken
- 16 ifStatement    nt   true    115 false   135 fixedToken
- 17 doStatement    nt   true    120 false   140 fixedToken
- 18 variableAcce   nt   true    231 false   234 fixedToken
- 19 guardedComma   nt   true    125 false   145 fixedToken
- 20 guardedComma   nt   true    129 false   149 fixedToken
- 21 andExpr        nt   true    139 false   159 fixedToken
- 22 relationalEx   nt   true    144 false   164 fixedToken
- 23 simpleExpr     nt   true    155 false   172 fixedToken
- 24 relationalOp   nt   false   200 false   209 fixedToken
- 25 term           nt   true    161 false   183 fixedToken
- 26 addOperator    nt   false   218 false   218 fixedToken
- 27 factor         nt   true    169 false   189 fixedToken
- 28 multiplyOper   nt   false   224 false   223 fixedToken
- 29 qualifiedIde   nt   true    229 false   229 fixedToken
+  1 identifier     t    false                21 classLitToken
+  2 numeral        t    false                22 classToken
+  3 string         t    false                23 classToken
+  4 "module"       t    false                53 litToken
+  5 "private"      t    false                55 litToken
+  6 "."            t    false                56 fixedToken
+  7 "begin"        t    false                60 litToken
+  8 "end"          t    false                60 litToken
+  9 ";"            t    false                62 fixedToken
+ 10 "constant"     t    false                71 litToken
+ 11 "="            t    false                72 fixedToken
+ 12 "typedefinit   t    false                75 litToken
+ 13 ","            t    false                85 fixedToken
+ 14 "integer"      t    false                97 litToken
+ 15 "Boolean"      t    false                98 litToken
+ 16 "tuple"        t    false               104 litToken
+ 17 "["            t    false               104 fixedToken
+ 18 "]"            t    false               109 fixedToken
+ 19 "skip"         t    false               117 litToken
+ 20 "read"         t    false               121 litToken
+ 21 "write"        t    false               126 litToken
+ 22 ":="           t    false               141 fixedToken
+ 23 "if"           t    false               148 litToken
+ 24 "fi"           t    false               149 litToken
+ 25 "do"           t    false               153 litToken
+ 26 "od"           t    false               154 litToken
+ 27 "[]"           t    false               158 fixedToken
+ 28 "->"           t    false               162 fixedToken
+ 29 "|"            t    false               168 fixedToken
+ 30 "&"            t    false               173 fixedToken
+ 31 "+"            t    false               186 fixedToken
+ 32 "-"            t    false               187 fixedToken
+ 33 "("            t    false               206 fixedToken
+ 34 ")"            t    false               206 fixedToken
+ 35 "true"         t    false               207 litToken
+ 36 "false"        t    false               208 litToken
+ 37 "~"            t    false               209 fixedToken
+ 38 "#"            t    false               223 fixedToken
+ 39 "<"            t    false               224 fixedToken
+ 40 ">"            t    false               225 fixedToken
+ 41 "<="           t    false               226 fixedToken
+ 42 ">="           t    false               227 fixedToken
+ 43 "*"            t    false               236 fixedToken
+ 44 "/"            t    false               237 fixedToken
+ 45 "\\"           t    false               238 fixedToken
+ 46 ???            t    false                 0 fixedToken
+ 47 option1        pr   false                25 fixedToken
+ 48 option3        pr   false                27 fixedToken
+ 49 option5        pr   false                29 fixedToken
+ 50 option6        pr   false                30 fixedToken
+ 51 option7        pr   false                31 fixedToken
+ 52 option9        pr   false                33 fixedToken
+ 53 option10       pr   false                34 fixedToken
+  0 gcl            nt   false     1 false    44 fixedToken
+  1 module         nt   true      9 false    51 fixedToken
+  2 definitionPa   nt   true     25 true     62 fixedToken
+  3 block          nt   true     17 false    58 fixedToken
+  4 statementPar   nt   true     26 false    64 fixedToken
+  5 definition     nt   true     41 false    68 fixedToken
+  6 statement      nt   true     84 false   112 fixedToken
+  7 variableDefi   nt   true     49 false    78 fixedToken
+  8 expression     nt   true    147 false   165 fixedToken
+  9 type           nt   true     58 false    91 fixedToken
+ 10 typeSymbol     nt   true     64 false    95 fixedToken
+ 11 tupleType      nt   true     69 false   101 fixedToken
+ 12 emptyStateme   nt   false    94 false   117 fixedToken
+ 13 readStatemen   nt   true     95 false   119 fixedToken
+ 14 writeStateme   nt   true    102 false   124 fixedToken
+ 15 assignStatem   nt   true    114 false   136 fixedToken
+ 16 ifStatement    nt   true    128 false   146 fixedToken
+ 17 doStatement    nt   true    133 false   151 fixedToken
+ 18 variableAcce   nt   true    244 false   245 fixedToken
+ 19 writeItem      nt   true    112 false   130 fixedToken
+ 20 guardedComma   nt   true    138 false   156 fixedToken
+ 21 guardedComma   nt   true    142 false   160 fixedToken
+ 22 andExpr        nt   true    152 false   170 fixedToken
+ 23 relationalEx   nt   true    157 false   175 fixedToken
+ 24 simpleExpr     nt   true    168 false   183 fixedToken
+ 25 relationalOp   nt   false   213 false   220 fixedToken
+ 26 term           nt   true    174 false   194 fixedToken
+ 27 addOperator    nt   false   231 false   229 fixedToken
+ 28 factor         nt   true    182 false   200 fixedToken
+ 29 multiplyOper   nt   false   237 false   234 fixedToken
+ 30 qualifiedIde   nt   true    242 false   240 fixedToken
 
 Literal Tokens:
 --------------

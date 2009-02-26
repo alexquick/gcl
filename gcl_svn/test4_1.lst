@@ -1,4 +1,4 @@
-Compiled on: Wed Feb 25 04:10:01 EST 2009
+Compiled on: Wed Feb 25 18:30:38 EST 2009
 $        LDA     R15, V1
 $        LDA     R14, C1
 $        LD      R13, #16000
@@ -32,13 +32,9 @@ At -- line 20 col 11: error 8
 ERROR -> Operand types are not equivalent. 
 
 $        HALT    
-At -- line 20 col 11: error 8
-ERROR -> Operand types are not equivilant. 
-
-$        HALT    
 $        STO     R0, +0(R15)
 At -- line 21 col 10: error 8
-ERROR -> Operand types are not equivilant. 
+ERROR -> Operand types are not equivalent. 
 
 $        HALT    
 $        LD      R0, +4(R14)
@@ -66,7 +62,7 @@ $        INT      1
 $        INT      0
 $    LABEL V1
 $        SKIP     2
-  <end of compilation> 	There were 5 errors detected
+  <end of compilation> 	There were 4 errors detected
   Allocated Registers: 13 14 15 
 
 $        HALT    
