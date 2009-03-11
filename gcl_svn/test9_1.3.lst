@@ -1,0 +1,31 @@
+Compiled on: Wed Mar 11 12:44:22 EDT 2009
+$        LDA     R15, V1
+$        LDA     R14, C1
+$        LD      R13, #16000
+$   % Not yet found: x
+$   % Not yet found: x
+$   % Entering: private variable entry: ID = x semantic: VariableExpression: level(1) offset(0) direct, with type Unknown type.
+$   % Not yet found: y
+$   % Not yet found: y
+$   % Entering: private variable entry: ID = y semantic: VariableExpression: level(1) offset(2) direct, with type Unknown type.
+$   % Not yet found: z
+$   % Not yet found: z
+$   % Entering: private variable entry: ID = z semantic: VariableExpression: level(1) offset(4) direct, with type integer type.
+$        LD      R0, +8(R14)
+$        STO     R0, +0(R15)
+$        LD      R0, +10(R14)
+$        STO     R0, +4(R15)
+$        RDI     +0(R15)
+$        HALT    
+$    LABEL C1
+$        INT      1
+$        INT      5
+$        INT      3
+$        INT      20
+$        INT      1
+$        INT      3
+$    LABEL V1
+$        SKIP     6
+  <end of compilation> 	There were 0 errors detected
+  Allocated Registers: 13 14 15 
+

@@ -142,7 +142,7 @@ abstract class BinaryOperator extends Operator{
 	}
 	public Expression operate(Expression left, Expression right, Codegen codegen)
 	{
-		if (left.type().isCompatible(right.type()))
+		if (!left.type().isCompatible(right.type()))
 		{
 			return new ErrorExpression("Type:" +left.type()+" is not compatible with type: " +right.type(),ErrorType.INCOMPATIBLE_TYPES);
 		}
@@ -1088,10 +1088,12 @@ abstract class GCLError {
 // ---------------------GCLString-----------------------------------------
 class GCLString implements Codegen.ConstantLike{
 	String samString;
+	int size;
 	public GCLString(String wrappedString)
 	{
-		StringBuffer workingCopy = new StringBuffer();
-		workingCopy.append(wrappedString.subSequence(1, wrappedString.length()-1));
+		StringBuffer workingCopy = new StringBuffer(wrappedString.substring(1, wrappedString.length()-1));
+		//StringBuffer workingCopy = new StringBuffer();
+		//workingCopy.append(wrappedString.subSequence(1, wrappedString.length()-1));
 		
 		//escape
 		for(int i = 0; i < workingCopy.length(); i++)
@@ -1105,6 +1107,14 @@ class GCLString implements Codegen.ConstantLike{
 		
 		//requote
 		samString = workingCopy.append('"').insert(0, '"').toString();
+		
+		//get size
+		if(wrappedString.length() % 2 == 0){
+			this.size = wrappedString.length() ;
+		}
+		else{
+			this.size = wrappedString.length() - 1;
+		}
 	}
 	@Override
 	public void generateDirective(Codegen codegen) {
@@ -1112,12 +1122,7 @@ class GCLString implements Codegen.ConstantLike{
 	}
 	@Override
 	public int size() {
-		if(samString.length() % 2 == 0){
-			return samString.length() ;
-		}
-		else{
-			return samString.length() - 1;
-		}
+		return size;
 	}
 	
 }
@@ -1388,29 +1393,29 @@ public class SemanticActions implements Mnemonic, CodegenConstants {
 			{
 				this.err.semanticError(GCLError.NOT_VARIABLE);
 			}
-			if(leftExpression.type().isCompatible(rightExpression.type()))
-			{
-				// if either are errors, there's no sense in grumbling again
-				if(leftExpression.isError() || rightExpression.isError())
-				{
-					this.err.semanticError(GCLError.INCOMPATIBLE_TYPES);
-				}
-			}
-			if(leftExpression.type() instanceof RangeType)
-			{
+			if(leftExpression.type() instanceof RangeType){
 				RangeType range = (RangeType)leftExpression.type();
 				if(rightExpression.isConstant())
 				{
 					int value = ((ConstantExpression)rightExpression).value();
-					if(range.lbound() >= value || range.ubound() <= value)
+					if(range.lbound() > value || range.ubound() < value)
 					{
 						this.err.semanticError(GCLError.INCOMPATIBLE_TYPES, "Cannot assign constant to range when constant is out of range bounds");
 					}
 				}
 				else
 				{
-					int register = codegen.loadAddress(rightExpression);
-					codegen.gen2Address(TRNG, register, range.boundLocation());
+					checkRange(range, rightExpression);
+				}
+			}
+			else{
+				if(!leftExpression.type().isCompatible(rightExpression.type()))
+				{
+					// if either are errors, there's no sense in grumbling again
+					if(leftExpression.isError() || rightExpression.isError())
+					{
+						this.err.semanticError(GCLError.INCOMPATIBLE_TYPES);
+					}
 				}
 			}
 			if (rightExpression.needsToBePushed()) {
@@ -1438,6 +1443,21 @@ public class SemanticActions implements Mnemonic, CodegenConstants {
 		}
 		Codegen.Location expressionLocation = codegen.buildOperands(expression);
 		codegen.gen1Address(RDI, expressionLocation);
+		if(expression.type() instanceof RangeType)
+		{
+			checkRange(((RangeType)expression.type()), expression);
+		}
+	}
+    
+	/***************************************************************************
+	 * Generate code to runtime range check a range
+	 * 
+	 * @param expression (range) expression
+	 **************************************************************************/
+	void checkRange(RangeType range, Expression expression) {
+		int register = codegen.loadRegister(expression);
+		codegen.gen2Address(TRNG, register, range.boundLocation());
+		codegen.freeTemp(DREG, register);
 	}
 
 	/***************************************************************************
@@ -1464,9 +1484,12 @@ public class SemanticActions implements Mnemonic, CodegenConstants {
 	 * @param java string captured from scanner
 	 **************************************************************************/
 	void writeString(String str){
-		GCLString gclString = new GCLString(str);
-		Location stringLocation = codegen.buildOperands(gclString);
-		codegen.gen1Address(WRST, stringLocation);
+		if(!(str.length() == 2)) //ignore empty strings
+		{
+			GCLString gclString = new GCLString(str);
+			Location stringLocation = codegen.buildOperands(gclString);
+			codegen.gen1Address(WRST, stringLocation);
+		}
 	}
 	/***************************************************************************
 	 * Generate code to write an end of line mark.
@@ -1548,14 +1571,14 @@ public class SemanticActions implements Mnemonic, CodegenConstants {
 	 * 
 	 * @return GCRecord entry with two label slots for this statement.
 	 **************************************************************************/
-	public GCRecord beginFor(Expression control) {
+	GCRecord beginFor(Expression control) {
 		if(!(control.type() instanceof RangeType))
 		{
 			err.semanticError(GCLError.INCOMPATIBLE_TYPES, "Cannot use forall to iterate over non-range types");
 			return null;
 		}
 		Location boundLocation = ((RangeType)control.type()).boundLocation();
-		int reg = codegen.loadAddress(control);
+		int reg = codegen.loadRegister(control);
 		Location controlLocation = codegen.buildOperands(control);
 		codegen.gen2Address(LD, reg, boundLocation);
 		codegen.gen2Address(STO, reg, controlLocation);
@@ -1571,7 +1594,7 @@ public class SemanticActions implements Mnemonic, CodegenConstants {
 		return record;
 	}
 
-	public void endFor(Expression control, GCRecord forallRecord) {
+	void endFor(Expression control, GCRecord forallRecord) {
 		if(forallRecord == null){
 			return;
 		}
@@ -1579,7 +1602,7 @@ public class SemanticActions implements Mnemonic, CodegenConstants {
 		int endLabel = codegen.getLabel();
 		Location controlLocation = codegen.buildOperands(control);
 		Location boundLocation = ((RangeType)control.type()).boundLocation();
-		int reg = codegen.loadAddress(control);
+		int reg = codegen.loadRegister(control);
 		
 		codegen.gen2Address(IC, reg, new Location(boundLocation,+control.type().size()));
 		codegen.genJumpLabel(JEQ, 'X', endLabel);
@@ -1717,12 +1740,12 @@ public class SemanticActions implements Mnemonic, CodegenConstants {
 	public TypeDescriptor createRange(TypeDescriptor baseType, Expression lbound,
 			Expression ubound) {
 		//check bound and baseType type compatibility
-		if(ubound.type().isCompatible(lbound.type()))
+		if(!ubound.type().isCompatible(lbound.type()))
 		{
 			err.semanticError(GCLError.INCOMPATIBLE_TYPES, "The bounds of this range must be of compatible types");
 			return NO_TYPE;
 		}
-		if(baseType.isCompatible(ubound.type()))
+		if(!baseType.isCompatible(ubound.type()))
 		{
 			err.semanticError(GCLError.INCOMPATIBLE_TYPES, "The base type of this range must be compatible with the bound types");
 			return NO_TYPE;
@@ -1735,7 +1758,7 @@ public class SemanticActions implements Mnemonic, CodegenConstants {
 		}
 		Location boundLocation = codegen.buildOperands(lbound);
 		codegen.buildOperands(ubound);
-		return new RangeType(baseType, ((ConstantExpression)lbound), ((ConstantExpression)ubound), boundLocation);
+		return new RangeType(baseType, (ConstantExpression)lbound, (ConstantExpression)ubound, boundLocation);
 	}
 	
 	/***************************************************************************

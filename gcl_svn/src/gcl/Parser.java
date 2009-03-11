@@ -217,6 +217,10 @@ public class Parser {
 			doStatement(scope);
 			break;
 		}
+		case 25: {
+			forStatement(scope);
+			break;
+		}
 		default: SynErr(58); break;
 		}
 	}
@@ -377,6 +381,17 @@ public class Parser {
 		semantic.endDo(doRecord); 
 	}
 
+	void forStatement(SymbolTable scope) {
+		GCRecord forallRecord; Expression control;  
+		Expect(25);
+		control = variableAccess(scope);
+		Expect(26);
+		forallRecord = semantic.beginFor(control); 
+		statementPart(scope);
+		Expect(27);
+		semantic.endFor(control, forallRecord); 
+	}
+
 	Expression  variableAccess(SymbolTable scope) {
 		Expression  result;
 		SemanticItem workValue; 
@@ -394,17 +409,6 @@ public class Parser {
 			Get();
 			semantic.writeString(currentToken().spelling()); 
 		} else SynErr(61);
-	}
-
-	void forStatment(SymbolTable scope) {
-		GCRecord forallRecord; Expression control;  
-		Expect(25);
-		control = variableAccess(scope);
-		Expect(26);
-		forallRecord = semantic.beginFor(control); 
-		statementPart(scope);
-		Expect(27);
-		semantic.endFor(control, forallRecord); 
 	}
 
 	void guardedCommandList(SymbolTable scope, GCRecord record) {
@@ -618,13 +622,13 @@ public class Parser {
 	}
 
 	private boolean[][] set = {
-		{T,T,x,x, T,x,x,T, x,x,T,x, T,x,x,x, x,x,T,T, T,T,T,T, x,x,x,x, T,x,T,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x},
+		{T,T,x,x, T,x,x,T, x,x,T,x, T,x,x,x, x,x,T,T, T,T,T,T, x,T,x,x, T,x,T,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x},
 		{x,T,x,x, x,x,x,x, x,x,T,x, T,x,x,x, x,x,T,T, T,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x},
 		{T,T,x,x, x,x,x,x, x,x,T,x, T,x,x,x, x,x,T,T, T,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x},
-		{T,T,x,x, T,T,T,T, x,x,T,x, T,x,x,x, x,x,T,T, T,T,T,T, x,x,x,x, T,x,T,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x},
-		{T,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,T,T,T, x,x,x,x, T,x,T,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x},
-		{T,T,x,x, T,x,x,T, T,x,T,x, T,x,x,x, x,x,T,T, T,T,T,T, x,x,x,T, T,T,T,T, T,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x},
-		{x,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,T,T,T, x,x,x,x, T,x,T,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x},
+		{T,T,x,x, T,T,T,T, x,x,T,x, T,x,x,x, x,x,T,T, T,T,T,T, x,T,x,x, T,x,T,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x},
+		{T,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,T,T,T, x,T,x,x, T,x,T,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x},
+		{T,T,x,x, T,x,x,T, T,x,T,x, T,x,x,x, x,x,T,T, T,T,T,T, x,T,x,T, T,T,T,T, T,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x},
+		{x,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,T,T,T, x,T,x,x, T,x,T,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x},
 		{x,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,T,T, T,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x},
 		{x,T,T,x, x,x,x,x, x,x,x,x, x,x,x,T, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,T, T,T,x,T, T,T,x,x, x,x,x,x, x,x,x,x},
 		{x,x,x,x, x,x,x,x, x,x,x,T, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,T,T, T,T,T,x, x,x,x,x},

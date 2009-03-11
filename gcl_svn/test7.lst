@@ -1,0 +1,61 @@
+Compiled on: Wed Mar 11 12:35:54 EDT 2009
+$        LDA     R15, V1
+$        LDA     R14, C1
+$        LD      R13, #16000
+$   % Not yet found: x
+$   % Not yet found: x
+$   % Entering: private variable entry: ID = x semantic: VariableExpression: level(1) offset(0) direct, with type integer type.
+$        LD      R0, +0(R14)
+$        STO     R0, +0(R15)
+$        WRST    +2(R14)
+$        WRNL    
+$        WRST    +30(R14)
+$        WRNL    
+$        WRST    +70(R14)
+$        WRST    +74(R14)
+$        WRST    +80(R14)
+$        WRST    +86(R14)
+$        WRST    +92(R14)
+$        WRI     +0(R15)
+$        WRST    +102(R14)
+$        WRNL    
+$        WRST    +104(R14)
+$        WRST    +118(R14)
+$        WRNL    
+$        WRNL    
+$        WRST    +142(R14)
+$        WRNL    
+$        WRST    +188(R14)
+$        WRNL    
+$        WRST    +216(R14)
+$        WRST    +248(R14)
+$        WRST    +250(R14)
+$        WRST    +252(R14)
+$        WRNL    
+$        WRST    +254(R14)
+$        WRNL    
+$        HALT    
+$    LABEL C1
+$        INT      6
+$        STRING   "This is a test of strings."
+$        STRING   " You can quote or double quote strings,"
+$        STRING   "and"
+$        STRING   " you "
+$        STRING   "can "
+$        STRING   "put "
+$        STRING   "several ("
+$        STRING   ")"
+$        STRING   "on a line.  "
+$        STRING   "Colons '::' are special."
+$        STRING   "To embed single 'quotes', use the other kind."
+$        STRING   "Ditto for :"double quotes:"."
+$        STRING   "You can even quote a quote ( '"
+$        STRING   ":""
+$        STRING   "'"
+$        STRING   ")"
+$        STRING   "but it isn't pretty."
+$    LABEL V1
+$        SKIP     2
+  <end of compilation> 	There were 0 errors detected
+  Allocated Registers: 13 14 15 
+

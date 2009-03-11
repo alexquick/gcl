@@ -1,0 +1,73 @@
+Compiled on: Wed Mar 11 12:28:54 EDT 2009
+$        LDA     R15, V1
+$        LDA     R14, C1
+$        LD      R13, #16000
+$   % Not yet found: is
+$   % Not yet found: is
+$   % Entering: private variable entry: ID = is semantic: VariableExpression: level(1) offset(0) direct, with type integer type.
+$   % Not yet found: root
+$   % Not yet found: root
+$   % Entering: private variable entry: ID = root semantic: VariableExpression: level(1) offset(2) direct, with type integer type.
+$   % Not yet found: ent
+$   % Not yet found: ent
+$   % Entering: private variable entry: ID = ent semantic: VariableExpression: level(1) offset(4) direct, with type integer type.
+$   % Not yet found: x_
+$   % Not yet found: x_
+$   % Entering: private variable entry: ID = x_ semantic: VariableExpression: level(1) offset(6) direct, with type Boolean type.
+$   % Not yet found: y_z
+$   % Not yet found: y_z
+$   % Entering: private variable entry: ID = y_z semantic: VariableExpression: level(1) offset(8) direct, with type Boolean type.
+$   % Not yet found: r_2_d_2_
+$   % Not yet found: r_2_d_2_
+$   % Entering: private variable entry: ID = r_2_d_2_ semantic: VariableExpression: level(1) offset(10) direct, with type Boolean type.
+$   % Not yet found: ill__egal
+$   % Not yet found: ill__egal
+At -- line 8 col 19: error 9
+ERROR -> Identifer is not legal. 
+
+$        HALT    
+$   % Entering: private variable entry: ID = ill__egal semantic: VariableExpression: level(1) offset(12) direct, with type integer type.
+$        RDI     +2(R15)
+$        RDI     +4(R15)
+$        LD      R0, +0(R14)
+$        STO     R0, +0(R15)
+$        LD      R0, +2(R14)
+$        STO     R0, +6(R15)
+$        LD      R1, +0(R15)
+$        LD      R0, #1
+$        IC      R1, +2(R15)
+$        JLT     &4
+$        LD      R0, #0
+$        STO     R0, +8(R15)
+$        LD      R0, +4(R14)
+$        STO     R0, +12(R15)
+$        LD      R0, +8(R15)
+$        IC      R0, #1
+$        JNE     J2
+$        WRI     +6(R14)
+$        WRNL    
+$        JMP     J1
+$    LABEL J2
+$        LD      R0, #1
+$        IS      R0, +8(R15)
+$        IC      R0, #1
+$        JNE     J3
+$        WRI     +8(R14)
+$        WRNL    
+$        JMP     J1
+$    LABEL J3
+$        HALT    
+$    LABEL J1
+$        HALT    
+$    LABEL C1
+$        INT      55
+$        INT      1
+$        INT      0
+$        INT      1
+$        INT      0
+$    LABEL V1
+$        SKIP     14
+  <end of compilation> 	There were 1 errors detected
+  Allocated Registers: 13 14 15 
+
+$        HALT    

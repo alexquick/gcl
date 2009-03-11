@@ -116,7 +116,7 @@ tupleType<^TupleType result, SymbolTable scope>   (. TypeDescriptor type; Identi
 statement<SymbolTable scope>
 =
 	emptyStatement | readStatement<scope>  | writeStatement<scope> 
-	| assignStatement<scope> | ifStatement<scope> | doStatement<scope>.
+	| assignStatement<scope> | ifStatement<scope> | doStatement<scope> | forStatement<scope>.
 /*----------------------------------------------------------*/
 emptyStatement     = "skip".
 /*----------------------------------------------------------*/
@@ -147,7 +147,7 @@ assignStatement<SymbolTable scope>
 		{ "," expression<^exp, scope> (. expressions.right(exp); .) }
 		(. semantic.parallelAssign(expressions); .).
 /*----------------------------------------------------------*/
-forStatment<SymbolTable scope> (. GCRecord forallRecord; Expression control;  .)
+forStatement<SymbolTable scope> (. GCRecord forallRecord; Expression control;  .)
 =
 	"forall" variableAccess<^control, scope> "->" (. forallRecord = semantic.beginFor(control); .)
 		statementPart<scope>

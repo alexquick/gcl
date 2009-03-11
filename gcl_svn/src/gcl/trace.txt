@@ -20,7 +20,7 @@ first:   identifier "begin" "constant" "typedefinition" "integer" "Boolean"
 follow:  "." 
 
 statementPart
-first:   identifier "skip" "read" "write" "if" "do" 
+first:   identifier "skip" "read" "write" "forall" "if" "do" 
 follow:  "end" "llarof" "fi" "od" "[]" 
 
 definition
@@ -28,7 +28,7 @@ first:   identifier "constant" "typedefinition" "integer" "Boolean" "tuple"
 follow:  ";" 
 
 statement
-first:   identifier "skip" "read" "write" "if" "do" 
+first:   identifier "skip" "read" "write" "forall" "if" "do" 
 follow:  ";" 
 
 variableDefinition
@@ -80,6 +80,10 @@ doStatement
 first:   "do" 
 follow:  ";" 
 
+forStatement
+first:   "forall" 
+follow:  ";" 
+
 variableAccess
 first:   identifier 
 follow:  ";" "=" "," ".." "]" ":=" "->" "|" "&" "+" "-" ")" "#" "<" ">" "<=" 
@@ -88,10 +92,6 @@ follow:  ";" "=" "," ".." "]" ":=" "->" "|" "&" "+" "-" ")" "#" "<" ">" "<="
 writeItem
 first:   identifier numeral string "[" "+" "-" "(" "true" "false" "~" 
 follow:  ";" "," 
-
-forStatment
-first:   "forall" 
-follow:  -- empty set --
 
 guardedCommandList
 first:   identifier numeral "[" "+" "-" "(" "true" "false" "~" 
@@ -194,7 +194,7 @@ Cross reference list:
   emptyStateme -121  118
   expression   -175   72   95   95  136  146  147  172  216  223  225
   factor       -210  207  207  219
-  forStatment  -150
+  forStatement -150  119
   gcl           -44
   guardedComma -170  168  168
   guardedComma -166  158  163
@@ -224,7 +224,7 @@ Cross reference list:
 
 51 terminals
 90 symbols
-261 nodes
+263 nodes
 11 sets
 Symbol Table:
 ------------
@@ -296,30 +296,30 @@ Symbol Table:
   5 definition     nt   true     41 false    68 fixedToken
   6 statement      nt   true     92 false   116 fixedToken
   7 variableDefi   nt   true     49 false    80 fixedToken
-  8 expression     nt   true    162 false   175 fixedToken
+  8 expression     nt   true    164 false   175 fixedToken
   9 type           nt   true     66 false    93 fixedToken
  10 typeSymbol     nt   true     72 false    99 fixedToken
  11 tupleType      nt   true     77 false   105 fixedToken
- 12 qualifiedIde   nt   true    257 false   250 fixedToken
- 13 emptyStateme   nt   false   102 false   121 fixedToken
- 14 readStatemen   nt   true    103 false   123 fixedToken
- 15 writeStateme   nt   true    110 false   128 fixedToken
- 16 assignStatem   nt   true    122 false   140 fixedToken
- 17 ifStatement    nt   true    143 false   156 fixedToken
- 18 doStatement    nt   true    148 false   161 fixedToken
- 19 variableAcce   nt   true    259 false   255 fixedToken
- 20 writeItem      nt   true    120 false   134 fixedToken
- 21 forStatment    nt   true    136 false   150 fixedToken
- 22 guardedComma   nt   true    153 false   166 fixedToken
- 23 guardedComma   nt   true    157 false   170 fixedToken
- 24 andExpr        nt   true    167 false   180 fixedToken
- 25 relationalEx   nt   true    172 false   185 fixedToken
- 26 simpleExpr     nt   true    183 false   193 fixedToken
- 27 relationalOp   nt   false   228 false   230 fixedToken
- 28 term           nt   true    189 false   204 fixedToken
- 29 addOperator    nt   false   246 false   239 fixedToken
- 30 factor         nt   true    197 false   210 fixedToken
- 31 multiplyOper   nt   false   252 false   244 fixedToken
+ 12 qualifiedIde   nt   true    259 false   250 fixedToken
+ 13 emptyStateme   nt   false   104 false   121 fixedToken
+ 14 readStatemen   nt   true    105 false   123 fixedToken
+ 15 writeStateme   nt   true    112 false   128 fixedToken
+ 16 assignStatem   nt   true    124 false   140 fixedToken
+ 17 ifStatement    nt   true    145 false   156 fixedToken
+ 18 doStatement    nt   true    150 false   161 fixedToken
+ 19 forStatement   nt   true    138 false   150 fixedToken
+ 20 variableAcce   nt   true    261 false   255 fixedToken
+ 21 writeItem      nt   true    122 false   134 fixedToken
+ 22 guardedComma   nt   true    155 false   166 fixedToken
+ 23 guardedComma   nt   true    159 false   170 fixedToken
+ 24 andExpr        nt   true    169 false   180 fixedToken
+ 25 relationalEx   nt   true    174 false   185 fixedToken
+ 26 simpleExpr     nt   true    185 false   193 fixedToken
+ 27 relationalOp   nt   false   230 false   230 fixedToken
+ 28 term           nt   true    191 false   204 fixedToken
+ 29 addOperator    nt   false   248 false   239 fixedToken
+ 30 factor         nt   true    199 false   210 fixedToken
+ 31 multiplyOper   nt   false   254 false   244 fixedToken
 
 Literal Tokens:
 --------------
