@@ -89,8 +89,9 @@ public class SymbolTable {
 	    @param value the associated data
 	 */
 	private void enterIdentifier(Identifier name, Entry value) {
-		if (name != null)
+		if (name != null){
 			storage.put(name, value);
+		}
 	}
 
 	/** Show the entire symbol table */

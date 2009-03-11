@@ -15,8 +15,8 @@ CHARACTERS
   nl = '\n'.
   tab = '\t'.
   underscore = "_".
-  legalSingleQuote = ANY - "\r\n\"".
-  legalDoubleQuote = ANY - "\r\n'".
+  legalSingleQuote = ANY - "\r\n'".
+  legalDoubleQuote = ANY - "\r\n\"".
 TOKENS
   identifier  = letter {letter | digit | underscore }.
   numeral = digit {digit}.
@@ -71,8 +71,10 @@ definition<SymbolTable scope>
 	"constant" identifier (. id = new Identifier(currentToken().spelling());.) 
 		"=" expression<^expression, scope>
 		(.semantic.declareConstant(scope, id, expression); .) |
-		(. TypeDescriptor type; Identifier id; .)
-	"typedefinition" type<^type,scope> identifier (. semantic.declareType(scope, id, type); .) .
+		(. TypeDescriptor type; .)
+	"typedefinition" type<^type,scope> identifier (. 
+		Identifier id = new Identifier(currentToken().spelling());
+		semantic.declareType(scope, id, type); .) .
 
 /*----------------------------------------------------------*/
 variableDefinition<SymbolTable scope, ParameterKind kindOfParam> 
@@ -88,15 +90,17 @@ variableDefinition<SymbolTable scope, ParameterKind kindOfParam>
 		.)
 	}.
 /*----------------------------------------------------------*/
-type<^TypeDescriptor result, SymbolTable scope>	(. result = noType; .)
+type<^TypeDescriptor result, SymbolTable scope>	(. result = noType; Expression lbound = null; Expression ubound=null;.)
 =
-	typeSymbol<^result, scope>   |  tupleType<^result, scope>.
+	typeSymbol<^result, scope> [ "range" "[" expression<^lbound, scope> ".." expression<^ubound, scope> "]" 
+									(. result = semantic.createRange(result, lbound, ubound);.) ]  
+	|  tupleType<^result, scope>.
 /*----------------------------------------------------------*/
-typeSymbol<^TypeDescriptor result, SymbolTable scope> (. result = noType;.)
+typeSymbol<^TypeDescriptor result, SymbolTable scope> (. result = noType; SemanticItem item=null;.)
 =
 	"integer" (. result = integerType; .)
 	| "Boolean" (. result = booleanType; .)
-	| identifier (. Identifier id; id = new Identifier(currentToken().spelling()); result = (TypeDescriptor)semantic.semanticValue(scope, id).expectTypeDescriptor(null);.).
+	| qualifiedIdentifier<^item, scope>(. result = (TypeDescriptor)item; .).
 /*----------------------------------------------------------*/
 tupleType<^TupleType result, SymbolTable scope>   (. TypeDescriptor type; Identifier id; .)
 =
@@ -142,6 +146,12 @@ assignStatement<SymbolTable scope>
 		expression<^exp, scope> (. expressions.right(exp); .)
 		{ "," expression<^exp, scope> (. expressions.right(exp); .) }
 		(. semantic.parallelAssign(expressions); .).
+/*----------------------------------------------------------*/
+forStatment<SymbolTable scope> (. GCRecord forallRecord; Expression control;  .)
+=
+	"forall" variableAccess<^control, scope> "->" (. forallRecord = semantic.beginFor(control); .)
+		statementPart<scope>
+	"llarof"(. semantic.endFor(control, forallRecord); .).
 /*----------------------------------------------------------*/
 ifStatement<SymbolTable scope>  (. GCRecord ifRecord; .)
 =

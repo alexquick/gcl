@@ -143,6 +143,10 @@ public class Codegen implements Mnemonic, CodegenConstants {
 	 * 
 	 */
 	interface ConstantLike extends MaccSaveable {
+
+		int size();
+
+		void generateDirective(Codegen codegen);
 	}
 
 	/**
@@ -399,7 +403,21 @@ public class Codegen implements Mnemonic, CodegenConstants {
 	public void genIntDirective(int value) {
 		writeFiles(INT_DIRECTIVE.samCode() + " " + value);
 	}
-
+	/**
+	 * Generate the SAM code to print a String literal
+	 * 
+	 * @param gclString the gclString semantic item which represents the string
+	 */
+	
+	/**
+	 * Generate a SAM pseudo op STRING
+	 * 
+	 * @param value the value of the integer
+	 */
+	public void genStringDirective(String samString) {
+		writeFiles(STRING_DIRECTIVE.samCode() + " " + samString);
+	}
+	
 	/**
 	 * Generate a SAM pseudo op SKIP
 	 * 
@@ -586,6 +604,13 @@ public class Codegen implements Mnemonic, CodegenConstants {
 			this.base = base;
 			this.displacement = displacement;
 		}
+		
+		public Location(Location original, int displacementDelta)
+		{
+			this.mode = original.mode;
+			this.base = original.base;
+			this.displacement = original.displacement + displacementDelta;
+		}
 
 		// Note: No accessors, but this is an inner class
 		public boolean equals(Object obj) {
@@ -643,8 +668,7 @@ public class Codegen implements Mnemonic, CodegenConstants {
 				displacement = constantOffset;
 				// assume integer or boolean constant
 				storage.push(new SamConstant(displacement, semanticItem));
-				//TODO: handle strings
-				constantOffset += ((Expression) semanticItem).type().size();
+				constantOffset += semanticItem.size();
 			}
 			return new Location(mode, base, displacement);
 		}
@@ -653,9 +677,7 @@ public class Codegen implements Mnemonic, CodegenConstants {
 			Enumeration<SamConstant> elements = elements();
 			while (elements.hasMoreElements()) {
 				ConstantLike temp = (elements.nextElement()).item();
-				ConstantExpression constant = (ConstantExpression) temp;
-				//TODO: not only ints, do strings as well
-				codegen.genIntDirective(constant.value());
+				temp.generateDirective(codegen);
 			}
 		}
 
