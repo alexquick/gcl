@@ -53,8 +53,8 @@ follow:  identifier
 
 qualifiedIdentifier
 first:   identifier 
-follow:  identifier ";" "=" "," "range" ".." "]" ":=" "->" "|" "&" "+" "-" ")" 
-         "#" "<" ">" "<=" ">=" "*" "/" "\\" 
+follow:  identifier ";" "=" "," "range" "[" ".." "]" ":=" "->" "|" "&" "+" "-" 
+         ")" "#" "<" ">" "<=" ">=" "*" "/" "\\" "@" 
 
 emptyStatement
 first:   "skip" 
@@ -134,6 +134,11 @@ multiplyOperator
 first:   "*" "/" "\\" 
 follow:  identifier numeral "[" "(" "true" "false" "~" 
 
+subscriptsAndComponents
+first:   "[" "@" 
+follow:  ";" "=" "," "[" ".." "]" ":=" "->" "|" "&" "+" "-" ")" "#" "<" ">" 
+         "<=" ">=" "*" "/" "\\" "@" 
+
 
 Cross reference list:
 --------------------
@@ -147,7 +152,7 @@ Cross reference list:
   ","            87  110  126  131  144  147  225
   "-"           197  242
   "->"          152  172
-  "."            56
+  "."            56  254
   ".."           95
   "/"           247
   ":="          145
@@ -157,11 +162,12 @@ Cross reference list:
   "="            72  232
   ">"           235
   ">="          237
+  "@"           267
   "Boolean"     102
-  "["            95  108  223
+  "["            95  108  223  268
   "[]"          168
   "\\"          248
-  "]"            95  113  228
+  "]"            95  113  228  268
   "begin"        60
   "constant"     71
   "do"          163
@@ -192,18 +198,18 @@ Cross reference list:
   definitionPa  -62   54   60
   doStatement  -161  119
   emptyStateme -121  118
-  expression   -175   72   95   95  136  146  147  172  216  223  225
+  expression   -175   72   95   95  136  146  147  172  216  223  225  268
   factor       -210  207  207  219
   forStatement -150  119
   gcl           -44
   guardedComma -170  168  168
   guardedComma -166  158  163
-  identifier     53   71   75   83   87  108  110  252
+  identifier     53   71   75   83   87  108  110  252  254  267
   ifStatement  -156  119
   module        -51   47   48
   multiplyOper -244  207
   numeral       213
-  qualifiedIde -250  103  258
+  qualifiedIde -250  103  260
   readStatemen -123  118
   relationalEx -185  183  183
   relationalOp -230  189
@@ -211,20 +217,21 @@ Cross reference list:
   statement    -116   66   66
   statementPar  -64   60  153  173
   string        137
+  subscriptsAn -264  261
   term         -204  196  197  200
   tupleType    -105   97
   type          -93   75   83
   typeSymbol    -99   95  108  110
-  variableAcce -255  125  126  143  144  152  212
+  variableAcce -257  125  126  143  144  152  212
   variableDefi  -80   70
   writeItem    -134  130  131
   writeStateme -128  118
 
 
 
-51 terminals
-90 symbols
-263 nodes
+52 terminals
+92 symbols
+279 nodes
 11 sets
 Symbol Table:
 ------------
@@ -280,14 +287,15 @@ Symbol Table:
  47 "*"            t    false               246 fixedToken
  48 "/"            t    false               247 fixedToken
  49 "\\"           t    false               248 fixedToken
- 50 ???            t    false                 0 fixedToken
- 51 option1        pr   false                25 fixedToken
- 52 option3        pr   false                27 fixedToken
- 53 option5        pr   false                29 fixedToken
- 54 option6        pr   false                30 fixedToken
- 55 option7        pr   false                31 fixedToken
- 56 option9        pr   false                33 fixedToken
- 57 option10       pr   false                34 fixedToken
+ 50 "@"            t    false               267 fixedToken
+ 51 ???            t    false                 0 fixedToken
+ 52 option1        pr   false                25 fixedToken
+ 53 option3        pr   false                27 fixedToken
+ 54 option5        pr   false                29 fixedToken
+ 55 option6        pr   false                30 fixedToken
+ 56 option7        pr   false                31 fixedToken
+ 57 option9        pr   false                33 fixedToken
+ 58 option10       pr   false                34 fixedToken
   0 gcl            nt   false     1 false    44 fixedToken
   1 module         nt   true      9 false    51 fixedToken
   2 definitionPa   nt   true     25 true     62 fixedToken
@@ -308,7 +316,7 @@ Symbol Table:
  17 ifStatement    nt   true    145 false   156 fixedToken
  18 doStatement    nt   true    150 false   161 fixedToken
  19 forStatement   nt   true    138 false   150 fixedToken
- 20 variableAcce   nt   true    261 false   255 fixedToken
+ 20 variableAcce   nt   true    265 false   257 fixedToken
  21 writeItem      nt   true    122 false   134 fixedToken
  22 guardedComma   nt   true    155 false   166 fixedToken
  23 guardedComma   nt   true    159 false   170 fixedToken
@@ -320,6 +328,7 @@ Symbol Table:
  29 addOperator    nt   false   248 false   239 fixedToken
  30 factor         nt   true    199 false   210 fixedToken
  31 multiplyOper   nt   false   254 false   244 fixedToken
+ 32 subscriptsAn   nt   true    278 true    264 fixedToken
 
 Literal Tokens:
 --------------

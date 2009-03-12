@@ -93,7 +93,7 @@ variableDefinition<SymbolTable scope, ParameterKind kindOfParam>
 type<^TypeDescriptor result, SymbolTable scope>	(. result = noType; Expression lbound = null; Expression ubound=null;.)
 =
 	typeSymbol<^result, scope> [ "range" "[" expression<^lbound, scope> ".." expression<^ubound, scope> "]" 
-									(. result = semantic.createRange(result, lbound, ubound);.) ]  
+									(. result = semantic.createRange(result, lbound, ubound);.)  ]  
 	|  tupleType<^result, scope>.
 /*----------------------------------------------------------*/
 typeSymbol<^TypeDescriptor result, SymbolTable scope> (. result = noType; SemanticItem item=null;.)
@@ -250,11 +250,21 @@ multiplyOperator<^MultiplyOperator op > 	(. op = null; .)
 qualifiedIdentifier<^SemanticItem result, SymbolTable scope> 
 =
 identifier (. Identifier id = new Identifier(currentToken().spelling()); 
-			result = semantic.semanticValue(scope, id); .) .
+			result = semantic.semanticValue(scope, id); .) 
+	["." identifier (. Identifier newId = new Identifier(currentToken().spelling());
+						result = semantic.semanticValue(scope, id, result); .)].
 /*----------------------------------------------------------*/
 variableAccess<^Expression result, SymbolTable scope>  
       (. SemanticItem workValue; .)   
 =
-qualifiedIdentifier<^workValue, scope> (. result = workValue.expectExpression(err); .) .
+qualifiedIdentifier<^workValue, scope> (. result = workValue.expectExpression(err); .) 
+	{subscriptsAndComponents<^result, scope, result>}.
 
+/*----------------------------------------------------------*/
+subscriptsAndComponents<^Expression result, SymbolTable scope, Expression workValue>
+	(. Identifier id; result = null;.)
+=
+  {"@" identifier (. id = new Identifier(currentToken().spelling()); result = semantic.extractTupleField(workValue, id);.)
+  | "[" expression<^result, scope> "]" (. result = semantic.extractArrayElement(workValue, result); .)}
+.
 END gcl.

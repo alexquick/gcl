@@ -1362,6 +1362,27 @@ public class SemanticActions implements Mnemonic, CodegenConstants {
 			return symbol.semanticRecord();
 		}
 	}
+	
+	/***************************************************************************
+	 * Transform a module identifier into the semantic item that it represents
+	 * 
+	 * @param scope the current scope
+	 * @param ID and identifer to be transformed
+	 * @param SemanticItem(module) the module containing the id
+	 * @return the semantic item that the identifier represents.
+	 */
+	public SemanticItem semanticValue(SymbolTable scope, Identifier id,
+			SemanticItem result) {
+		/*
+		SymbolTable.Entry symbol = scope.lookupIdentifier(id, module);
+		if (symbol == null) {
+			err.semanticError(GCLError.NAME_NOT_DEFINED);
+			return new SemanticError("Identifier not found in symbol table.");
+		} else {
+			return symbol.semanticRecord();
+		}*/
+		return null;
+	}
 
 	/***************************************************************************
 	 * Generate code for an assignment. Copy the RHS expressions to the
@@ -1723,6 +1744,73 @@ public class SemanticActions implements Mnemonic, CodegenConstants {
 		CompilerOptions.message("Declaring type constant: " + id + " as " + type);
 	}
 	
+	/***************************************************************************
+	 * Lookup a field in a tuple, return the according expression
+	 * 
+	 * @param parent the parent tuple to the desired field
+	 * @param id the id of the field to be looked up
+	 **************************************************************************/
+	Expression extractTupleField(Expression parent, Identifier id) {
+		//TODO: check for error expression
+		//TODO: tuple required
+		//TODO: lookup in tuple-- inset and type
+		/*can do cast from tupletype to variableexpression
+		 * 
+		 * think about properties of parent:
+		 * 
+		 * variablexpression has level, offset, (in)direct fields
+		 * indirect: pointer to soul data
+		 * direct: soul data
+		 * 
+		 * level: level of exp
+		 * 
+		 * Case 1:
+		 * 	0: cpu (register) AND indirect
+		 * IA R"Offset, #inset //generate code
+		 * new VarE(reg, same but correct type)
+		 * 
+		 * Case 2:
+		 *  >1: mem location  AND direct //in compiler
+		 * new VarE(memLoc+inset, correct type)
+		 * 
+		 * Case 3:
+		 *  >1: mem location AND indirect
+		 *  reg = codegen.loadPointer(parent)
+		 *  IA R"Offset, #inset //generate code
+		 * new VarE(reg, same but correct type)
+		 */ 
+		return null;
+	}
+	
+	Expression extractArrayElement(Expression arrayExpression, Expression indexExpression) {
+		//TODO: checks arrayExpression type is Array
+		//TODO: ignore errors
+		//TODO: indexexpression compatible with subscript type
+		
+		//TODO constantfolding
+		/*
+		 * 
+		 * indexExpression isConstant -> compute inset now
+		 * just fold and go
+		 */
+		
+		//TODO variable indexExpression
+		/*
+		 * indexExpression !isConstant -> compute inset in sam
+		 * 
+		 * r = codegen.loadRegister(indexExpression)
+		 * IS r, #lowbound
+		 * IM r, #componentSize
+		 * element = codegen.loadAddress(arrayExpression);
+		 * IA element, r DREG
+		 * new VarExp(element, IDIRECT, ArrayType)
+		 * codegen.freeRegister(r)
+		 * 
+		 *inset = (index - lowbound) * elementSize 
+		 */
+		
+		return null;
+	}
 	/***************************************************************************
 	 * Set up the registers and other run time initializations.
 	 **************************************************************************/
