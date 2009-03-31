@@ -90,11 +90,12 @@ variableDefinition<SymbolTable scope, ParameterKind kindOfParam>
 		.)
 	}.
 /*----------------------------------------------------------*/
-type<^TypeDescriptor result, SymbolTable scope>	(. result = noType; Expression lbound = null; Expression ubound=null;.)
+type<^TypeDescriptor result, SymbolTable scope>	(. result = noType; Expression lbound = null; Expression ubound=null; SemanticItem range = null;.)
 =
 	typeSymbol<^result, scope> [ "range" "[" expression<^lbound, scope> ".." expression<^ubound, scope> "]" 
 									(. result = semantic.createRange(result, lbound, ubound);.)  ]  
-	|  tupleType<^result, scope>.
+	|  tupleType<^result, scope>
+	|  ["array" "[" qualifiedIdentifier<^range, scope>"]" {"[" qualifiedIdentifier<^range, scope>"]"}].
 /*----------------------------------------------------------*/
 typeSymbol<^TypeDescriptor result, SymbolTable scope> (. result = noType; SemanticItem item=null;.)
 =

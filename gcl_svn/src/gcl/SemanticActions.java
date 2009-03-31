@@ -823,7 +823,21 @@ class BooleanType extends TypeDescriptor implements CodegenConstants {
 	static public final BooleanType BOOLEAN_TYPE = new BooleanType();
 
 }
-
+/**
+ * TODO: Comment
+ */
+class ArrayCarrier extends SemanticItem{
+	private TypeDescriptor ultimateType;
+	private Vector<TypeDescriptor> dimensions = new Vector<TypeDescriptor>();
+	public ArrayCarrier(TypeDescriptor ultimateType)
+	{
+		this.ultimateType = ultimateType;
+	}
+	public void push(TypeDescriptor dimension)
+	{
+		dimensions.add(dimension);
+	}
+}
 /**
  * Use this when you need to build a list of types and know the total size of
  * all of them. Used in creation of tuples.
@@ -884,20 +898,40 @@ class TypeList extends SemanticItem {
 	private int size = 0; // sum of the sizes of the types
 	private static int next = 0;
 }
+
+/**
+ * Represents a dimension of an array
+ */
+class ArrayType extends TypeDescriptor{
+	TypeDescriptor componentType;
+	RangeType boundaryRange;
+	public ArrayType(TypeDescriptor componentType, RangeType boundaryRange)
+	{
+		super(componentType.size() * boundaryRange.span());
+		this.componentType = componentType;
+		this.boundaryRange = boundaryRange;
+	}
+	public boolean isCompatible(){
+		//TODO:component compatible
+		//TODO:boundry essentiallyIdentical
+		return false;
+	}
+}
+
 /**
  * Represents a range of integers or booleans, etc
  *
  */
 class RangeType extends TypeDescriptor {
 	TypeDescriptor baseType;
-	int lbound;
-	int ubound;
+	int lowBound;
+	int highBound;
 	Location boundLocation;
-	public RangeType(TypeDescriptor baseType, ConstantExpression lbound, ConstantExpression ubound, Location boundLocation) {
+	public RangeType(TypeDescriptor baseType, ConstantExpression lowBound, ConstantExpression highBound, Location boundLocation) {
 		super(baseType.size());
 		this.baseType = baseType;
-		this.lbound = lbound.value();
-		this.ubound = ubound.value();
+		this.lowBound = lowBound.value();
+		this.highBound = highBound.value();
 		this.boundLocation = boundLocation;
 	}
 	
@@ -909,14 +943,25 @@ class RangeType extends TypeDescriptor {
 		return baseType.isCompatible(other);
 	}
 	
-	public int lbound()
+	public boolean essentiallyIdentical(RangeType other)
 	{
-		return lbound;
+		//TODO iscompatible and lobounds and highbounds are equal
+		return false;
+	}
+	
+	public int span()
+	{
+		return highBound - lowBound + 1;
+	}
+	
+	public int lowBound()
+	{
+		return lowBound;
 	}
 
-	public int ubound()
+	public int highBound()
 	{
-		return ubound;
+		return highBound;
 	}
 	
 	public Location boundLocation()
@@ -1419,7 +1464,7 @@ public class SemanticActions implements Mnemonic, CodegenConstants {
 				if(rightExpression.isConstant())
 				{
 					int value = ((ConstantExpression)rightExpression).value();
-					if(range.lbound() > value || range.ubound() < value)
+					if(range.lowBound() > value || range.highBound() < value)
 					{
 						this.err.semanticError(GCLError.INCOMPATIBLE_TYPES, "Cannot assign constant to range when constant is out of range bounds");
 					}
@@ -1799,7 +1844,8 @@ public class SemanticActions implements Mnemonic, CodegenConstants {
 		 * indexExpression !isConstant -> compute inset in sam
 		 * 
 		 * r = codegen.loadRegister(indexExpression)
-		 * IS r, #lowbound
+		 * 
+		 * IS r, #lowbound //chk lobound != 0
 		 * IM r, #componentSize
 		 * element = codegen.loadAddress(arrayExpression);
 		 * IA element, r DREG
@@ -1822,31 +1868,31 @@ public class SemanticActions implements Mnemonic, CodegenConstants {
 	 * Create a range TypeDescriptor from the given baseType, lower bound and upper bound
 	 * 
 	 * @param baseType the type from which the range is based
-	 * @param lbound the lower bound of the range
-	 * @param ubound the upper bound of the range
+	 * @param lowBound the lower bound of the range
+	 * @param highBound the upper bound of the range
 	 **************************************************************************/
-	public TypeDescriptor createRange(TypeDescriptor baseType, Expression lbound,
-			Expression ubound) {
+	public TypeDescriptor createRange(TypeDescriptor baseType, Expression lowBound,
+			Expression highBound) {
 		//check bound and baseType type compatibility
-		if(!ubound.type().isCompatible(lbound.type()))
+		if(!highBound.type().isCompatible(lowBound.type()))
 		{
 			err.semanticError(GCLError.INCOMPATIBLE_TYPES, "The bounds of this range must be of compatible types");
 			return NO_TYPE;
 		}
-		if(!baseType.isCompatible(ubound.type()))
+		if(!baseType.isCompatible(highBound.type()))
 		{
 			err.semanticError(GCLError.INCOMPATIBLE_TYPES, "The base type of this range must be compatible with the bound types");
 			return NO_TYPE;
 		}
 		
 		//make sure the bounds are constant expressions
-		if(!ubound.isConstant() || !lbound.isConstant())
+		if(!highBound.isConstant() || !lowBound.isConstant())
 		{
 			err.semanticError(GCLError.INCOMPATIBLE_TYPES,  "The bounds of this range must be constant expressions");
 		}
-		Location boundLocation = codegen.buildOperands(lbound);
-		codegen.buildOperands(ubound);
-		return new RangeType(baseType, (ConstantExpression)lbound, (ConstantExpression)ubound, boundLocation);
+		Location boundLocation = codegen.buildOperands(lowBound);
+		codegen.buildOperands(highBound);
+		return new RangeType(baseType, (ConstantExpression)lowBound, (ConstantExpression)highBound, boundLocation);
 	}
 	
 	/***************************************************************************
