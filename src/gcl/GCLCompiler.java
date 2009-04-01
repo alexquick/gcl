@@ -20,11 +20,11 @@ public class GCLCompiler {
 		if (args.length < 2) { // System.out.println("Usage: java GCLCompiler
 								// inputfilename /cmo");
 			// System.exit(1);
-			String[] temp = new String[2];
+			String[] temp = new String[1];
 			BufferedReader in = new BufferedReader(new InputStreamReader(
 					System.in));
 			if (args.length < 1) {
-				System.out.println("Enter the input filename");
+				System.out.println("Enter the test");
 				try {
 					temp[0] = in.readLine();
 				} catch (IOException e) {
@@ -32,12 +32,6 @@ public class GCLCompiler {
 				}
 			} else{
 				temp[0] = args[0];
-			}
-			System.out.println("Enter the listing filename");
-			try {
-				temp[1] = in.readLine();
-			} catch (IOException e) {
-				System.out.println("Error reading filename.");
 			}
 			args = temp;
 		}
@@ -61,8 +55,8 @@ public class GCLCompiler {
 					}
 		}
 		try {
-			FileInputStream aFile = new FileInputStream(args[0]);
-			Scanner scanner = new Scanner(aFile, new FileWriter(args[1]));
+			FileInputStream aFile = new FileInputStream("./tests/"+args[0]);
+			Scanner scanner = new Scanner(aFile, new FileWriter(args[0]+".lst"));
 			out = scanner.outFile();
 			err = new SemanticActions.GCLErrorStream(scanner);
 			codegen = new Codegen(err);

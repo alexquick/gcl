@@ -83,14 +83,26 @@ public class SymbolTable {
 		}
 		return result;
 	}
+	
+	/** Lookup an identifier in this SymbolTable and the ones chained to it
+		@param name some identifer to be looked up
+    	@return the associated symbol table entry or null
+	*/
+	public Entry lookupIdentifier(Identifier name, SemanticItem module){
+		if(!(module instanceof Module)){
+			return null;
+		}
+		return ((Module)module).resolve(name);
+	}
 
 	/** Insert an identifier and its associated data into the SymbolTable
 		@param name the identifier to insert (entryKind)
 	    @param value the associated data
 	 */
 	private void enterIdentifier(Identifier name, Entry value) {
-		if (name != null)
+		if (name != null){
 			storage.put(name, value);
+		}
 	}
 
 	/** Show the entire symbol table */
