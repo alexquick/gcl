@@ -1,0 +1,1 @@
+$c+{ semantic test of this and the @ operator for fields}module test18_2private typedefinition tuple [integer first, integer second, procedure p()] tester;tester test;	procedure tester@p	begin		write this@none; {error} 	end;begin	test := [2,1];	test!p();end. { output  one error}

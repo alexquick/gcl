@@ -1,0 +1,1 @@
+$c+module test_8 { test of typedefinition}private	typedefinition integer int;	int x;	integer xx;	typedefinition tuple [integer size, Boolean done] pair;	typedefinition Boolean bool;	typedefinition tuple [int size, bool pair] newpair;	pair y;	bool z;	newpair yy;begin	x := 1;	xx := +x;	z := true;	y := [x, z];	yy := y;	write xx,  x; { output 1 1}end.

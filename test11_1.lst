@@ -1,0 +1,89 @@
+Compiled on: Wed Apr 01 02:03:22 EDT 2009
+$        LDA     R15, V1
+$        LDA     R14, C1
+$        LD      R13, #16000
+$   % Declaring type constant: bools as 0..1
+$   % Not yet found: a
+$   % Not yet found: a
+$   % Entering: private variable entry: ID = a semantic: VariableExpression: level(1) offset(0) direct, with type [0..1]integer type.
+$   % Not yet found: b
+$   % Not yet found: b
+$   % Entering: private variable entry: ID = b semantic: VariableExpression: level(1) offset(4) direct, with type [0..1]integer type.
+$   % Not yet found: j
+$   % Not yet found: j
+$   % Entering: private variable entry: ID = j semantic: VariableExpression: level(1) offset(8) direct, with type 0..1
+$        LD      R0, +8(R15)
+$        LD      R0, +0(R14)
+$        STO     R0, +8(R15)
+$    LABEL F2
+$        LD      R0, +8(R15)
+$        TRNG    R0, +0(R14)
+$        LD      R1, +8(R15)
+$        IM      R1, #2
+$        LDA     R2, +0(R15)
+$        IA      R2, R1
+$        RDI     *R2
+$        LD      R1, +8(R15)
+$        IC      R1, +2(R14)
+$        JEQ     X3
+$        IA      R1, #1
+$        STO     R1, +8(R15)
+$        JMP     F2
+$    LABEL X3
+$        LD      R1, +8(R15)
+$        LD      R1, +0(R14)
+$        STO     R1, +8(R15)
+$    LABEL F5
+$        LD      R1, +8(R15)
+$        TRNG    R1, +0(R14)
+$        LD      R3, +8(R15)
+$        IM      R3, #2
+$        LDA     R4, +4(R15)
+$        IA      R4, R3
+$        LD      R3, #1
+$        IS      R3, +8(R15)
+$        TRNG    R3, +0(R14)
+$        IM      R3, #2
+$        LDA     R5, +0(R15)
+$        IA      R5, R3
+$        IS      R13, #2
+$        LD      R3, *R5
+$        STO     R3, *R13
+$        LD      R3, *R13
+$        STO     R3, *R4
+$        IA      R13, #2
+$        LD      R3, +8(R15)
+$        IC      R3, +2(R14)
+$        JEQ     X6
+$        IA      R3, #1
+$        STO     R3, +8(R15)
+$        JMP     F5
+$    LABEL X6
+$        LD      R3, +8(R15)
+$        LD      R3, +0(R14)
+$        STO     R3, +8(R15)
+$    LABEL F8
+$        LD      R3, +8(R15)
+$        TRNG    R3, +0(R14)
+$        LD      R4, +8(R15)
+$        IM      R4, #2
+$        LDA     R5, +4(R15)
+$        IA      R5, R4
+$        WRI     *R5
+$        WRNL    
+$        LD      R4, +8(R15)
+$        IC      R4, +2(R14)
+$        JEQ     X9
+$        IA      R4, #1
+$        STO     R4, +8(R15)
+$        JMP     F8
+$    LABEL X9
+$        HALT    
+$    LABEL C1
+$        INT      0
+$        INT      1
+$    LABEL V1
+$        SKIP     10
+  <end of compilation> 	There were 0 errors detected
+  Allocated Registers: 0 1 2 3 13 14 15 
+

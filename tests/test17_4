@@ -1,0 +1,1 @@
+module proctestprivatetuple [integer val] x;procedure x@foobegin	skip;end; { note that x has no foo }begin	x!foo();end. { 1 (preferred) or 2  errors }

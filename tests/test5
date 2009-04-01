@@ -1,0 +1,1 @@
+$c+module test5 { fibonacci}privateinteger i,j,k,ok;begin  i := 2;   j := 1;  k := 1;  write j; write k;  do i <= 6 ->  	  i := i+1;	  ok := k;	  k := j+k;	  j := ok; 	  write k;  [] i > 7 ->  		skip;  od;  write i;end. {output:  1 1 2 3 5 8 13 7 }	

@@ -1,0 +1,54 @@
+Compiled on: Wed Apr 01 01:36:48 EDT 2009
+$        LDA     R15, V1
+$        LDA     R14, C1
+$        LD      R13, #16000
+-- line 1 col 4: this symbol not expected in gcl
+module test11
+{ test of arrays (1 dimension )}
+private
+ typedefinition integer range [1..5] one_five;
+$   % Declaring type constant: one_five as 1..5
+ integer array [one_five] a;
+$   % Not yet found: a
+$   % Not yet found: a
+$   % Entering: private variable entry: ID = a semantic: VariableExpression: level(1) offset(0) direct, with type [1..5]integer type.
+ integer i;
+$   % Not yet found: i
+$   % Not yet found: i
+$   % Entering: private variable entry: ID = i semantic: VariableExpression: level(1) offset(10) direct, with type integer type.
+ begin
+ 	i := 3
+	read a[i];
+$        LD      R0, +4(R14)
+$        STO     R0, +10(R15)
+-- line 10 col 2: ";" expected
+$        LD      R0, +10(R15)
+$        TRNG    R0, +0(R14)
+$        LD      R0, +10(R15)
+$        IS      R0, #1
+$        IM      R0, #2
+$        LDA     R1, +0(R15)
+$        IA      R1, R0
+$        RDI     *R1
+	write a[i];
+$        LD      R0, +10(R15)
+$        TRNG    R0, +0(R14)
+$        LD      R0, +10(R15)
+$        IS      R0, #1
+$        IM      R0, #2
+$        LDA     R2, +0(R15)
+$        IA      R2, R0
+$        WRI     *R2
+$        WRNL    
+ end.
+ 
+$        HALT    
+$    LABEL C1
+$        INT      1
+$        INT      5
+$        INT      3
+$    LABEL V1
+$        SKIP     12
+  <end of compilation> 	There were 0 errors detected
+  Allocated Registers: 1 13 14 15 
+

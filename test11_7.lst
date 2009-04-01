@@ -1,0 +1,283 @@
+Compiled on: Wed Apr 01 02:43:33 EDT 2009
+$        LDA     R15, V1
+$        LDA     R14, C1
+$        LD      R13, #16000
+$   % Declaring type constant: index as integer type.
+$   % Not yet found: i
+$   % Not yet found: i
+$   % Entering: private variable entry: ID = i semantic: VariableExpression: level(1) offset(0) direct, with type integer type.
+$   % Not yet found: max
+$   % Not yet found: max
+$   % Declaring Constant: private constant entry: ID = max semantic: ConstantExpression: 3 with type integer type.
+$   % Not yet found: lmax
+$   % Not yet found: lmax
+$   % Declaring Constant: private constant entry: ID = lmax semantic: ConstantExpression: 6 with type integer type.
+$   % Declaring type constant: bounds as 1..3
+$   % Declaring type constant: matrix as [1..3][1..3]integer type.
+$   % Declaring type constant: vector as [1..3]integer type.
+$   % Declaring type constant: bvector as [1..3]Boolean type.
+At -- line 13 col 40: error 11
+ERROR -> A range type is required.
+
+$        HALT    
+$   % Declaring type constant: wrong as Error type.
+$   % Declaring type constant: big_bounds as 1..6
+$   % Declaring type constant: lvector as [1..6]integer type.
+$   % Declaring type constant: ib as 0..1
+$   % Declaring type constant: bb as 0..1
+$   % Not yet found: ibvec
+$   % Not yet found: ibvec
+$   % Entering: private variable entry: ID = ibvec semantic: VariableExpression: level(1) offset(2) direct, with type [0..1]integer type.
+$   % Not yet found: bbvec
+$   % Not yet found: bbvec
+$   % Entering: private variable entry: ID = bbvec semantic: VariableExpression: level(1) offset(6) direct, with type [0..1]integer type.
+$   % Not yet found: a
+$   % Not yet found: a
+$   % Entering: private variable entry: ID = a semantic: VariableExpression: level(1) offset(10) direct, with type [1..3][1..3]integer type.
+$   % Not yet found: v
+$   % Not yet found: v
+$   % Entering: private variable entry: ID = v semantic: VariableExpression: level(1) offset(28) direct, with type [1..3]integer type.
+$   % Not yet found: b
+$   % Not yet found: b
+$   % Entering: private variable entry: ID = b semantic: VariableExpression: level(1) offset(34) direct, with type [1..3]Boolean type.
+$   % Not yet found: long
+$   % Not yet found: long
+$   % Entering: private variable entry: ID = long semantic: VariableExpression: level(1) offset(40) direct, with type [1..6]integer type.
+$        LD      R0, +16(R14)
+$        STO     R0, +0(R15)
+$    LABEL J2
+$        LD      R1, +0(R15)
+$        LD      R0, #1
+$        IC      R1, +18(R14)
+$        JLE     &4
+$        LD      R0, #0
+$        IC      R0, #1
+$        JNE     J3
+$        LD      R0, +0(R15)
+$        TRNG    R0, +0(R14)
+$        LD      R1, +0(R15)
+$        IS      R1, #1
+$        IM      R1, #6
+$        LDA     R2, +10(R15)
+$        IA      R2, R1
+$        IA      R2, #0
+$        RDI     *R2
+$        LD      R1, +0(R15)
+$        IA      R1, +20(R14)
+$        STO     R1, +0(R15)
+$        JMP     J1
+$    LABEL J3
+$        JMP     &4
+$    LABEL J1
+$        JMP     J2
+$        LDA     R1, +10(R15)
+$        IA      R1, #6
+$        LDA     R3, +10(R15)
+$        IA      R3, #0
+$        IS      R13, #6
+$        LDA     R4, *R3
+$        LD      R5, #6
+$        BKT     R4, *R13
+$        LD      R3, R13
+$        LD      R4, #6
+$        BKT     R3, *R1
+$        IA      R13, #6
+$        LDA     R1, +10(R15)
+$        IA      R1, #12
+$        LDA     R3, +10(R15)
+$        IA      R3, #6
+$        IS      R13, #6
+$        LDA     R4, *R3
+$        LD      R5, #6
+$        BKT     R4, *R13
+$        LD      R3, R13
+$        LD      R4, #6
+$        BKT     R3, *R1
+$        IA      R13, #6
+$        LDA     R1, +10(R15)
+$        IA      R1, #0
+$        IS      R13, #6
+$        LDA     R3, *R1
+$        LD      R4, #6
+$        BKT     R3, *R13
+$        LD      R3, R13
+$        LD      R4, #6
+$        BKT     R3, +28(R15)
+$        IA      R13, #6
+$        IS      R13, #6
+$        LDA     R3, +28(R15)
+$        LD      R4, #6
+$        BKT     R3, *R13
+At -- line 35 col 9: error 8
+ERROR -> Operand types are not equivalent. 
+
+$        HALT    
+$        LD      R3, R13
+$        LD      R4, #6
+$        BKT     R3, +34(R15)
+$        IA      R13, #6
+$        IS      R13, #18
+$        LDA     R3, +10(R15)
+$        LD      R4, #18
+$        BKT     R3, *R13
+At -- line 36 col 9: error 8
+ERROR -> Operand types are not equivalent. 
+
+$        HALT    
+$        LD      R3, R13
+$        LD      R4, #6
+$        BKT     R3, +28(R15)
+$        IA      R13, #6
+$        IS      R13, #6
+$        LDA     R3, +28(R15)
+$        LD      R4, #6
+$        BKT     R3, *R13
+At -- line 37 col 9: error 8
+ERROR -> Operand types are not equivalent. 
+
+$        HALT    
+$        LD      R3, R13
+$        LD      R4, #18
+$        BKT     R3, +10(R15)
+$        IA      R13, #18
+$        IS      R13, #4
+$        LDA     R3, +6(R15)
+$        LD      R4, #4
+$        BKT     R3, *R13
+At -- line 38 col 17: error 8
+ERROR -> Operand types are not equivalent. 
+
+$        HALT    
+$        LD      R3, R13
+$        LD      R4, #4
+$        BKT     R3, +2(R15)
+$        IA      R13, #4
+$        IS      R13, #6
+$        LDA     R3, +28(R15)
+$        LD      R4, #6
+$        BKT     R3, *R13
+At -- line 39 col 12: error 8
+ERROR -> Operand types are not equivalent. 
+
+$        HALT    
+$        LD      R3, R13
+$        LD      R4, #12
+$        BKT     R3, +40(R15)
+$        IA      R13, #12
+$        LDA     R1, +40(R15)
+$        IA      R1, #0
+$        LDA     R3, +28(R15)
+$        IA      R3, #2
+$        IS      R13, #2
+$        LD      R4, *R3
+$        STO     R4, *R13
+$        LD      R3, *R13
+$        STO     R3, *R1
+$        IA      R13, #2
+$        IS      R13, #6
+$        LDA     R3, +28(R15)
+$        LD      R4, #6
+$        BKT     R3, *R13
+At -- line 41 col 9: error 8
+ERROR -> Operand types are not equivalent. 
+
+$        HALT    
+$        LD      R1, *R13
+$        STO     R1, +0(R15)
+$        IA      R13, #2
+$        IS      R13, #2
+$        LD      R1, +0(R15)
+$        STO     R1, *R13
+At -- line 42 col 9: error 8
+ERROR -> Operand types are not equivalent. 
+
+$        HALT    
+$        LD      R3, R13
+$        LD      R4, #6
+$        BKT     R3, +28(R15)
+$        IA      R13, #6
+$        LDA     R1, +10(R15)
+$        IA      R1, #0
+$        LDA     R3, +10(R15)
+$        IA      R3, #6
+$   % This operation is not defined for complex types.
+At -- line 43 col 19: error 8
+ERROR -> Operand types are not equivalent. 
+
+$        HALT    
+$        LDA     R4, +10(R15)
+$        IA      R4, #0
+$        LDA     R5, +10(R15)
+$        IA      R5, #6
+$   % This operation is not defined for complex types.
+At -- line 44 col 19: error 8
+ERROR -> Operand types are not equivalent. 
+
+$        HALT    
+$        LDA     R6, +10(R15)
+$        IA      R6, #0
+$   % Negation can only be applied to numeric types
+At -- line 45 col 14: error 8
+ERROR -> Operand types are not equivalent. 
+
+$        HALT    
+Cannot test a non-boolean expression
+At -- line 46 col 8: error 8
+ERROR -> Operand types are not equivalent. 
+
+$        HALT    
+$        JMP     J4
+$    LABEL J0
+$        HALT    
+$    LABEL J4
+$        LDA     R7, +34(R15)
+$        IA      R7, #0
+$        LD      R8, *R7
+$        IC      R8, #1
+$        JNE     J6
+$        JMP     J5
+$    LABEL J6
+$        HALT    
+$    LABEL J5
+Cannot test a non-boolean expression
+At -- line 48 col 8: error 8
+ERROR -> Operand types are not equivalent. 
+
+$        HALT    
+$        JMP     J7
+$    LABEL J0
+$        HALT    
+$    LABEL J7
+Expected: 0..1
+At -- line 49 col 20: error 10
+ERROR -> Invalid type identifier. 
+
+$        HALT    
+$   % The given array takes indexes of type 0..1 Got:Boolean type.
+$        STO     R0, +0(R15)
+Expected: 0..1
+At -- line 50 col 16: error 10
+ERROR -> Invalid type identifier. 
+
+$        HALT    
+$   % The given array takes indexes of type 0..1 Got:integer type.
+$        STO     R0, +0(R15)
+$        HALT    
+$    LABEL C1
+$        INT      1
+$        INT      3
+$        INT      1
+$        INT      6
+$        INT      0
+$        INT      1
+$        INT      0
+$        INT      1
+$        INT      1
+$        INT      3
+$        INT      1
+$    LABEL V1
+$        SKIP     52
+  <end of compilation> 	There were 15 errors detected
+  Allocated Registers: 1 2 3 4 5 6 13 14 15 
+
+$        HALT    

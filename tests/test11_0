@@ -1,0 +1,13 @@
+$c+m+
+module test11
+{ test of arrays (1 dimension )}
+private
+ typedefinition integer range [1..5] one_five;
+ integer array [one_five] a;
+ integer i;
+ begin
+ 	i := 3
+	read a[i];
+	write a[i];
+ end.
+ 

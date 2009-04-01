@@ -1,0 +1,40 @@
+Compiled on: Wed Mar 11 13:04:44 EDT 2009
+$        LDA     R15, V1
+$        LDA     R14, C1
+$        LD      R13, #16000
+$   % Not yet found: x
+$   % Not yet found: x
+$   % Entering: private variable entry: ID = x semantic: VariableExpression: level(1) offset(0) direct, with type Unknown type.
+$   % Not yet found: i
+$   % Not yet found: i
+$   % Entering: private variable entry: ID = i semantic: VariableExpression: level(1) offset(2) direct, with type integer type.
+Cannot use forall to iterate over non-range types
+At -- line 8 col 13: error 8
+ERROR -> Operand types are not equivalent. 
+
+$        HALT    
+$        RDI     +2(R15)
+$        WRI     +2(R15)
+$        WRNL    
+$        LD      R0, +0(R15)
+$        LD      R0, +0(R14)
+$        STO     R0, +0(R15)
+$    LABEL F2
+-- line 9 col 13: this symbol not expected in statementPart
+$        LD      R0, +0(R15)
+$        IC      R0, +2(R14)
+$        JEQ     X3
+$        IA      R0, #1
+$        STO     R0, +0(R15)
+$        JMP     F2
+$    LABEL X3
+$        HALT    
+$    LABEL C1
+$        INT      1
+$        INT      5
+$    LABEL V1
+$        SKIP     4
+  <end of compilation> 	There were 1 errors detected
+  Allocated Registers: 13 14 15 
+
+$        HALT    

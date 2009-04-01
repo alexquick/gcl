@@ -1,0 +1,1 @@
+$c+module test9{ test of range variables}privateinteger range[1..5] x;integer range [3..20] y;integer z;beginx := 5;y := x;z := y;x := z;write x;	{ should be 5}read x;		{ use 3}write x,' ',y; { should be 3 5}end.

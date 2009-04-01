@@ -1,0 +1,124 @@
+Compiled on: Wed Apr 01 02:03:48 EDT 2009
+$        LDA     R15, V1
+$        LDA     R14, C1
+$        LD      R13, #16000
+$   % Not yet found: i
+$   % Not yet found: i
+$   % Entering: private variable entry: ID = i semantic: VariableExpression: level(1) offset(0) direct, with type integer type.
+$   % Declaring type constant: one_five as 1..5
+$   % Not yet found: a
+$   % Not yet found: a
+$   % Entering: private variable entry: ID = a semantic: VariableExpression: level(1) offset(2) direct, with type [1..5]integer type.
+$   % Not yet found: b
+$   % Not yet found: b
+$   % Entering: private variable entry: ID = b semantic: VariableExpression: level(1) offset(12) direct, with type [1..5]integer type.
+$        LD      R0, +4(R14)
+$        STO     R0, +0(R15)
+$    LABEL J2
+$        LD      R1, +0(R15)
+$        LD      R0, #1
+$        IC      R1, +6(R14)
+$        JLE     &4
+$        LD      R0, #0
+$        IC      R0, #1
+$        JNE     J3
+$        LD      R0, +0(R15)
+$        TRNG    R0, +0(R14)
+$        LD      R1, +0(R15)
+$        IS      R1, #1
+$        IM      R1, #2
+$        LDA     R2, +2(R15)
+$        IA      R2, R1
+$        RDI     *R2
+$        LD      R1, +0(R15)
+$        IA      R1, +8(R14)
+$        STO     R1, +0(R15)
+$        JMP     J1
+$    LABEL J3
+$        JMP     &4
+$    LABEL J1
+$        JMP     J2
+$        LD      R1, +10(R14)
+$        STO     R1, +0(R15)
+$    LABEL J5
+$        LD      R3, +0(R15)
+$        LD      R1, #1
+$        IC      R3, +12(R14)
+$        JLE     &4
+$        LD      R1, #0
+$        IC      R1, #1
+$        JNE     J6
+$        LD      R1, +0(R15)
+$        IA      R1, +14(R14)
+$        STO     R1, +0(R15)
+$        LD      R1, +0(R15)
+$        TRNG    R1, +0(R14)
+$        LD      R3, +0(R15)
+$        IS      R3, #1
+$        IM      R3, #2
+$        LDA     R4, +12(R15)
+$        IA      R4, R3
+$        LD      R3, +16(R14)
+$        IS      R3, +0(R15)
+$        TRNG    R3, +0(R14)
+$        IS      R3, #1
+$        IM      R3, #2
+$        LDA     R5, +2(R15)
+$        IA      R5, R3
+$        IS      R13, #2
+$        LD      R3, *R5
+$        STO     R3, *R13
+$        LD      R3, *R13
+$        STO     R3, *R4
+$        IA      R13, #2
+$        JMP     J4
+$    LABEL J6
+$        JMP     &4
+$    LABEL J4
+$        JMP     J5
+$        LD      R3, +18(R14)
+$        STO     R3, +0(R15)
+$    LABEL J8
+$        LD      R4, +0(R15)
+$        LD      R3, #1
+$        IC      R4, +20(R14)
+$        JLE     &4
+$        LD      R3, #0
+$        IC      R3, #1
+$        JNE     J9
+$        LD      R3, +0(R15)
+$        TRNG    R3, +0(R14)
+$        LD      R4, +0(R15)
+$        IS      R4, #1
+$        IM      R4, #2
+$        LDA     R5, +12(R15)
+$        IA      R5, R4
+$        WRI     *R5
+$        WRNL    
+$        LD      R4, +0(R15)
+$        IA      R4, +22(R14)
+$        STO     R4, +0(R15)
+$        JMP     J7
+$    LABEL J9
+$        JMP     &4
+$    LABEL J7
+$        JMP     J8
+$        HALT    
+$    LABEL C1
+$        INT      1
+$        INT      5
+$        INT      1
+$        INT      5
+$        INT      1
+$        INT      1
+$        INT      5
+$        INT      1
+$        INT      4
+$        INT      0
+$        INT      5
+$        INT      1
+$    LABEL V1
+$        SKIP     22
+  <end of compilation> 	There were 0 errors detected
+  Allocated Registers: 0 1 2 3 13 14 15 
+

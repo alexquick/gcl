@@ -1,0 +1,148 @@
+Compiled on: Wed Apr 01 00:20:31 EDT 2009
+$        LDA     R15, V1
+$        LDA     R14, C1
+$        LD      R13, #16000
+$   % Not yet found: x
+$   % Not yet found: x
+$   % Entering: private variable entry: ID = x semantic: VariableExpression: level(1) offset(0) direct, with type integer type.
+$   % Not yet found: y
+$   % Not yet found: y
+$   % Entering: private variable entry: ID = y semantic: VariableExpression: level(1) offset(2) direct, with type Boolean type.
+$   % Type:integer type. is not compatible with type: Boolean type.
+At -- line 13 col 15: error 8
+ERROR -> Operand types are not equivalent. 
+
+$        HALT    
+$        STO     R0, +0(R15)
+$   % Type:integer type. is not compatible with type: Boolean type.
+At -- line 14 col 15: error 8
+ERROR -> Operand types are not equivalent. 
+
+$        HALT    
+$        STO     R0, +0(R15)
+$   % Type:Boolean type. is not compatible with type: integer type.
+At -- line 15 col 15: error 8
+ERROR -> Operand types are not equivalent. 
+
+$        HALT    
+$        STO     R0, +0(R15)
+$   % Type:Boolean type. is not compatible with type: integer type.
+At -- line 16 col 15: error 8
+ERROR -> Operand types are not equivalent. 
+
+$        HALT    
+$        STO     R0, +0(R15)
+$   % Type:integer type. is not compatible with type: Boolean type.
+At -- line 17 col 15: error 8
+ERROR -> Operand types are not equivalent. 
+
+$        HALT    
+$        STO     R0, +0(R15)
+$   % Type:Boolean type. is not compatible with type: integer type.
+At -- line 18 col 15: error 8
+ERROR -> Operand types are not equivalent. 
+
+$        HALT    
+$        STO     R0, +0(R15)
+$   % Negation can only be applied to numeric types Got:Boolean type.
+At -- line 19 col 13: error 8
+ERROR -> Operand types are not equivalent. 
+
+$        HALT    
+$        STO     R0, +0(R15)
+$   % Logical NOT can only be applied to Boolean type
+At -- line 20 col 9: error 8
+ERROR -> Operand types are not equivalent. 
+
+$        HALT    
+$        STO     R0, +0(R15)
+$        IS      R13, #2
+$        LD      R0, +2(R15)
+$        STO     R0, *R13
+At -- line 22 col 8: error 8
+ERROR -> Operand types are not equivalent. 
+
+$        HALT    
+$        LD      R0, *R13
+$        STO     R0, +0(R15)
+$        IA      R13, #2
+$        IS      R13, #2
+$        LD      R0, +0(R15)
+$        STO     R0, *R13
+At -- line 23 col 8: error 8
+ERROR -> Operand types are not equivalent. 
+
+$        HALT    
+$        LD      R0, *R13
+$        STO     R0, +2(R15)
+$        IA      R13, #2
+$   % Negation can only be applied to numeric types
+At -- line 25 col 8: error 8
+ERROR -> Operand types are not equivalent. 
+
+$        HALT    
+$        STO     R0, +0(R15)
+$   % Logical NOT can only be applied to Boolean type
+At -- line 26 col 8: error 8
+ERROR -> Operand types are not equivalent. 
+
+$        HALT    
+$        STO     R0, +0(R15)
+$   % Type:integer type. is not compatible with type: Boolean type.
+At -- line 27 col 11: error 8
+ERROR -> Operand types are not equivalent. 
+
+$        HALT    
+$        STO     R0, +0(R15)
+$   % Type:Boolean type. is not compatible with type: integer type.
+At -- line 28 col 11: error 8
+ERROR -> Operand types are not equivalent. 
+
+$        HALT    
+$        STO     R0, +0(R15)
+$   % Type:integer type. is not compatible with type: Boolean type.
+At -- line 29 col 11: error 8
+ERROR -> Operand types are not equivalent. 
+
+$        HALT    
+$        STO     R0, +0(R15)
+$   % Type:Boolean type. is not compatible with type: integer type.
+At -- line 30 col 11: error 8
+ERROR -> Operand types are not equivalent. 
+
+$        HALT    
+$        STO     R0, +0(R15)
+$   % Type:integer type. is not compatible with type: Boolean type.
+At -- line 31 col 11: error 8
+ERROR -> Operand types are not equivalent. 
+
+$        HALT    
+$        STO     R0, +0(R15)
+$   % Type:Boolean type. is not compatible with type: integer type.
+At -- line 32 col 11: error 8
+ERROR -> Operand types are not equivalent. 
+
+$        HALT    
+$        STO     R0, +0(R15)
+$   % Type:integer type. is not compatible with type: Boolean type.
+At -- line 34 col 12: error 8
+ERROR -> Operand types are not equivalent. 
+
+$        HALT    
+$   % Type:Error type. is not compatible with type: integer type.
+$        STO     R0, +0(R15)
+$   % Type:integer type. is not compatible with type: Boolean type.
+At -- line 35 col 16: error 8
+ERROR -> Operand types are not equivalent. 
+
+$        HALT    
+$   % Type:integer type. is not compatible with type: Error type.
+$        STO     R0, +0(R15)
+$        HALT    
+$    LABEL C1
+$    LABEL V1
+$        SKIP     4
+  <end of compilation> 	There were 20 errors detected
+  Allocated Registers: 13 14 15 
+
+$        HALT    

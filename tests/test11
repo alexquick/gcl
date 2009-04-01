@@ -1,0 +1,1 @@
+$c+module test11{ test of arrays (1 dimension )}private integer i; typedefinition integer range [1..5] one_five; integer array [one_five] a, b; one_five j; begin i := 1; do i <= 5 -> read a[i]; i := i+1; od; { use 1 2 3 4 5} i := 1; do i <= 5 -> b[i] := a[6-i]; i := i+1; od; i := 1; forall j ->  write b[j]; llarof; {output: 5 4 3 2 1} end. 

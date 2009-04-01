@@ -1,0 +1,1 @@
+$c+$s-$o-module test0private integer a,b,x; tuple [integer first, integer second] pair; begin$s+ read b; { use 2 as input value} x, a := 1, b + x; pair := [a, b + x]; if b = 2 ->	a, b := 1, 1; [] b = 100 ->	a, b := 6, 100 / a; [] b # 2  -> skip; fi; write a, b, x, b*x ; { 1111} end.  

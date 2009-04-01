@@ -1,0 +1,1 @@
+$c+module test11_1{ test of arrays (1 dimension )}private typedefinition Boolean range [false..true] bools; integer array [bools] a, b; bools j; begin forall j -> read a[j];  llarof; { use 1 2} forall j -> b[j] := a[~j]; llarof; forall j ->  write b[j]; llarof;  {output: 2 1} end. 

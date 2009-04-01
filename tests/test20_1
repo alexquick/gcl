@@ -1,0 +1,1 @@
+$c+module test20_1 {procedure arraytest}privatetypedefinition integer range [0..1]sub;integer array[sub] x, z;tuple [procedure trial(value integer array[sub] A; reference integer array[sub] X)] check;procedure check@trialbegin	X := A;	return;end;begin	x[0] := 1;	x[1] := 2;	check!trial(x, z);	write z[0], " ", z[1];end. {output 1 2 }
