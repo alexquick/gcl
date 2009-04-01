@@ -1,0 +1,1 @@
+$c+module test9_2{ test of forall}privateinteger range[1..5] x;integer i;beginforall x -> i := x; write i; llarof;write x; { 1 2 3 4 5 5}forall x -> write x; llarof;write x; {output: 1 2 3 4 5 5}end.

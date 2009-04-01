@@ -1,0 +1,67 @@
+Compiled on: Wed Mar 11 12:36:28 EDT 2009
+$        LDA     R15, V1
+$        LDA     R14, C1
+$        LD      R13, #16000
+$   % Declaring type constant: int as integer type.
+$   % Not yet found: x
+$   % Not yet found: x
+$   % Entering: private variable entry: ID = x semantic: VariableExpression: level(1) offset(0) direct, with type integer type.
+$   % Not yet found: xx
+$   % Not yet found: xx
+$   % Entering: private variable entry: ID = xx semantic: VariableExpression: level(1) offset(2) direct, with type integer type.
+$   % Declaring type constant: pair as tupleType:[integer type. : size, Boolean type. : done, ] with size: 4
+$   % Declaring type constant: bool as Boolean type.
+$   % Declaring type constant: newpair as tupleType:[integer type. : size, Boolean type. : pair, ] with size: 4
+$   % Not yet found: y
+$   % Not yet found: y
+$   % Entering: private variable entry: ID = y semantic: VariableExpression: level(1) offset(4) direct, with type tupleType:[integer type. : size, Boolean type. : done, ] with size: 4
+$   % Not yet found: z
+$   % Not yet found: z
+$   % Entering: private variable entry: ID = z semantic: VariableExpression: level(1) offset(8) direct, with type Boolean type.
+$   % Not yet found: yy
+$   % Not yet found: yy
+$   % Entering: private variable entry: ID = yy semantic: VariableExpression: level(1) offset(10) direct, with type tupleType:[integer type. : size, Boolean type. : pair, ] with size: 4
+$        LD      R0, +0(R14)
+$        STO     R0, +0(R15)
+$        IS      R13, #2
+$        LD      R0, +0(R15)
+$        STO     R0, *R13
+$        LD      R0, *R13
+$        STO     R0, +2(R15)
+$        IA      R13, #2
+$        LD      R0, +2(R14)
+$        STO     R0, +8(R15)
+$   % Tuple component of size 2 at 14
+$        LD      R0, +0(R15)
+$        STO     R0, +14(R15)
+$   % Tuple component of size 2 at 16
+$        LD      R0, +8(R15)
+$        STO     R0, +16(R15)
+$        IS      R13, #4
+$        LDA     R0, +14(R15)
+$        LD      R1, #4
+$        BKT     R0, *R13
+$        LD      R0, R13
+$        LD      R1, #4
+$        BKT     R0, +4(R15)
+$        IA      R13, #4
+$        IS      R13, #4
+$        LDA     R0, +4(R15)
+$        LD      R1, #4
+$        BKT     R0, *R13
+$        LD      R0, R13
+$        LD      R1, #4
+$        BKT     R0, +10(R15)
+$        IA      R13, #4
+$        WRI     +2(R15)
+$        WRI     +0(R15)
+$        WRNL    
+$        HALT    
+$    LABEL C1
+$        INT      1
+$        INT      1
+$    LABEL V1
+$        SKIP     18
+  <end of compilation> 	There were 0 errors detected
+  Allocated Registers: 13 14 15 
+

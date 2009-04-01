@@ -1,0 +1,96 @@
+Compiled on: Wed Feb 25 02:38:11 EST 2009
+$        LDA     R15, V1
+$        LDA     R14, C1
+$        LD      R13, #16000
+$   % Not yet found: a
+$   % Not yet found: a
+$   % Entering: private variable entry: ID = a semantic: VariableExpression: level(1) offset(0) direct, with type integer type.
+$   % Not yet found: b
+$   % Not yet found: b
+$   % Entering: private variable entry: ID = b semantic: VariableExpression: level(1) offset(2) direct, with type integer type.
+$   % Not yet found: x
+$   % Not yet found: x
+$   % Entering: private variable entry: ID = x semantic: VariableExpression: level(1) offset(4) direct, with type Boolean type.
+$   % Not yet found: y
+$   % Not yet found: y
+$   % Entering: private variable entry: ID = y semantic: VariableExpression: level(1) offset(6) direct, with type Boolean type.
+$        LD      R0, +0(R14)
+$        STO     R0, +2(R15)
+$        LD      R0, +2(R14)
+$        STO     R0, +0(R15)
+$        LD      R0, +4(R14)
+$        STO     R0, +4(R15)
+$        LD      R1, +0(R15)
+$        LD      R0, #1
+$        IC      R1, +2(R15)
+$        JLT     &4
+$        LD      R0, #0
+$        STO     R0, +6(R15)
+$        LD      R0, +6(R15)
+$        IC      R0, #1
+$        JNE     J2
+$        WRI     +6(R14)
+$        WRNL    
+$        JMP     J1
+$    LABEL J2
+$        LD      R0, #1
+$        IS      R0, +6(R15)
+$        IC      R0, #1
+$        JNE     J3
+$        WRI     +8(R14)
+$        WRNL    
+$        JMP     J1
+$    LABEL J3
+$        HALT    
+$    LABEL J1
+$        LD      R0, +4(R15)
+$        IC      R0, #1
+$        JNE     J5
+$        WRI     +10(R14)
+$        WRNL    
+$        JMP     J4
+$    LABEL J5
+$        LD      R0, #1
+$        IS      R0, +4(R15)
+$        IC      R0, #1
+$        JNE     J6
+$        WRI     +12(R14)
+$        WRNL    
+$        JMP     J4
+$    LABEL J6
+$        HALT    
+$    LABEL J4
+$        LD      R0, +14(R14)
+$        IC      R0, #1
+$        JNE     J8
+$        WRI     +16(R14)
+$        WRNL    
+$        JMP     J7
+$    LABEL J8
+$        LD      R0, +18(R14)
+$        IC      R0, #1
+$        JNE     J9
+$        WRI     +20(R14)
+$        WRNL    
+$        JMP     J7
+$    LABEL J9
+$        HALT    
+$    LABEL J7
+$        HALT    
+$    LABEL C1
+$        INT      10
+$        INT      10
+$        INT      1
+$        INT      0
+$        INT      1
+$        INT      1
+$        INT      0
+$        INT      1
+$        INT      1
+$        INT      0
+$        INT      0
+$    LABEL V1
+$        SKIP     8
+  <end of compilation> 	There were 0 errors detected
+  Allocated Registers: 13 14 15 
+

@@ -1,0 +1,265 @@
+Compiled on: Wed Feb 25 02:33:43 EST 2009
+$        LDA     R15, V1
+$        LDA     R14, C1
+$        LD      R13, #16000
+$   % Not yet found: a
+$   % Not yet found: a
+$   % Entering: private variable entry: ID = a semantic: VariableExpression: level(1) offset(0) direct, with type integer type.
+$   % Not yet found: b
+$   % Not yet found: b
+$   % Entering: private variable entry: ID = b semantic: VariableExpression: level(1) offset(2) direct, with type integer type.
+$        LD      R0, +0(R14)
+$        IC      R0, #1
+$        JNE     J2
+$        WRI     +2(R14)
+$        WRNL    
+$        JMP     J1
+$    LABEL J2
+$        LD      R0, +4(R14)
+$        IC      R0, #1
+$        JNE     J3
+$        WRI     +6(R14)
+$        WRNL    
+$        JMP     J1
+$    LABEL J3
+$        HALT    
+$    LABEL J1
+$        LD      R0, +8(R14)
+$        IC      R0, #1
+$        JNE     J5
+$        WRI     +10(R14)
+$        WRNL    
+$        JMP     J4
+$    LABEL J5
+$        LD      R0, +12(R14)
+$        IC      R0, #1
+$        JNE     J6
+$        WRI     +14(R14)
+$        WRNL    
+$        JMP     J4
+$    LABEL J6
+$        HALT    
+$    LABEL J4
+$        LD      R0, +16(R14)
+$        IC      R0, #1
+$        JNE     J8
+$        WRI     +18(R14)
+$        WRNL    
+$        JMP     J7
+$    LABEL J8
+$        LD      R0, +20(R14)
+$        IC      R0, #1
+$        JNE     J9
+$        WRI     +22(R14)
+$        WRNL    
+$        JMP     J7
+$    LABEL J9
+$        HALT    
+$    LABEL J7
+$        LD      R0, +24(R14)
+$        IC      R0, #1
+$        JNE     J11
+$        WRI     +26(R14)
+$        WRNL    
+$        JMP     J10
+$    LABEL J11
+$        LD      R0, +28(R14)
+$        IC      R0, #1
+$        JNE     J12
+$        WRI     +30(R14)
+$        WRNL    
+$        JMP     J10
+$    LABEL J12
+$        HALT    
+$    LABEL J10
+$        LD      R0, +32(R14)
+$        IC      R0, #1
+$        JNE     J14
+$        WRI     +34(R14)
+$        WRNL    
+$        JMP     J13
+$    LABEL J14
+$        LD      R0, +36(R14)
+$        IC      R0, #1
+$        JNE     J15
+$        WRI     +38(R14)
+$        WRNL    
+$        JMP     J13
+$    LABEL J15
+$        HALT    
+$    LABEL J13
+$        LD      R0, +40(R14)
+$        STO     R0, +0(R15)
+$        LD      R0, +42(R14)
+$        STO     R0, +2(R15)
+$        LD      R1, +0(R15)
+$        LD      R0, #1
+$        IC      R1, +2(R15)
+$        JEQ     &4
+$        LD      R0, #0
+$        IC      R0, #1
+$        JNE     J17
+$        WRI     +44(R14)
+$        WRNL    
+$        JMP     J16
+$    LABEL J17
+$        LD      R1, +0(R15)
+$        LD      R0, #1
+$        IC      R1, +2(R15)
+$        JNE     &4
+$        LD      R0, #0
+$        IC      R0, #1
+$        JNE     J18
+$        WRI     +46(R14)
+$        WRNL    
+$        JMP     J16
+$    LABEL J18
+$        HALT    
+$    LABEL J16
+$        LD      R1, +0(R15)
+$        LD      R0, #1
+$        IC      R1, +2(R15)
+$        JLT     &4
+$        LD      R0, #0
+$        IC      R0, #1
+$        JNE     J20
+$        WRI     +48(R14)
+$        WRNL    
+$        JMP     J19
+$    LABEL J20
+$        LD      R1, +0(R15)
+$        LD      R0, #1
+$        IC      R1, +2(R15)
+$        JGE     &4
+$        LD      R0, #0
+$        IC      R0, #1
+$        JNE     J21
+$        WRI     +50(R14)
+$        WRNL    
+$        JMP     J19
+$    LABEL J21
+$        HALT    
+$    LABEL J19
+$        LD      R1, +0(R15)
+$        LD      R0, #1
+$        IC      R1, +2(R15)
+$        JLE     &4
+$        LD      R0, #0
+$        IC      R0, #1
+$        JNE     J23
+$        WRI     +52(R14)
+$        WRNL    
+$        JMP     J22
+$    LABEL J23
+$        LD      R1, +0(R15)
+$        LD      R0, #1
+$        IC      R1, +2(R15)
+$        JGT     &4
+$        LD      R0, #0
+$        IC      R0, #1
+$        JNE     J24
+$        WRI     +54(R14)
+$        WRNL    
+$        JMP     J22
+$    LABEL J24
+$        HALT    
+$    LABEL J22
+$        LD      R1, +2(R15)
+$        LD      R0, #1
+$        IC      R1, +0(R15)
+$        JGE     &4
+$        LD      R0, #0
+$        IC      R0, #1
+$        JNE     J26
+$        WRI     +56(R14)
+$        WRNL    
+$        JMP     J25
+$    LABEL J26
+$        LD      R1, +2(R15)
+$        LD      R0, #1
+$        IC      R1, +0(R15)
+$        JLT     &4
+$        LD      R0, #0
+$        IC      R0, #1
+$        JNE     J27
+$        WRI     +58(R14)
+$        WRNL    
+$        JMP     J25
+$    LABEL J27
+$        HALT    
+$    LABEL J25
+$        LD      R1, +0(R15)
+$        LD      R0, #1
+$        IC      R1, +0(R15)
+$        JLT     &4
+$        LD      R0, #0
+$        IC      R0, #1
+$        JNE     J29
+$        WRI     +60(R14)
+$        WRNL    
+$        JMP     J28
+$    LABEL J29
+$        LD      R1, +0(R15)
+$        LD      R0, #1
+$        IC      R1, +0(R15)
+$        JEQ     &4
+$        LD      R0, #0
+$        IC      R0, #1
+$        JNE     J30
+$        WRI     +62(R14)
+$        WRNL    
+$        JMP     J28
+$    LABEL J30
+$        LD      R1, +0(R15)
+$        LD      R0, #1
+$        IC      R1, +0(R15)
+$        JGT     &4
+$        LD      R0, #0
+$        IC      R0, #1
+$        JNE     J31
+$        WRI     +64(R14)
+$        WRNL    
+$        JMP     J28
+$    LABEL J31
+$        HALT    
+$    LABEL J28
+$        HALT    
+$    LABEL C1
+$        INT      1
+$        INT      1
+$        INT      0
+$        INT      0
+$        INT      1
+$        INT      1
+$        INT      0
+$        INT      0
+$        INT      1
+$        INT      1
+$        INT      0
+$        INT      0
+$        INT      0
+$        INT      0
+$        INT      1
+$        INT      1
+$        INT      0
+$        INT      0
+$        INT      1
+$        INT      1
+$        INT      1
+$        INT      2
+$        INT      0
+$        INT      1
+$        INT      1
+$        INT      0
+$        INT      1
+$        INT      0
+$        INT      1
+$        INT      0
+$        INT      0
+$        INT      1
+$        INT      0
+$    LABEL V1
+$        SKIP     4
+  <end of compilation> 	There were 0 errors detected
+  Allocated Registers: 13 14 15 
+

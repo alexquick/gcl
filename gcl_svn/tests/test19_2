@@ -1,0 +1,1 @@
+$c+module wrong { missing definition}typedefinition tuple [procedure foo ()] bar;bar b;private beginb!foo(); { error: foo didn't get a body in its def part.-- But the error should have been reported earlier--This call can still be compiled correctly but the JSR won't have a target.}end.
