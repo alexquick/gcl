@@ -1,0 +1,16 @@
+$c+
+module test11_8 {arrayCompare
+ test of comparison of arrays and tuples}
+private
+ typedefinition integer range [1..2] one_two;
+ integer array [one_two] a,b;
+ Boolean r;
+begin
+
+a[1] := 3;
+b[1] := 3;
+a[2] := 5;
+b[2] := 6; 
+r := a = b;
+r := a # b;
+end. {output nope yep nope yep}

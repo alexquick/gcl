@@ -1,0 +1,46 @@
+     LDA     R15, V1
+     LDA     R14, C1
+     LD      R13, #16000
+% Not yet found: a
+% Not yet found: a
+% Entering: private variable entry: ID = a semantic: VariableExpression: level(1) offset(0) direct, with type integer type.
+% Not yet found: b
+% Not yet found: b
+% Entering: private variable entry: ID = b semantic: VariableExpression: level(1) offset(2) direct, with type integer type.
+% Not yet found: x
+% Not yet found: x
+% Entering: private variable entry: ID = x semantic: VariableExpression: level(1) offset(4) direct, with type integer type.
+% Not yet found: pair
+% Not yet found: pair
+% Entering: private variable entry: ID = pair semantic: VariableExpression: level(1) offset(6) direct, with type tupleType:[integer type. : first, integer type. : second, ] with size: 4
+% Declaring type constant: subs as 1..3
+% Declaring type constant: values as [1..3]integer type.
+% Not yet found: z
+% Not yet found: z
+% Entering: private variable entry: ID = z semantic: VariableExpression: level(1) offset(10) direct, with type [1..3]integer type.
+% Not yet found: nested
+% Not yet found: nested
+% Entering: private variable entry: ID = nested semantic: VariableExpression: level(1) offset(16) direct, with type tupleType:[integer type. : size, [1..3]integer type. : val, ] with size: 8
+     RDI     +2(R15)
+     LD      R0, +4(R14)
+     STO     R0, +4(R15)
+     LD      R0, +2(R15)
+     IA      R0, +4(R15)
+     STO     R0, +0(R15)
+     LD      R0, +2(R15)
+     IA      R0, +6(R14)
+% Tuple component of size 2 at 24
+     LD      R1, +4(R15)
+     STO     R1, +24(R15)
+% Tuple component of size 2 at 26
+     STO     R0, +26(R15)
+     IS      R13, #4
+     LDA     R0, +24(R15)
+     LD      R1, #4
+     BKT     R0, *R13
+     LD      R0, R13
+     LD      R1, #4
+     BKT     R0, +6(R15)
+     IA      R13, #4
+     WRI     R-1
+     HALT    

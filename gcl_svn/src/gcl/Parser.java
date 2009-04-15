@@ -1,4 +1,4 @@
-package gcl;
+package gcl_svn.src.gcl;
 
 public class Parser {
 	public static final int _EOF = 0;
@@ -634,18 +634,16 @@ public class Parser {
 	Expression  subscriptsAndComponents(SymbolTable scope, Expression workValue) {
 		Expression  result;
 		Identifier id; result = null;
-		while (la.kind == 15 || la.kind == 51) {
-			if (la.kind == 51) {
-				Get();
-				Expect(1);
-				id = new Identifier(currentToken().spelling()); result = semantic.extractTupleField(workValue, id);
-			} else {
-				Get();
-				result = expression(scope);
-				Expect(17);
-				result = semantic.extractArrayElement(workValue, result); 
-			}
-		}
+		if (la.kind == 51) {
+			Get();
+			Expect(1);
+			id = new Identifier(currentToken().spelling()); result = semantic.extractTupleField(workValue, id);
+		} else if (la.kind == 15) {
+			Get();
+			result = expression(scope);
+			Expect(17);
+			result = semantic.extractArrayElement(workValue, result); 
+		} else SynErr(69);
 		return result;
 	}
 
@@ -770,6 +768,7 @@ class Errors {
 			case 66: s = "invalid addOperator"; break;
 			case 67: s = "invalid factor"; break;
 			case 68: s = "invalid multiplyOperator"; break;
+			case 69: s = "invalid subscriptsAndComponents"; break;
 				default: s = "error " + n; break;
 			}
 			printMsg(line, col, s);

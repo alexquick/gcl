@@ -434,8 +434,10 @@ public class Parser {
 		SemanticItem workValue; 
 		workValue = qualifiedIdentifier(scope);
 		result = workValue.expectExpression(err); 
-		while (la.kind == 17 || la.kind == 51) {
-			result = subscriptsAndComponents(scope, result);
+		if (la.kind == 17 || la.kind == 51) {
+			while (la.kind == 17 || la.kind == 51) {
+				result = subscriptsAndComponents(scope, result);
+			}
 		}
 		return result;
 	}

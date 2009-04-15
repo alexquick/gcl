@@ -1,0 +1,109 @@
+Compiled on: Wed Apr 01 17:40:09 EDT 2009
+$        LDA     R15, V1
+$        LDA     R14, C1
+$        LD      R13, #16000
+$   % Not yet found: x
+$   % Entering: public variable entry: ID = x semantic: VariableExpression: level(1) offset(0) direct, with type integer type.
+$   % Not yet found: num
+$   % Declaring Constant: public constant entry: ID = num semantic: ConstantExpression: 2 with type integer type.
+$   % Declaring type constant: int as integer type.
+$   % Not yet found: y
+$   % Not yet found: y
+$   % Entering: private variable entry: ID = y semantic: VariableExpression: level(1) offset(2) direct, with type integer type.
+$   % Not yet found: x
+$        LD      R0, +0(R14)
+$        STO     R0, +0(R15)
+$        LD      R0, +2(R14)
+$        STO     R0, +2(R15)
+$   % Not yet found: testmodules
+$        WRI     +2(R15)
+$        WRNL    
+$   % Not yet found: testmodules
+$   % Not yet found: x
+$        WRI     +0(R15)
+$        WRNL    
+$   % Not yet found: testmodules
+$   % Not yet found: testmodules
+$   % Not yet found: x
+$   % Not yet found: x
+$        WRI     +0(R15)
+$        WRNL    
+$   % Not yet found: x
+$   % Not yet found: x
+$        LD      R0, +4(R14)
+$        STO     R0, +0(R15)
+$   % Not yet found: y
+$   % Not yet found: y
+$   % Not yet found: y
+At -- line 21 col 9: error 3
+ERROR -> The name is not defined. 
+
+$        HALT    
+$   % Identifier not found in symbol table.
+$   % $ Expression Required
+$        WRNL    
+$   % Not yet found: int
+$   % Not yet found: int
+$   % Not yet found: x
+$   % Not yet found: x
+$   % Entering: public variable entry: ID = x semantic: VariableExpression: level(1) offset(4) direct, with type integer type.
+$   % Not yet found: int
+$   % Not yet found: int
+$   % Not yet found: testmodules
+$   % Not yet found: testmodules
+$   % Not yet found: num
+$   % Not yet found: num
+$   % Declaring type constant: ran as 0..2
+$   % Not yet found: testmodules
+$   % Not yet found: testmodules
+$   % Not yet found: testmodules
+$   % Not yet found: testmodules
+$   % Not yet found: int
+$   % Not yet found: int
+$   % Not yet found: int
+$   % Not yet found: int
+$   % Not yet found: x
+$   % Not yet found: x
+$   % Entering: private variable entry: ID = x semantic: VariableExpression: level(1) offset(6) direct, with type integer type.
+$        LD      R0, +10(R14)
+$        STO     R0, +6(R15)
+$        WRI     +6(R15)
+$        WRNL    
+$   % Not yet found: testmodules
+$   % Not yet found: testmodules
+$   % Not yet found: testmodules
+$   % Not yet found: testmodules
+$        WRI     +6(R15)
+$        WRNL    
+$   % Not yet found: num
+$   % Not yet found: num
+$   % Not yet found: num
+$   % Not yet found: num
+$        WRI     +12(R14)
+$        WRNL    
+$   % Not yet found: testmodules
+$   % Not yet found: testmodules
+$   % Not yet found: testmodules
+$   % Not yet found: testmodules
+$   % Not yet found: num
+$   % Not yet found: num
+$   % Not yet found: num
+$   % Not yet found: num
+$        WRI     +14(R14)
+$        WRNL    
+$        HALT    
+$    LABEL C1
+$        INT      1
+$        INT      0
+$        INT      20
+$        INT      0
+$        INT      2
+$        INT      2
+$        INT      2
+$        INT      2
+$    LABEL V1
+$        SKIP     8
+  <end of compilation> 	There were 1 errors detected
+  Allocated Registers: 13 14 15 
+
+$        HALT    

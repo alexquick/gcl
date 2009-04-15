@@ -68,6 +68,7 @@ abstract class SemanticItem {
 	// Note: Only expressions and procedures need semanticLevel, but this is the
 	// only common ancestor class.
 	private int level = -9; // This value should never appear
+
 }
 
 /**
@@ -240,38 +241,7 @@ abstract class RelationalOperator extends BinaryOperator {
 				public Expression performEvaluation(Expression left, Expression right, Codegen codegen) {
 					if(left.type().isComplex())
 					{
-						int dataLength = left.type().size();
-						
-						int leftAddress = codegen.loadAddress(left);
-						int rightAddress = codegen.loadAddress(right);
-						
-						int startLabel = codegen.getLabel();
-						int falseLabel = codegen.getLabel();
-						int trueLabel = codegen.getLabel();
-						int endLabel = codegen.getLabel();
-						codegen.genLabel('B', startLabel);
-						codegen.gen2Address(IC, leftAddress, CodegenConstants.IREG, rightAddress, 0);
-						codegen.genJumpLabel(JNE, 'F', falseLabel);
-						codegen.gen2Address(IA, leftAddress, "#2");
-						codegen.gen2Address(IA, rightAddress, "#2");
-						codegen.gen2Address(IC, leftAddress, "#"+(dataLength-2));
-						codegen.genJumpLabel(JGT, 'T', trueLabel);
-						codegen.genJumpLabel(JMP, 'B', startLabel);
-						
-						int result = leftAddress;
-						
-						codegen.genLabel('F', falseLabel);
-						codegen.gen2Address(LD, result, CodegenConstants.IMMED, CodegenConstants.UNUSED,0);
-						codegen.genJumpLabel(JMP, 'E', endLabel);
-						
-						codegen.genLabel('T', trueLabel);
-						codegen.gen2Address(LD, result, CodegenConstants.IMMED, CodegenConstants.UNUSED,1);
-						
-						codegen.genLabel('E', endLabel);
-						codegen.freeTemp(CodegenConstants.IREG, rightAddress);
-						return new VariableExpression(BooleanType.BOOLEAN_TYPE, result, CodegenConstants.DIRECT);
-						
-					
+						return complexEqualityEvaluation(left, right, JNE, codegen);
 					}else{
 						return super.performEvaluation(left, right, codegen);
 					}
@@ -288,38 +258,7 @@ abstract class RelationalOperator extends BinaryOperator {
 				}public Expression performEvaluation(Expression left, Expression right, Codegen codegen) {
 					if(left.type().isComplex())
 					{
-						int dataLength = left.type().size();
-						
-						int leftAddress = codegen.loadAddress(left);
-						int rightAddress = codegen.loadAddress(right);
-						
-						int startLabel = codegen.getLabel();
-						int falseLabel = codegen.getLabel();
-						int trueLabel = codegen.getLabel();
-						int endLabel = codegen.getLabel();
-						codegen.genLabel('B', startLabel);
-						codegen.gen2Address(IC, leftAddress, CodegenConstants.IREG, rightAddress, 0);
-						codegen.genJumpLabel(JEQ, 'F', falseLabel);
-						codegen.gen2Address(IA, leftAddress, "#2");
-						codegen.gen2Address(IA, rightAddress, "#2");
-						codegen.gen2Address(IC, leftAddress, "#"+(dataLength-2));
-						codegen.genJumpLabel(JGT, 'T', trueLabel);
-						codegen.genJumpLabel(JMP, 'B', startLabel);
-						
-						int result = leftAddress;
-						
-						codegen.genLabel('F', falseLabel);
-						codegen.gen2Address(LD, result, CodegenConstants.IMMED, CodegenConstants.UNUSED,0);
-						codegen.genJumpLabel(JMP, 'E', endLabel);
-						
-						codegen.genLabel('T', trueLabel);
-						codegen.gen2Address(LD, result, CodegenConstants.IMMED, CodegenConstants.UNUSED,1);
-						
-						codegen.genLabel('E', endLabel);
-						codegen.freeTemp(CodegenConstants.IREG, rightAddress);
-						return new VariableExpression(BooleanType.BOOLEAN_TYPE, result, CodegenConstants.DIRECT);
-						
-					
+						return complexEqualityEvaluation(left, right, JEQ, codegen);
 					}else{
 						return super.performEvaluation(left, right, codegen);
 					}
@@ -371,6 +310,63 @@ abstract class RelationalOperator extends BinaryOperator {
 		codegen.freeTemp(CodegenConstants.DREG, resultreg);
 		codegen.freeTemp(rightLocation);
 		return new VariableExpression(BooleanType.BOOLEAN_TYPE, booleanreg, CodegenConstants.DIRECT); // temporary
+	}
+	
+	public Expression complexEqualityEvaluation(Expression left, Expression right, SamOp op, Codegen codegen){
+		int dataLength = left.type().size();
+		
+		int leftAddress = codegen.loadAddress(left);
+		int rightAddress = codegen.loadAddress(right);
+		int leftValue = codegen.getTemp(1);
+		int leftOffsetGuard = codegen.getTemp(1); 
+		
+		int startLabel = codegen.getLabel();
+		int trueLabel = codegen.getLabel();
+		int falseLabel = codegen.getLabel();
+		int endLabel = codegen.getLabel();
+		
+		codegen.gen2Address(LD, leftOffsetGuard, Codegen.DREG, leftAddress, 0);
+		codegen.gen2Address(IA, leftOffsetGuard, Codegen.IMMED,Codegen.UNUSED,(dataLength-2) );		
+		codegen.genLabel('B', startLabel);
+		codegen.gen2Address(LD, leftValue, Codegen.IREG, leftAddress, 0);
+		codegen.gen2Address(IC, leftValue, CodegenConstants.IREG, rightAddress, 0);
+		
+		if(op.equals(JEQ)){
+			//When we hit JNE we know that EQ is false
+			codegen.genJumpLabel(JNE, 'F', falseLabel);
+		}else{
+			//When we hit JNE we know NE is true
+			codegen.genJumpLabel(JNE, 'T', trueLabel);
+		}
+		codegen.gen2Address(IA, leftAddress, "#2");
+		codegen.gen2Address(IA, rightAddress, "#2");
+		
+		codegen.gen2Address(IC, leftAddress, Codegen.DREG,leftOffsetGuard, 0);
+		if(op.equals(JEQ)){
+			//If we've not jumped above we know EQ is true
+			codegen.genJumpLabel(JGT, 'T', trueLabel);
+		}else{
+			//If we've not jumped above we know NE is false 
+			codegen.genJumpLabel(JGT, 'F', falseLabel);
+		}
+		codegen.genJumpLabel(JMP, 'B', startLabel);
+		
+		codegen.freeTemp(CodegenConstants.IREG, leftAddress);
+		int result = codegen.getTemp(1);
+		
+		codegen.genLabel('F', falseLabel);
+		codegen.gen2Address(LD, result, CodegenConstants.IMMED, CodegenConstants.UNUSED,0);
+		codegen.genJumpLabel(JMP, 'E', endLabel);
+		
+		codegen.genLabel('T', trueLabel);
+		codegen.gen2Address(LD, result, CodegenConstants.IMMED, CodegenConstants.UNUSED,1);
+		
+		codegen.genLabel('E', endLabel);
+		codegen.freeTemp(CodegenConstants.IREG, rightAddress);
+		codegen.freeTemp(CodegenConstants.DREG, leftValue);
+		codegen.freeTemp(CodegenConstants.DREG, leftOffsetGuard);
+		
+		return new VariableExpression(BooleanType.BOOLEAN_TYPE, result, CodegenConstants.DIRECT);
 	}
 }
 
@@ -986,6 +982,7 @@ class ArrayCarrier extends SemanticItem{
  * all of them. Used in creation of tuples.
  */
 class TypeList extends SemanticItem {
+	//TODO: extend to allow carrier to handle procedures
 	/**
 	 * Add a new type-name pair to the list and accumulate its size
 	 * 
@@ -1285,7 +1282,8 @@ class TupleType extends TypeDescriptor { // mutable
 	private Hashtable<Identifier, TupleField> fields = new Hashtable<Identifier, TupleField>(
 			4);
 	private Vector<Identifier> names = new Vector<Identifier>(4);
-	private SymbolTable methods = null; // later
+	//TODO: contains all the procs
+	private SymbolTable methods = null; // must be unchained
 	
 	private class TupleField {
 		public TupleField(int inset, TypeDescriptor type) {
@@ -1320,6 +1318,21 @@ class Module extends SemanticItem{
 	public Entry resolve(Identifier id){
 		return scope.lookupIdentifier(id);
 	}
+	
+	public SymbolTable privateScope(){
+		return scope;
+	}
+	//TODO: doLink action routine(not here)
+	
+	public int getLabel(){
+		return 1; //TODO: do me
+	}
+}
+
+class Procedure extends SemanticItem{
+	//TODO:PROCEDURE SEMANTIC RECORD(label, framesize=INITIALFRAMESIZE, localdatasize=MINLOCALDATASIZE, genLink(), genUnlink())			Unknown	Task
+	//TODO: previous currentprocedure
+	//TODO:call
 }
 // --------------------- Semantic Error Values ----------------------------
 
@@ -1479,10 +1492,11 @@ public class SemanticActions implements Mnemonic, CodegenConstants {
 	 * redefined at this point. Only one definition is legal in a given scope.
 	 * 
 	 * @param entry a symbol table entry to be checked.
+	 * @param scope 
 	 * @return true if it is ok to redefine this entry at this point.
 	 */
-	private boolean OKToRedefine(SymbolTable.Entry entry) {
-		return false; // more later
+	private boolean OKToRedefine(SymbolTable.Entry entry, SymbolTable scope) {
+		return !(scope.existsLocally(entry));
 	}
 
 	/***************************************************************************
@@ -1494,7 +1508,7 @@ public class SemanticActions implements Mnemonic, CodegenConstants {
 	 **************************************************************************/
 	private void complainIfDefinedHere(SymbolTable scope, Identifier id) {
 		SymbolTable.Entry entry = scope.lookupIdentifier(id);
-		if (entry != null && !OKToRedefine(entry)) {
+		if (entry != null && !OKToRedefine(entry, scope)) {
 			err.semanticError(GCLError.ALREADY_DEFINED);
 		}
 	}
@@ -1686,11 +1700,18 @@ public class SemanticActions implements Mnemonic, CodegenConstants {
 	 */
 	 SemanticItem semanticValue(SymbolTable scope, Identifier id,
 			SemanticItem module) {
+		SymbolTable.Entry symbol;
 		
-		SymbolTable.Entry symbol = scope.lookupIdentifier(id, module);
+		if(scope.childOf(((Module)module).privateScope()))
+		{
+			symbol = scope.lookupIdentifier(id);
+		}else{
+			symbol = scope.lookupIdentifier(id, module);
+		}
+		
 		if (symbol == null) {
 			err.semanticError(GCLError.NAME_NOT_DEFINED);
-			return new SemanticError("Identifier not found in symbol table.");
+			return new SemanticError("Identifier not defined in module");
 		} else {
 			return symbol.semanticRecord();
 		}
@@ -2101,7 +2122,7 @@ public class SemanticActions implements Mnemonic, CodegenConstants {
 		TypeDescriptor componentType = tupleDescriptor.getComponentType(id);
 		
 		if(tupleExpression.isDirect()){
-			return new VariableExpression(componentType, CodegenConstants.CPU_LEVEL, tupleExpression.offset()+componentInset, CodegenConstants.DIRECT);
+			return new VariableExpression(componentType, CodegenConstants.VARIABLE_BASE, tupleExpression.offset()+componentInset, CodegenConstants.DIRECT);
 		}else{
 			if(tupleExpression.semanticLevel() == CodegenConstants.CPU_LEVEL){
 				codegen.gen2Address(IA, tupleExpression.offset(), "#"+componentInset);
@@ -2183,9 +2204,6 @@ public class SemanticActions implements Mnemonic, CodegenConstants {
 			}
 			codegen.gen2Address(IM, indexRegister, "#"+arrayDefinition.componentType().size());
 			int arrayAddress = codegen.loadAddress(arrayExpression);
-			if(arrayAddress == indexRegister){
-				System.out.println("diaf");
-			}
 			codegen.gen2Address(IA, arrayAddress, CodegenConstants.DREG, indexRegister, 0);
 			codegen.freeTemp(CodegenConstants.DREG, indexRegister);
 			return new VariableExpression(arrayDefinition.componentType(), Codegen.CPU_LEVEL, arrayAddress, CodegenConstants.INDIRECT);
@@ -2206,6 +2224,31 @@ public class SemanticActions implements Mnemonic, CodegenConstants {
 		 *inset = (index - lowbound) * elementSize 
 		 */
 	}
+	
+	SymbolTable startProcedureDeclaration(TypeList carrier, SymbolTable scope){
+		//increment level
+		//chain on new scope
+		//TODO:Handle currentProcedure
+		return null;
+	}
+	void endProcedureDeclaration(){
+		//decrement level
+	}
+	
+	void startProcedureDefinition(){
+		//level up
+	}
+	void endProcedureDefinition(){
+		//level down
+		//close scope
+	}
+	
+	void doLink(){
+		//TODO: implement dolink
+		//see if at global level, if so write label
+		//ask current procedure to generate link section
+	}
+	
 	/***************************************************************************
 	 * Set up the registers and other run time initializations.
 	 **************************************************************************/

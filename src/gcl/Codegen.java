@@ -8,6 +8,7 @@ import java.util.Enumeration;
 
 // --------------------- Codegen ---------------------------------
 public class Codegen implements Mnemonic, CodegenConstants {
+
 	Codegen(SemanticActions.GCLErrorStream err) {
 		this.err = err;
 		init();
@@ -481,6 +482,8 @@ public class Codegen implements Mnemonic, CodegenConstants {
 		freeRegisters[STACK_POINTER] = false;
 		freeRegisters[CONSTANT_BASE] = false;
 		freeRegisters[VARIABLE_BASE] = false;
+		freeRegisters[STATIC_POINTER] = false;
+		freeRegisters[FRAME_POINTER] = false;
 		variableIndex = 0;
 		labelIndex = 0;
 		constants = new ConstantStorage(this);

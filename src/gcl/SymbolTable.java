@@ -94,6 +94,10 @@ public class SymbolTable {
 		}
 		return ((Module)module).resolve(name);
 	}
+	
+	public boolean existsLocally(Entry item){
+		return storage.contains(item);
+	}
 
 	/** Insert an identifier and its associated data into the SymbolTable
 		@param name the identifier to insert (entryKind)
@@ -104,7 +108,21 @@ public class SymbolTable {
 			storage.put(name, value);
 		}
 	}
-
+	/** Check to see if the given scope is a parent of the current scope.
+	 * 	Used to resolve fully qualified domains in private blocks
+	 * 
+	 * @param scope
+	 */
+	public boolean childOf(SymbolTable scope){
+		SymbolTable parentScope = this.next;
+		while(parentScope != null){
+			if(parentScope == scope){
+				return true;
+			}
+			parentScope = parentScope.next;
+		}
+		return false;
+	}
 	/** Show the entire symbol table */
 	public void dump() {
 		boolean old = CompilerOptions.listCode;
@@ -145,7 +163,7 @@ public class SymbolTable {
 	public static void dumpAll() {
 		globalScope.dump();
 	}
-
+	
 	/**Register the prototypes with the factory. Extend for each new subclass of Entry
 	 */
 	public static void initializeSymbolTable() {

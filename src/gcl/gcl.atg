@@ -106,6 +106,7 @@ typeSymbol<^TypeDescriptor result, SymbolTable scope> (. result = noType; Semant
 /*----------------------------------------------------------*/
 tupleType<^TupleType result, SymbolTable scope>   (. TypeDescriptor type; Identifier id;.)
 =
+	//TODO: worry about levels, scopes, 
 	(. TypeList carrier = new TypeList(); .)
 	"tuple" "[" typeSymbol<^type, scope> identifier 
 		(.id = new Identifier(currentToken().spelling()); carrier.enter(type, id);.)
@@ -113,6 +114,7 @@ tupleType<^TupleType result, SymbolTable scope>   (. TypeDescriptor type; Identi
 		(.id = new Identifier(currentToken().spelling()); carrier.enter(type, id);.) 
 		} 
 	"]"
+	// "procedure" identifier (.startProcedureDefinition.)"(" ")"(.endProcedureDefinition.)
      (. result = new TupleType(carrier); .) .
 /*----------------------------------------------------------*/
 rangeType<^TypeDescriptor result,TypeDescriptor baseType, SymbolTable scope> (.Expression lbound = null; Expression ubound=null;.)
@@ -274,7 +276,7 @@ variableAccess<^Expression result, SymbolTable scope>
       (. SemanticItem workValue; .)   
 =
 qualifiedIdentifier<^workValue, scope> (. result = workValue.expectExpression(err); .) 
-	{subscriptsAndComponents<^result, scope, result>}.
+	[{subscriptsAndComponents<^result, scope, result>}].
 
 /*----------------------------------------------------------*/
 subscriptsAndComponents<^Expression result, SymbolTable scope, Expression workValue>

@@ -33,6 +33,8 @@ interface CodegenConstants { // Addressing mode names in SAM2
 	public static final boolean INDIRECT = false; // Register has a pointer
 
 	// Register names -- more later
+	public static final int STATIC_POINTER = 11;
+	public static final int FRAME_POINTER = 12;
 	public static final int STACK_POINTER = 13;
 	public static final int CONSTANT_BASE = 14;
 	public static final int VARIABLE_BASE = 15;

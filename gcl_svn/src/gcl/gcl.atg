@@ -265,7 +265,7 @@ qualifiedIdentifier<^workValue, scope> (. result = workValue.expectExpression(er
 subscriptsAndComponents<^Expression result, SymbolTable scope, Expression workValue>
 	(. Identifier id; result = null;.)
 =
-  {"@" identifier (. id = new Identifier(currentToken().spelling()); result = semantic.extractTupleField(workValue, id);.)
-  | "[" expression<^result, scope> "]" (. result = semantic.extractArrayElement(workValue, result); .)}
+  "@" identifier (. id = new Identifier(currentToken().spelling()); result = semantic.extractTupleField(workValue, id);.)
+  | "[" expression<^result, scope> "]" (. result = semantic.extractArrayElement(workValue, result); .)
 .
 END gcl.
