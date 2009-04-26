@@ -185,8 +185,24 @@ public class Codegen implements Mnemonic, CodegenConstants {
 			displacement = UNUSED;
 		} else // its level > 1;
 		{
-			int currentlevel = currentLevel.value();
-			// more later for function/procedure blocks
+			int diff = currentLevel.value() - itsLevel;
+			if(diff == 0){
+				//base = R12, framepointer
+			}else if(diff == 1){
+				//base = R11, 
+				//find frame that contains expression
+			}else{
+			 /*
+			  * getTemp
+			  * LD R3, +2 R11
+			  * LD R3, +2 R3 (diff-2)
+			  * base = R3
+			  */
+				//base = walk down line
+			}
+			base = 
+			mode = isDirect ? INDXD : IINDXD;
+			displacement = variable.offset();
 		}
 		return new Location(mode, base, displacement);
 	}

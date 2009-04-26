@@ -1333,6 +1333,35 @@ class Procedure extends SemanticItem{
 	//TODO:PROCEDURE SEMANTIC RECORD(label, framesize=INITIALFRAMESIZE, localdatasize=MINLOCALDATASIZE, genLink(), genUnlink())			Unknown	Task
 	//TODO: previous currentprocedure
 	//TODO:call
+	public void call(){
+		
+	}
+	public int reserveParameterAddress(Type type){
+		//TODO: remember type
+		//TODO: if ParamKind = ref create ref loader, etc
+		//TODO: increase size of frame accordingly
+		//TODO: return ORIGINAL size
+	}
+}
+
+//TODO: subclass referenceLoader, valueLoader, blockLoader(for arrays, etc)
+abstract class Loader{
+	//remember Type and Offset
+	public void typeCheck(Expression potentialParameter){
+		
+	}
+	//load actually pushes the expression into the offset
+	public abstract void load(Expression parameter);
+	
+	/*
+	 * blockloader
+	 * check variableexpression
+	 * getTemp(2);
+	 * reg = loadAddress(parameter)
+	 * reg+1 = size of parameter
+	 * 
+	 * BKT reg, offset+R13
+	 */
 }
 // --------------------- Semantic Error Values ----------------------------
 
@@ -2237,10 +2266,25 @@ public class SemanticActions implements Mnemonic, CodegenConstants {
 	
 	void startProcedureDefinition(){
 		//level up
+		//make sure not defined
 	}
 	void endProcedureDefinition(){
 		//level down
 		//close scope
+	}
+	
+	void callProcedure(Expression expression, ExpressionList arguments){
+		/*
+		 * LDA Reg TupleEntire(Codegen.loadAddress(expression))
+		 * IS R13 #frameSize
+		 * STO Reg thisOffset(R13)
+		 * Free Reg
+		 * Make sure types of expressions match
+		 * procedure.call(arguments)
+		 * 
+		 * STATIC LINK 
+		 * STO R12, +2R13
+		 */
 	}
 	
 	void doLink(){

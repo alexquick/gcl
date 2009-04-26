@@ -67,6 +67,7 @@ statementPart<SymbolTable scope>
 /*----------------------------------------------------------*/
 definition<SymbolTable scope>  
 =  
+	//check the level->paramkind
 	variableDefinition<scope, ParameterKind.NOT_PARAM> |(.Identifier id;Expression expression;.)
 	"constant" identifier (. id = new Identifier(currentToken().spelling());.) 
 		"=" expression<^expression, scope>
@@ -114,8 +115,12 @@ tupleType<^TupleType result, SymbolTable scope>   (. TypeDescriptor type; Identi
 		(.id = new Identifier(currentToken().spelling()); carrier.enter(type, id);.) 
 		} 
 	"]"
-	// "procedure" identifier (.startProcedureDefinition.)"(" ")"(.endProcedureDefinition.)
-     (. result = new TupleType(carrier); .) .
+	// "procedure" identifier (.startProcedureDefinition.)"(" { procedureParameter<carrier> } ")"(.endProcedureDefinition.)
+     (. result = new TupleType(carrier); .)
+.
+procedureParameter<^carrier, carrier>
+	//"value" | "reference" variableDefinition yadda declareVariable
+.
 /*----------------------------------------------------------*/
 rangeType<^TypeDescriptor result,TypeDescriptor baseType, SymbolTable scope> (.Expression lbound = null; Expression ubound=null;.)
 =
