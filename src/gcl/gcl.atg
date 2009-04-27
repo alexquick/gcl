@@ -50,8 +50,8 @@ gcl
 /*----------------------------------------------------------*/
 module<SymbolTable scope> 
 =
-	"module" identifier (. semantic.declareModule(scope, new Identifier(currentToken().spelling())); .)
-		definitionPart<scope>
+	"module" identifier (. Module module = semantic.declareModule(scope, new Identifier(currentToken().spelling())); .)
+		definitionPart<scope> (. semantic.endModuleDefinitionPart(module); .)
 	["private" (.scope = scope.openScope(false);.) block<scope>]	
 	"." .
 /*----------------------------------------------------------*/
@@ -66,16 +66,31 @@ statementPart<SymbolTable scope>
 	SYNC statement<scope> WEAK ";" { SYNC statement<scope> WEAK ";"}.
 /*----------------------------------------------------------*/
 definition<SymbolTable scope>  
+	(. TypeDescriptor type =null; Identifier id =null; Expression expression =null; SemanticItem result = null;.)
 =  
 	//check the level->paramkind
-	variableDefinition<scope, ParameterKind.NOT_PARAM> |(.Identifier id;Expression expression;.)
+	variableDefinition<scope, ParameterKind.NOT_A_PARAMETER> 
+	|
 	"constant" identifier (. id = new Identifier(currentToken().spelling());.) 
 		"=" expression<^expression, scope>
-		(.semantic.declareConstant(scope, id, expression); .) |
-		(. TypeDescriptor type; .)
+		(.semantic.declareConstant(scope, id, expression); .) 
+	|
 	"typedefinition" type<^type,scope> identifier (. 
-		Identifier id = new Identifier(currentToken().spelling());
-		semantic.declareType(scope, id, type); .) .
+		id = new Identifier(currentToken().spelling());
+		semantic.declareType(scope, id, type); .) 
+	|
+	"procedure" identifier 
+		(. id = new Identifier(currentToken().spelling());
+		   SemanticItem containingSemanticItem = scope.lookupIdentifier(id).semanticRecord();
+		.) 
+	"@" identifier 
+		(.	id = new Identifier(currentToken().spelling());
+			Procedure procedure = semantic.startProcedureDefinition(id, containingSemanticItem);
+		.)
+		block<procedure.scope()>
+		(.	semantic.endProcedureDefinition(procedure);
+		.)
+.
 
 /*----------------------------------------------------------*/
 variableDefinition<SymbolTable scope, ParameterKind kindOfParam> 
@@ -105,21 +120,61 @@ typeSymbol<^TypeDescriptor result, SymbolTable scope> (. result = noType; Semant
 	| "Boolean" (. result = booleanType; .)
 	| qualifiedIdentifier<^item, scope>(. result = item.expectTypeDescriptor(GCLCompiler.err); .).
 /*----------------------------------------------------------*/
-tupleType<^TupleType result, SymbolTable scope>   (. TypeDescriptor type; Identifier id;.)
+tupleType<^TupleType result, SymbolTable scope>
 =
 	//TODO: worry about levels, scopes, 
-	(. TypeList carrier = new TypeList(); .)
-	"tuple" "[" typeSymbol<^type, scope> identifier 
-		(.id = new Identifier(currentToken().spelling()); carrier.enter(type, id);.)
-		{  "," typeSymbol<^type, scope> identifier 
-		(.id = new Identifier(currentToken().spelling()); carrier.enter(type, id);.) 
-		} 
-	"]"
+	(. TupleCarrier carrier = new TupleCarrier(); .)
+	"tuple" "[" (procedures<carrier, scope> | fieldsAndProcedures<carrier, scope>) "]"
 	// "procedure" identifier (.startProcedureDefinition.)"(" { procedureParameter<carrier> } ")"(.endProcedureDefinition.)
      (. result = new TupleType(carrier); .)
 .
-procedureParameter<^carrier, carrier>
+//procedureParameter<^carrier, carrier>
 	//"value" | "reference" variableDefinition yadda declareVariable
+//.
+fieldsAndProcedures<TupleCarrier carrier, SymbolTable scope>
+	 (. TypeDescriptor type; Identifier id;.)
+=
+	typeSymbol<^type, scope> identifier 
+	(.id = new Identifier(currentToken().spelling()); carrier.enter(type, id);.)
+	[moreFieldsAndProcedures<carrier, scope>]
+.
+
+moreFieldsAndProcedures<TupleCarrier carrier, SymbolTable scope>
+	 (. TypeDescriptor type; Identifier id;.)
+=
+	("," typeSymbol<^type, scope> identifier 
+	(.id = new Identifier(currentToken().spelling()); carrier.enter(type, id);.)
+	moreFieldsAndProcedures<carrier, scope>
+	|
+	procedures<carrier, scope>
+	)
+.
+
+procedures<TupleCarrier carrier, SymbolTable scope>
+=
+	procedureDeclaration<carrier, scope> {"," procedureDeclaration<carrier, scope>}
+.
+
+procedureDeclaration<TupleCarrier carrier, SymbolTable scope>
+	(. Procedure procedure = null;.)
+=
+	"procedure" identifier 
+	(.	Identifier id = new Identifier(currentToken().spelling());
+		procedure = semantic.startProcedureDeclaration(scope, id); .) 
+	parameterList<procedure>
+	(. semantic.endProcedureDeclaration(); carrier.enterProcedure(procedure, id); .)
+.
+
+parameterList<Procedure procedure>
+=
+	"(" [ parameterDefinition<procedure> {  ";" parameterDefinition<procedure> } ] ")" 
+.
+
+parameterDefinition<Procedure procedure>
+=
+	("reference" variableDefinition<procedure.scope(), ParameterKind.REFERENCE_PARAMETER>)
+	|
+	( "value" variableDefinition<procedure.scope(), ParameterKind.VALUE_PARAMETER>)
 .
 /*----------------------------------------------------------*/
 rangeType<^TypeDescriptor result,TypeDescriptor baseType, SymbolTable scope> (.Expression lbound = null; Expression ubound=null;.)
@@ -136,10 +191,12 @@ arrayType<^TypeDescriptor result, TypeDescriptor baseType, SymbolTable scope>
 (.result = carrier.buildType();.)
 .
 /*----------------------------------------------------------*/
+//TODO: refactor assignStatement into both assignments and method invocations
+//then we should have pt 14
 statement<SymbolTable scope>
 =
 	emptyStatement | readStatement<scope>  | writeStatement<scope> 
-	| assignStatement<scope> | ifStatement<scope> | doStatement<scope> | forStatement<scope>.
+	| assignStatement<scope> | ifStatement<scope> | doStatement<scope> | forStatement<scope> .
 /*----------------------------------------------------------*/
 emptyStatement     = "skip".
 /*----------------------------------------------------------*/

@@ -5,9 +5,13 @@ import gcl.Mnemonic.SamOp;
 import gcl.SymbolTable.Entry;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Stack;
 import java.util.Vector;
 import java.util.Hashtable;
@@ -755,7 +759,10 @@ class ParameterKind extends SemanticItem {
 	private ParameterKind() {
 	}
 
-	public static final ParameterKind NOT_PARAM = new ParameterKind();
+	public static final ParameterKind NOT_A_PARAMETER = new ParameterKind();
+	public static final ParameterKind REFERENCE_PARAMETER = new ParameterKind();
+	public static final ParameterKind VALUE_PARAMETER = new ParameterKind();
+	
 	// more later
 }
 
@@ -981,7 +988,7 @@ class ArrayCarrier extends SemanticItem{
  * Use this when you need to build a list of types and know the total size of
  * all of them. Used in creation of tuples.
  */
-class TypeList extends SemanticItem {
+class TupleCarrier extends SemanticItem {
 	//TODO: extend to allow carrier to handle procedures
 	/**
 	 * Add a new type-name pair to the list and accumulate its size
@@ -990,15 +997,22 @@ class TypeList extends SemanticItem {
 	 * @param name the name associated with the field
 	 */
 	public void enter(TypeDescriptor aType, Identifier name) {
-		if(names.contains(name))
+		if(elements.containsKey(name))
 		{
 			GCLCompiler.err.semanticError(GCLError.ALREADY_DEFINED);
 			return;
 		}
 		
-		elements.addElement(aType);
-		names.addElement(name);
+		elements.put(name, aType);
 		size += aType.size();
+	}
+	
+	public void enterProcedure(Procedure theProcedure, Identifier name){
+		if(procedures.containsKey(name)){
+			GCLCompiler.err.semanticError(GCLError.ALREADY_DEFINED);
+			return;			
+		}
+		procedures.put(name, theProcedure);
 	}
 
 	/**
@@ -1027,7 +1041,7 @@ class TypeList extends SemanticItem {
 	 * @return an enumeration over the type descriptors.
 	 */
 	public Enumeration<TypeDescriptor> elements() {
-		return elements.elements();
+		return Collections.enumeration(elements.values());
 	}
 
 	/**
@@ -1036,11 +1050,16 @@ class TypeList extends SemanticItem {
 	 * @return an enumeration over the identifiers
 	 */
 	public Enumeration<Identifier> names() {
-		return names.elements();
+		return Collections.enumeration(elements.keySet());
+	}
+	
+	public Map<Identifier, Procedure> procedures() {
+		return procedures;
 	}
 
-	private Vector<TypeDescriptor> elements = new Vector<TypeDescriptor>(2);
-	private Vector<Identifier> names = new Vector<Identifier>(2);
+
+	private Map<Identifier, TypeDescriptor> elements = new LinkedHashMap<Identifier, TypeDescriptor>();
+	private Map<Identifier, Procedure> procedures = new HashMap<Identifier, Procedure>();
 	private int size = 0; // sum of the sizes of the types
 	private static int next = 0;
 }
@@ -1171,9 +1190,9 @@ class TupleType extends TypeDescriptor { // mutable
 	 * 
 	 * @param carrier the list of component types
 	 */
-	public TupleType(TypeList carrier) {
+	public TupleType(TupleCarrier carrier) {
 		super(carrier.size());
-		methods = SymbolTable.unchained();
+		procedures = SymbolTable.unchained();
 		Enumeration<TypeDescriptor> e = carrier.elements();
 		Enumeration<Identifier> n = carrier.names();
 		int inset = 0;
@@ -1183,6 +1202,10 @@ class TupleType extends TypeDescriptor { // mutable
 			fields.put(id, new TupleField(inset, t));
 			inset += t.size();
 			names.addElement(id);
+		}
+		
+		for(Identifier name : carrier.procedures().keySet()){
+			procedures.newEntry("method", name, carrier.procedures().get(name));
 		}
 	}
 
@@ -1216,6 +1239,11 @@ class TupleType extends TypeDescriptor { // mutable
 	public TypeDescriptor getType(Identifier fieldName) { // null return value possible
 	
 		return fields.get(fieldName).type();
+	}
+	
+	public Procedure getProcedure(Identifier procedureName) {
+		//we can hope that what comes out of procedures will always be a procedure
+		return (Procedure)procedures.lookupIdentifier(procedureName).semanticRecord();
 	}
 
 	public boolean isCompatible(TypeDescriptor other)
@@ -1282,8 +1310,7 @@ class TupleType extends TypeDescriptor { // mutable
 	private Hashtable<Identifier, TupleField> fields = new Hashtable<Identifier, TupleField>(
 			4);
 	private Vector<Identifier> names = new Vector<Identifier>(4);
-	//TODO: contains all the procs
-	private SymbolTable methods = null; // must be unchained
+	private SymbolTable procedures = null; // must be unchained
 	
 	private class TupleField {
 		public TupleField(int inset, TypeDescriptor type) {
@@ -1306,14 +1333,26 @@ class TupleType extends TypeDescriptor { // mutable
 		private int inset;
 		private TypeDescriptor type;
 	}
+
 }
 /**
  * Represents a module and its associated scope
  */
 class Module extends SemanticItem{
 	SymbolTable scope;
-	public Module(SymbolTable scope){
+	int label;
+	private Codegen codegen;
+	
+	/**
+	 * Create a new Module object
+	 * 
+	 * @param scope the scope for this module
+	 * @param codegen the SemanticAction's current codegen object
+	 */
+	public Module(SymbolTable scope, Codegen codegen){
 		this.scope = scope;
+		this.codegen = codegen;
+		this.label = codegen.getLabel();
 	}
 	public Entry resolve(Identifier id){
 		return scope.lookupIdentifier(id);
@@ -1322,26 +1361,87 @@ class Module extends SemanticItem{
 	public SymbolTable privateScope(){
 		return scope;
 	}
-	//TODO: doLink action routine(not here)
 	
 	public int getLabel(){
-		return 1; //TODO: do me
+		return label;
+	}
+
+	public void startDefinitionPart() {
+		codegen.genJumpLabel(Codegen.JMP, 'M', label);
+	}
+	public void endDefinitionPart() {
+		codegen.genLabel('M', label);
 	}
 }
 
 class Procedure extends SemanticItem{
+	static final int INITIAL_FRAME_SIZE = 22;
+	static final int MINIMUM_DATA_SIZE = 8;
+	Procedure parentProcedure = null;
+	SymbolTable scope = null;
+	Identifier id = null;
+	Codegen codegen;
+	int label;
+	int frameSize = Procedure.INITIAL_FRAME_SIZE;
+	int localDataSize = Procedure.MINIMUM_DATA_SIZE;
+	boolean bodyDefined = false;
+	
+	public Procedure(Identifier id, Procedure currentProcedure,
+			SymbolTable scope, Codegen codegen) {
+		parentProcedure = currentProcedure;
+		scope.newEntry("procedure", id, this);
+		scope = scope.openScope(true);
+		label = codegen.getLabel();
+		this.codegen = codegen;
+	}
 	//TODO:PROCEDURE SEMANTIC RECORD(label, framesize=INITIALFRAMESIZE, localdatasize=MINLOCALDATASIZE, genLink(), genUnlink())			Unknown	Task
 	//TODO: previous currentprocedure
 	//TODO:call
 	public void call(){
 		
 	}
-	public int reserveParameterAddress(Type type){
+	public int reserveParameterAddress(TypeDescriptor type){
 		//TODO: remember type
 		//TODO: if ParamKind = ref create ref loader, etc
 		//TODO: increase size of frame accordingly
 		//TODO: return ORIGINAL size
+		return 0;
 	}
+	
+	public SymbolTable scope(){
+		return scope;
+	}
+	
+	public void generateLink(){
+		bodyDefined = true;
+		codegen.genLabel('P', label);
+		codegen.gen2Address(Codegen.STO, Codegen.STATIC_POINTER, new Location(Codegen.INDXD, Codegen.STACK_POINTER, +4));
+		codegen.gen2Address(Codegen.LD, Codegen.STATIC_POINTER, new Location(Codegen.INDXD, Codegen.STACK_POINTER, +2));
+		codegen.gen2Address(Codegen.STO, Codegen.FRAME_POINTER , new Location(Codegen.INDXD, Codegen.STACK_POINTER, +0));
+		codegen.gen2Address(Codegen.LDA, Codegen.FRAME_POINTER, new Location(Codegen.INDXD, Codegen.STACK_POINTER, +0));
+		codegen.gen2Address(Codegen.IS, Codegen.STACK_POINTER, Codegen.DREG,frameSize, Codegen.UNUSED);
+		for(int i = 0; i <= Codegen.MAX_UNRESERVED_REGISTER; i++){
+			codegen.gen2Address(Codegen.STO, i, new Location(Codegen.INDXD, Codegen.STACK_POINTER, 2*i));
+		}
+	}
+	
+	public void generateUnlink(){
+		codegen.genLabel('U', label);
+		for(int i = 0; i <= Codegen.MAX_UNRESERVED_REGISTER; i++){
+			codegen.gen2Address(Codegen.LD, i, new Location(Codegen.INDXD, Codegen.STACK_POINTER, 2*i));
+		}
+		codegen.gen2Address(Codegen.IA, Codegen.STACK_POINTER, Codegen.DREG,frameSize, Codegen.UNUSED);
+		codegen.gen2Address(Codegen.LD,Codegen.FRAME_POINTER, new Location(Codegen.INDXD, Codegen.STACK_POINTER, +0));
+		codegen.gen2Address(Codegen.LD,Codegen.STATIC_POINTER, new Location(Codegen.INDXD, Codegen.STACK_POINTER, +4));
+		codegen.gen1Address(Codegen.JMP, Codegen.IREG, Codegen.STATIC_POINTER, 0);
+	}
+	public boolean hasBody() {
+		return bodyDefined;
+	}
+	public int label() {
+		return label;
+	}
+	
 }
 
 //TODO: subclass referenceLoader, valueLoader, blockLoader(for arrays, etc)
@@ -1396,6 +1496,8 @@ abstract class GCLError {
 			"ERROR -> Invalid type identifier. ");
     static final GCLError RANGE_REQUIRED = new Value(11,
     		"ERROR -> A range type is required.");
+    static final GCLError PROCEDURE_EXPECTED = new Value(12,
+    		"ERROR -> A valid procedure name is expected.");
 	// The following are compiler errors. Repair them.
 
 	static final GCLError ILLEGAL_LOAD = new Value(92,
@@ -2040,12 +2142,12 @@ public class SemanticActions implements Mnemonic, CodegenConstants {
 	 **************************************************************************/
 	Expression buildTuple(ExpressionList tupleFields) {
 		Enumeration<Expression> elements = tupleFields.elements();
-		TypeList types = new TypeList();
+		TupleCarrier carrier = new TupleCarrier();
 		int address = codegen.variableBlockSize(); // beginning of the tuple
 		while (elements.hasMoreElements()) {
 			Expression field = elements.nextElement();
 			TypeDescriptor aType = field.type();
-			types.enter(aType);
+			carrier.enter(aType);
 			int size = aType.size();
 			int where = codegen.reserveGlobalAddress(size);
 			CompilerOptions.message("Tuple component of size " + size + " at "
@@ -2053,7 +2155,7 @@ public class SemanticActions implements Mnemonic, CodegenConstants {
 			// Now bring all the components together into a contiguous block
 			simpleMove(field, INDXD, VARIABLE_BASE, where);
 		}
-		TupleType tupleType = new TupleType(types);
+		TupleType tupleType = new TupleType(carrier);
 		return new VariableExpression(tupleType, GLOBAL_LEVEL, address, DIRECT);
 	}
 
@@ -2119,8 +2221,15 @@ public class SemanticActions implements Mnemonic, CodegenConstants {
 	 * @param scope the current symbol table
 	 * @param ID identifier to be defined
 	 **************************************************************************/
-	void declareModule(SymbolTable scope, Identifier id){
-		scope.newEntry("module", id, new Module(scope));
+	Module declareModule(SymbolTable scope, Identifier id){
+		Module module = new Module(scope, codegen);
+		scope.newEntry("module", id, module);
+		module.startDefinitionPart();
+		return module;
+	}
+	
+	void endModuleDefinitionPart(Module module){
+		module.endDefinitionPart();
 	}
 	/***************************************************************************
 	 * Lookup a field in a tuple, return the according expression
@@ -2254,26 +2363,102 @@ public class SemanticActions implements Mnemonic, CodegenConstants {
 		 */
 	}
 	
-	SymbolTable startProcedureDeclaration(TypeList carrier, SymbolTable scope){
-		//increment level
-		//chain on new scope
-		//TODO:Handle currentProcedure
-		return null;
+	Procedure startProcedureDeclaration(SymbolTable scope, Identifier id){
+		currentLevel().increment();
+		Procedure procedure = new Procedure(id, currentProcedure(), scope, codegen);
+		currentProcedure = procedure;
+		return procedure;
 	}
 	void endProcedureDeclaration(){
-		//decrement level
+		currentLevel().decrement();
+		currentProcedure = currentProcedure.parentProcedure;
+	}
+	/**
+	 * does compile-time checks and changes to start a procedure definition
+	 * as well as lookup the procedure from the containing tuple or tuple instance
+	 * 
+	 * @param procedureName
+	 * @param tupleLikeItem tuple type or tuple instance
+	 * @return NULL if there has been an error, the current procedure otherwise
+	 */
+	Procedure startProcedureDefinition(Identifier procedureName, SemanticItem tupleLikeItem){
+		TupleType containingTuple = null;
+		Procedure procedure = null;
+		
+		if(tupleLikeItem instanceof Expression){
+			tupleLikeItem = ((Expression)tupleLikeItem).type();
+			return null;
+		}
+		
+		if(tupleLikeItem instanceof TupleType){
+			containingTuple = (TupleType) tupleLikeItem;
+		}else{
+			err.semanticError(GCLError.TYPE_REQUIRED, "Either a tuple type literal or variable of type tuple is required");
+			return null;
+		}
+		
+		procedure = containingTuple.getProcedure(procedureName);
+		if(procedure == null){
+			err.semanticError(GCLError.PROCEDURE_EXPECTED);
+			return null;
+		}
+		if(procedure.hasBody()){
+			err.semanticError(GCLError.ALREADY_DEFINED, "This procedure has already been defined for this tuple.");
+			return null;
+		}
+		
+		currentLevel().increment();
+		procedure.generateLink();
+		return procedure;
+	}
+	void endProcedureDefinition(Procedure procedure){
+		currentLevel().decrement();
+		//if it's null there was an error looking the procedure up
+		// or it was already defined, but we don't want to kill the run
+		if(procedure != null){
+			procedure.generateUnlink();
+			procedure.scope().closeScope();
+		}
+		
 	}
 	
-	void startProcedureDefinition(){
-		//level up
-		//make sure not defined
-	}
-	void endProcedureDefinition(){
-		//level down
-		//close scope
-	}
-	
-	void callProcedure(Expression expression, ExpressionList arguments){
+	void callProcedure(Expression tupleExpression, Identifier procedureName,  ExpressionList arguments){
+		TupleType tuple = null;
+		if(tupleExpression.type() instanceof TupleType){
+			tuple = (TupleType)tupleExpression.type();
+			
+			Procedure procedure = tuple.getProcedure(procedureName);
+			if(procedure != null){
+				int thisRegister = codegen.loadAddress(tupleExpression);
+				//TODO: fix initial frame size 
+				codegen.gen2Address(IS, Codegen.STACK_POINTER, Codegen.IMMED, Procedure.INITIAL_FRAME_SIZE, Codegen.UNUSED);
+				codegen.gen2Address(STO, thisRegister, new Location(Codegen.INDXD, Codegen.STACK_POINTER, +6));
+				
+				//pointer chasing to store what should be the STATIC_POINTER into the frame we're creating at +2(STACK_POINTER)
+				int diff = 0 - currentLevel().value();
+				Location persistedStaticInNewFrame = new Location(Codegen.INDXD, Codegen.STACK_POINTER, +2);
+				if(diff == 0){
+					codegen.gen2Address(STO,Codegen.FRAME_POINTER, persistedStaticInNewFrame);
+				}else if(diff == 1){
+					codegen.gen2Address(STO,Codegen.STATIC_POINTER, persistedStaticInNewFrame);
+				}else if(diff > 1){
+					for(int i = 0; i < diff-1; i++){
+						codegen.gen2Address(LD,Codegen.STATIC_POINTER, new Location(INDXD, Codegen.STATIC_POINTER, +2));
+					}
+					codegen.gen2Address(STO,Codegen.STATIC_POINTER, persistedStaticInNewFrame);
+				}else{
+					err.semanticError(GCLError.UNHANDLED_CASE);
+				}
+				
+				codegen.gen2Address(STO, Codegen.FRAME_POINTER, new Location(Codegen.INDXD, Codegen.STACK_POINTER, +2));
+				
+				//TODO: pass in arguments
+				procedure.call();
+				codegen.genJumpSubroutine(Codegen.STATIC_POINTER, procedure.label());
+				codegen.gen2Address(STO, Codegen.FRAME_POINTER, new Location(Codegen.INDXD, Codegen.FRAME_POINTER, +2));
+				codegen.gen2Address(IA, Codegen.STACK_POINTER, Codegen.IMMED, Procedure.INITIAL_FRAME_SIZE, Codegen.UNUSED);
+			}
+		}
 		/*
 		 * LDA Reg TupleEntire(Codegen.loadAddress(expression))
 		 * IS R13 #frameSize
@@ -2287,11 +2472,15 @@ public class SemanticActions implements Mnemonic, CodegenConstants {
 		 */
 	}
 	
+	/*
 	void doLink(){
+		if(currentLevel().isGlobal()){
+			
+		}
 		//TODO: implement dolink
 		//see if at global level, if so write label
 		//ask current procedure to generate link section
-	}
+	}*/
 	
 	/***************************************************************************
 	 * Set up the registers and other run time initializations.
@@ -2348,6 +2537,14 @@ public class SemanticActions implements Mnemonic, CodegenConstants {
 	SemanticLevel currentLevel() {
 		return currentLevel;
 	}
+	
+	/**
+	 * Get a reference to the current procedure
+	 * @return the current procedure object
+	 */
+	Procedure currentProcedure(){
+		return currentProcedure;
+	}
 
 	/**
 	 * Objects of this class represent the semantic level at which the compiler
@@ -2401,6 +2598,7 @@ public class SemanticActions implements Mnemonic, CodegenConstants {
 	static final BooleanType BOOLEAN_TYPE = BooleanType.BOOLEAN_TYPE;
 	static final TypeDescriptor NO_TYPE = ErrorType.NO_TYPE;
 	private SemanticLevel currentLevel = new SemanticLevel();
+	private Procedure currentProcedure = null; //in theory each open will have a close so this will not present a problem
 
 	private GCLErrorStream err = null;
 

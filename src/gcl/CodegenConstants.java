@@ -16,6 +16,7 @@ interface CodegenConstants { // Addressing mode names in SAM2
 
 	// REGISTERS in SAM2
 	public static final int MAX_REG = 15;
+	public static final int MAX_UNRESERVED_REGISTER = 10;
 
 	public static final int INT_SIZE = 2; // Size of an integer and a register
 

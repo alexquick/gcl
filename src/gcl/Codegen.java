@@ -187,20 +187,17 @@ public class Codegen implements Mnemonic, CodegenConstants {
 		{
 			int diff = currentLevel.value() - itsLevel;
 			if(diff == 0){
-				//base = R12, framepointer
+				base = CodegenConstants.FRAME_POINTER;
 			}else if(diff == 1){
-				//base = R11, 
-				//find frame that contains expression
+				base = CodegenConstants.STATIC_POINTER;
 			}else{
-			 /*
-			  * getTemp
-			  * LD R3, +2 R11
-			  * LD R3, +2 R3 (diff-2)
-			  * base = R3
-			  */
-				//base = walk down line
+				int pointerWalker = getTemp(1);
+				gen2Address(LD, pointerWalker, new Location(INDXD, STATIC_POINTER, 2));
+				for(int i = 0; i < (diff-2); i++){
+					gen2Address(LD, pointerWalker, new Location(INDXD, pointerWalker, 2));
+				}
+				base = pointerWalker;
 			}
-			base = 
 			mode = isDirect ? INDXD : IINDXD;
 			displacement = variable.offset();
 		}
@@ -400,6 +397,10 @@ public class Codegen implements Mnemonic, CodegenConstants {
 	 */
 	public void genJumpLabel(SamOp opcode, char prefix, int offset) {
 		writeFiles(opcode.samCode() + prefix + offset);
+	}
+	
+	public void genJumpSubroutine(int staticPointerRegister, int label) {
+		writeFiles(Codegen.JSR.samCode()+ "R" + staticPointerRegister + ", P" + label);
 	}
 
 	/**
