@@ -1,7 +1,11 @@
 package gcl;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Hashtable;
 import java.util.Enumeration;
+import java.util.List;
 
 // --------------------- SymbolTable ---------------------------------
 public class SymbolTable {
@@ -85,7 +89,10 @@ public class SymbolTable {
 	}
 	
 	/** Lookup an identifier in this SymbolTable and the ones chained to it
+	 *  by module, used for exporting module variables
+	 *  
 		@param name some identifer to be looked up
+		@param module the module to look in
     	@return the associated symbol table entry or null
 	*/
 	public Entry lookupIdentifier(Identifier name, SemanticItem module){
@@ -95,6 +102,12 @@ public class SymbolTable {
 		return ((Module)module).resolve(name);
 	}
 	
+	/**
+	 * checks to see if an item exists in this scope ONLY. Used so that modules
+	 * can override other modules' exported variables
+	 * @param item to check
+	 * @return whether this item exists in the `local` scope
+	 */
 	public boolean existsLocally(Entry item){
 		return storage.contains(item);
 	}
@@ -225,5 +238,9 @@ public class SymbolTable {
 			DEFAULT_ITEM = new SemanticError("Error entry in symbol table.");
 			CompilerOptions.showMessages = messages;
 		}
+	}
+
+	public Collection<Entry> semanticEntries() {
+		return Collections.unmodifiableCollection(storage.values());
 	}
 }

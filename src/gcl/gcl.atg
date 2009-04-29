@@ -59,7 +59,7 @@ block<SymbolTable scope>
 =
      definitionPart<scope> SYNC "begin" (. semantic.doLink(); .) statementPart<scope> "end".
 /*----------------------------------------------------------*/
-definitionPart<SymbolTable scope>   =    {SYNC definition<scope> WEAK ";" }.
+definitionPart<SymbolTable scope>   =    {SYNC definition<scope> WEAK ";" } (.semantic.assertProceduresDefined(scope);.).
 /*----------------------------------------------------------*/
 statementPart<SymbolTable scope> 
 = 

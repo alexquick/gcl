@@ -297,7 +297,7 @@ Cross reference list:
 
 59 terminals
 110 symbols
-359 nodes
+360 nodes
 11 sets
 Symbol Table:
 ------------
@@ -373,46 +373,46 @@ Symbol Table:
   1 module         nt   true      9 false    51 fixedToken
   2 definitionPa   nt   true     27 true     62 fixedToken
   3 block          nt   true     18 false    58 fixedToken
-  4 statementPar   nt   true     28 false    64 fixedToken
-  5 definition     nt   true     42 false    68 fixedToken
-  6 statement      nt   true    147 false   194 fixedToken
-  7 variableDefi   nt   true     58 false   100 fixedToken
-  8 expression     nt   true    240 false   275 fixedToken
-  9 type           nt   true     72 false   113 fixedToken
- 10 typeSymbol     nt   true     78 false   121 fixedToken
- 11 rangeType      nt   true    127 false   180 fixedToken
- 12 arrayType      nt   true    134 false   186 fixedToken
- 13 tupleType      nt   true     83 false   127 fixedToken
- 14 qualifiedIde   nt   true    335 false   350 fixedToken
- 15 procedures     nt   true    105 false   153 fixedToken
- 16 fieldsAndPro   nt   true     91 false   134 fixedToken
- 17 moreFieldsAn   nt   true     96 false   142 fixedToken
- 18 procedureDec   nt   true    109 false   158 fixedToken
- 19 parameterLis   nt   true    114 false   168 fixedToken
- 20 parameterDef   nt   true    125 false   173 fixedToken
- 21 emptyStateme   nt   false   161 false   199 fixedToken
- 22 readStatemen   nt   true    162 false   201 fixedToken
- 23 writeStateme   nt   true    169 false   206 fixedToken
- 24 variableOper   nt   true    181 false   219 fixedToken
- 25 ifStatement    nt   true    221 false   256 fixedToken
- 26 doStatement    nt   true    226 false   261 fixedToken
- 27 forStatement   nt   true    214 false   250 fixedToken
- 28 returnStatem   nt   false   212 false   245 fixedToken
- 29 variableAcce   nt   true    345 false   357 fixedToken
- 30 writeItem      nt   true    179 false   212 fixedToken
- 31 assignStatem   nt   true    186 false   225 fixedToken
- 32 procedureInv   nt   true    199 false   236 fixedToken
- 33 guardedComma   nt   true    231 false   266 fixedToken
- 34 guardedComma   nt   true    235 false   270 fixedToken
- 35 andExpr        nt   true    245 false   280 fixedToken
- 36 relationalEx   nt   true    250 false   285 fixedToken
- 37 simpleExpr     nt   true    261 false   293 fixedToken
- 38 relationalOp   nt   false   306 false   330 fixedToken
- 39 term           nt   true    267 false   304 fixedToken
- 40 addOperator    nt   false   324 false   339 fixedToken
- 41 factor         nt   true    275 false   310 fixedToken
- 42 multiplyOper   nt   false   330 false   344 fixedToken
- 43 subscriptsAn   nt   true    357 false   368 fixedToken
+  4 statementPar   nt   true     29 false    64 fixedToken
+  5 definition     nt   true     43 false    68 fixedToken
+  6 statement      nt   true    148 false   194 fixedToken
+  7 variableDefi   nt   true     59 false   100 fixedToken
+  8 expression     nt   true    241 false   275 fixedToken
+  9 type           nt   true     73 false   113 fixedToken
+ 10 typeSymbol     nt   true     79 false   121 fixedToken
+ 11 rangeType      nt   true    128 false   180 fixedToken
+ 12 arrayType      nt   true    135 false   186 fixedToken
+ 13 tupleType      nt   true     84 false   127 fixedToken
+ 14 qualifiedIde   nt   true    336 false   350 fixedToken
+ 15 procedures     nt   true    106 false   153 fixedToken
+ 16 fieldsAndPro   nt   true     92 false   134 fixedToken
+ 17 moreFieldsAn   nt   true     97 false   142 fixedToken
+ 18 procedureDec   nt   true    110 false   158 fixedToken
+ 19 parameterLis   nt   true    115 false   168 fixedToken
+ 20 parameterDef   nt   true    126 false   173 fixedToken
+ 21 emptyStateme   nt   false   162 false   199 fixedToken
+ 22 readStatemen   nt   true    163 false   201 fixedToken
+ 23 writeStateme   nt   true    170 false   206 fixedToken
+ 24 variableOper   nt   true    182 false   219 fixedToken
+ 25 ifStatement    nt   true    222 false   256 fixedToken
+ 26 doStatement    nt   true    227 false   261 fixedToken
+ 27 forStatement   nt   true    215 false   250 fixedToken
+ 28 returnStatem   nt   false   213 false   245 fixedToken
+ 29 variableAcce   nt   true    346 false   357 fixedToken
+ 30 writeItem      nt   true    180 false   212 fixedToken
+ 31 assignStatem   nt   true    187 false   225 fixedToken
+ 32 procedureInv   nt   true    200 false   236 fixedToken
+ 33 guardedComma   nt   true    232 false   266 fixedToken
+ 34 guardedComma   nt   true    236 false   270 fixedToken
+ 35 andExpr        nt   true    246 false   280 fixedToken
+ 36 relationalEx   nt   true    251 false   285 fixedToken
+ 37 simpleExpr     nt   true    262 false   293 fixedToken
+ 38 relationalOp   nt   false   307 false   330 fixedToken
+ 39 term           nt   true    268 false   304 fixedToken
+ 40 addOperator    nt   false   325 false   339 fixedToken
+ 41 factor         nt   true    276 false   310 fixedToken
+ 42 multiplyOper   nt   false   331 false   344 fixedToken
+ 43 subscriptsAn   nt   true    358 false   368 fixedToken
 
 Literal Tokens:
 --------------

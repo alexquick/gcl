@@ -146,6 +146,9 @@ abstract class Operator extends SemanticItem implements Mnemonic {
 	private String value;
 	private SamOp opcode;
 }
+/*
+ * models an operator with two operands
+ */
 abstract class BinaryOperator extends Operator{
 	public BinaryOperator(String op, SamOp opcode) {
 		super(op, opcode);
@@ -173,8 +176,12 @@ abstract class BinaryOperator extends Operator{
 	public abstract Expression performEvaluation(Expression left, Expression right, Codegen codegen);
 }
 
+/*
+ * models the unary operators
+ */
 abstract class UnaryOperator extends Operator
 {
+	//boolean not operator
 	public static final UnaryOperator NOT = new UnaryOperator("NOT",NOP){
 		public Expression performConstantEvaluation(ConstantExpression expr){
 			if(!expr.type().isCompatible(BooleanType.BOOLEAN_TYPE))
@@ -183,6 +190,7 @@ abstract class UnaryOperator extends Operator
 			}
 			return new ConstantExpression(BooleanType.BOOLEAN_TYPE, (((expr.value())==1)?0:1));
 		}
+		
 		public Expression performEvaluation(Expression expr, Codegen codegen){
 			if(!expr.type().isCompatible(BooleanType.BOOLEAN_TYPE))
 			{
@@ -196,6 +204,7 @@ abstract class UnaryOperator extends Operator
 			return new VariableExpression(BooleanType.BOOLEAN_TYPE, reg, CodegenConstants.DIRECT); // temporary
 		}
 	};
+	//negation operator
 	public static final UnaryOperator NEG = new UnaryOperator("NEG",INEG){
 		public Expression performConstantEvaluation(ConstantExpression expr){
 			if(!expr.type().isCompatible(IntegerType.INTEGER_TYPE))
@@ -302,7 +311,8 @@ abstract class RelationalOperator extends BinaryOperator {
 	private RelationalOperator(String op, SamOp opcode) {
 		super(op, opcode);
 	}
-	@Override
+	
+	
 	public Expression performEvaluation(Expression left, Expression right, Codegen codegen) {
 		int booleanreg = codegen.getTemp(1);
 		int resultreg = codegen.loadRegister(left);
@@ -316,6 +326,9 @@ abstract class RelationalOperator extends BinaryOperator {
 		return new VariableExpression(BooleanType.BOOLEAN_TYPE, booleanreg, CodegenConstants.DIRECT); // temporary
 	}
 	
+	/*
+	 * logic to evaluate equality on 'complex types' I.E. arrays and tuples
+	 */
 	public Expression complexEqualityEvaluation(Expression left, Expression right, SamOp op, Codegen codegen){
 		int dataLength = left.type().size();
 		
@@ -506,7 +519,7 @@ abstract class Expression extends SemanticItem implements Codegen.MaccSaveable {
 	public boolean needsToBePushed() {
 		return false;
 	}
-
+	
 	public TypeDescriptor type() {
 		return type;
 	}
@@ -761,8 +774,6 @@ class ParameterKind extends SemanticItem {
 	public static final ParameterKind NOT_A_PARAMETER = new ParameterKind();
 	public static final ParameterKind REFERENCE_PARAMETER = new ParameterKind();
 	public static final ParameterKind VALUE_PARAMETER = new ParameterKind();
-	
-	// more later
 }
 
 /** Used to carry information for guarded commands such as if and do */
@@ -852,7 +863,8 @@ abstract class TypeDescriptor extends SemanticItem implements Cloneable {
 	}
 	
 	/**
-	 * tag method for complex types such as tuples and arrays
+	 * tag method for complex types such as tuples and arrays,
+	 * used when we try to compare or assign these complex types
 	 * @return whether or not the type is complex
 	 */
 	public boolean isComplex() {
@@ -1051,6 +1063,10 @@ class TupleCarrier extends SemanticItem {
 		return Collections.enumeration(elements.keySet());
 	}
 	
+	/**
+	 * map of identifiers to procedures
+	 * @return hash{id=>proc}
+	 */
 	public Map<Identifier, Procedure> procedures() {
 		return procedures;
 	}
@@ -1090,11 +1106,14 @@ class ArrayType extends TypeDescriptor{
 		{
 			return false;
 		}
+		
 		ArrayType otherArray = (ArrayType)other;
+		
 		if(!otherArray.componentType.isCompatible(this.componentType))
 		{
 			return false;
 		}
+		
 		if(!otherArray.boundaryRange.essentiallyIdentical(this.boundaryRange))
 		{
 			return false;
@@ -1240,9 +1259,29 @@ class TupleType extends TypeDescriptor { // mutable
 		return fields.get(fieldName).type();
 	}
 	
+	/**
+	 * gets a procedure from a given identifier
+	 * @param procedureName the id to look up
+	 * @return the procedure
+	 */
 	public Procedure getProcedure(Identifier procedureName) {
 		//we can hope that what comes out of procedures will always be a procedure
 		return (Procedure)procedures.lookupIdentifier(procedureName).semanticRecord();
+	}
+	
+	/**
+	 * Checks to ensure all procedures are defined in this tuple.
+	 * @return true if they are all defined, false otherwise
+	 */
+	public boolean assertAllProceduresDefined(){
+		for(Entry entry : procedures.semanticEntries()){
+			Procedure procedure = (Procedure) entry.semanticRecord();
+			if(!procedure.hasBody()){
+				GCLCompiler.err.semanticError(GCLError.PROCEDURE_NOT_DEFINED, "A procedure definition has been omitted.");
+				return false;
+			}
+		}
+		return true;
 	}
 
 	public boolean isCompatible(TypeDescriptor other)
@@ -1288,6 +1327,7 @@ class TupleType extends TypeDescriptor { // mutable
 		}
 		return true;
 	}
+	
 	/*
 	 * checks to see if id is a valid component for this tuple
 	 */
@@ -1302,6 +1342,9 @@ class TupleType extends TypeDescriptor { // mutable
 		return fields.get(id).type();
 	}
 	
+	/**
+	 * tuples are complex types
+	 */
 	public boolean isComplex() {
 		return true;
 	}
@@ -1353,10 +1396,13 @@ class Module extends SemanticItem{
 		this.codegen = codegen;
 		this.label = codegen.getLabel();
 	}
+	
+	//resolves an identifier
 	public Entry resolve(Identifier id){
 		return scope.lookupIdentifier(id);
 	}
 	
+	//returns the private scope
 	public SymbolTable privateScope(){
 		return scope;
 	}
@@ -1364,20 +1410,24 @@ class Module extends SemanticItem{
 	public int getLabel(){
 		return label;
 	}
-
+	
 	public void startDefinitionPart() {
 		codegen.genJumpLabel(Codegen.JMP, 'M', label);
 	}
+	
 	public void endDefinitionPart() {
 		codegen.genLabel('M', label);
 	}
 }
 
+/**
+ * Semantic item to model a module
+ * 
+ */
 class Procedure extends SemanticItem{
 	static final int DEFAULT_INITIAL_FRAME_SIZE = 8;
 	static final int MINIMUM_DATA_SIZE = 22;
 	private Procedure parentProcedure = null;
-	private Identifier id = null;
 	private Codegen codegen = null;
 	private SymbolTable scope = null;
 	
@@ -1408,7 +1458,7 @@ class Procedure extends SemanticItem{
 		label = codegen.getLabel();
 		this.codegen = codegen;
 	}
-	//TODO:PROCEDURE SEMANTIC RECORD(label, framesize=INITIALFRAMESIZE, localdatasize=MINLOCALDATASIZE, genLink(), genUnlink())			Unknown	Task
+
 	public void call(ExpressionList arguments){
 		Enumeration<Expression> argumentIterator = arguments.elements();
 		for(Loader argumentLoader : parameters){
@@ -1426,6 +1476,8 @@ class Procedure extends SemanticItem{
 			GCLCompiler.err.semanticError(GCLError.INCORRECT_ARGUMENTS, "This procedure has been invoked with too many arguments.");
 		}
 	}
+	
+	
 	public Expression reserveParameterAddress(TypeDescriptor type, ParameterKind procedureParameter){
 		int offset = initialFrameSize();
 		Loader parameterLoader;
@@ -1445,23 +1497,21 @@ class Procedure extends SemanticItem{
 		}
 		initialFrameSize += parameterLoader.size();
 		parameters.add(parameterLoader);
-		//TODO: remember type
-		//TODO: if ParamKind = ref create ref loader, etc
-		//TODO: increase size of frame accordingly
-		//TODO: return ORIGINAL size
 		return new VariableExpression(type, this.level, offset, direct);
 	}
+	
 	public VariableExpression reserveLocalAddress(TypeDescriptor type) {
 		localDataSize += type.size();
 		int offset = -1 * (localDataSize - MINIMUM_DATA_SIZE);
 		return new VariableExpression(type, this.level, offset, true);
 	}
+	
 	public SymbolTable scope(){
 		return scope;
 	}
 	
 	public void generateLink(){
-		bodyDefined = true;
+		bodyDefined = true; //when we are asked to generate link code we know we're defined
 		codegen.genLabel('P', label);
 		codegen.gen2Address(Codegen.STO, Codegen.STATIC_POINTER, new Location(Codegen.INDXD, Codegen.STACK_POINTER, +4));
 		codegen.gen2Address(Codegen.LD, Codegen.STATIC_POINTER, new Location(Codegen.INDXD, Codegen.STACK_POINTER, +2));
@@ -1483,9 +1533,11 @@ class Procedure extends SemanticItem{
 		codegen.gen2Address(Codegen.LD,Codegen.STATIC_POINTER, new Location(Codegen.INDXD, Codegen.STACK_POINTER, +4));
 		codegen.gen1Address(Codegen.JMP, Codegen.IREG, Codegen.STATIC_POINTER, 0);
 	}
+	
 	public boolean hasBody() {
 		return bodyDefined;
 	}
+	
 	public int label() {
 		return label;
 	}
@@ -1504,6 +1556,7 @@ class Procedure extends SemanticItem{
 	public void registerParentTuple(TupleType parentTuple){
 		this.parentType = parentTuple;
 	}
+	
 	public Expression thisTupleExpression() {
 		return new VariableExpression(parentType, this.level, +6, Codegen.INDIRECT);
 	}
@@ -1535,6 +1588,10 @@ abstract class Loader{
 	public abstract int size();
 }
 
+/**
+ * loads simple types by value
+ *
+ */
 class ValueLoader extends Loader{
 	public ValueLoader(TypeDescriptor type, int offset){
 		super(type, offset);
@@ -1552,6 +1609,11 @@ class ValueLoader extends Loader{
 		codegen.freeTemp(Codegen.DREG, valueRegister);
 	}
 }
+
+/**
+ * loads complex and simple types be reference
+ *
+ */
 class ReferenceLoader extends Loader{
 	public ReferenceLoader(TypeDescriptor type, int offset){
 		super(type, offset);
@@ -1575,6 +1637,10 @@ class ReferenceLoader extends Loader{
 		codegen.freeTemp(Codegen.DREG, referenceRegister);
 	}
 }
+
+/**
+ * Loads complex types by value
+ */
 class BlockLoader extends Loader{
 	public BlockLoader(TypeDescriptor type, int offset){
 		super(type, offset);
@@ -1603,15 +1669,6 @@ class BlockLoader extends Loader{
 		codegen.freeTemp(Codegen.DREG, blockRegister);
 		codegen.freeTemp(Codegen.DREG, sizeRegister);
 		codegen.freeTemp(parameterLocation);
-		/*
-		 * blockloader
-		 * check variableexpression
-		 * getTemp(2);
-		 * reg = loadAddress(parameter)
-		 * reg+1 = size of parameter
-		 * 
-		 * BKT reg, offset+R13
-		 */
 	}
 }
 // --------------------- Semantic Error Values ----------------------------
@@ -1655,6 +1712,8 @@ abstract class GCLError {
 			"ERROR -> Wrong number of procedure arguments. ");
 	static final GCLError ILLEGAL_ARGUMENT = new Value(15,
 			"ERROR -> Passed argument is not correct ");
+	static final GCLError PROCEDURE_NOT_DEFINED = new Value(16,
+			"ERROR -> A procedure was declared but not defined.");
 	// The following are compiler errors. Repair them.
 
 	static final GCLError ILLEGAL_LOAD = new Value(92,
@@ -2593,8 +2652,9 @@ public class SemanticActions implements Mnemonic, CodegenConstants {
 			tuple = (TupleType)tupleExpression.type();
 			
 			Procedure procedure = tuple.getProcedure(procedureName);
-			if(procedure != null){
-				int thisRegister = codegen.loadAddress(tupleExpression);
+			if(procedure != null){ //maybe create a ErrorProcedure object
+				
+				int thisRegister = codegen.loadAddress(tupleExpression); //grab this
 				codegen.gen2Address(IS, Codegen.STACK_POINTER, Codegen.IMMED, Codegen.UNUSED, procedure.initialFrameSize());
 				codegen.gen2Address(STO, thisRegister, new Location(Codegen.INDXD, Codegen.STACK_POINTER, +6));
 				codegen.freeTemp(DREG, thisRegister);
@@ -2615,25 +2675,15 @@ public class SemanticActions implements Mnemonic, CodegenConstants {
 					err.semanticError(GCLError.UNHANDLED_CASE, "Corrupt leveling scheme.");
 				}
 				
-				//TODO: pass in arguments
 				procedure.call(arguments);
+				
 				codegen.genJumpSubroutine(Codegen.STATIC_POINTER, procedure.label());
 				codegen.gen2Address(STO, Codegen.FRAME_POINTER, new Location(Codegen.INDXD, Codegen.FRAME_POINTER, +2));
 				codegen.gen2Address(IA, Codegen.STACK_POINTER, Codegen.IMMED, Codegen.UNUSED, procedure.initialFrameSize());
 			}
 		}
-		/*
-		 * LDA Reg TupleEntire(Codegen.loadAddress(expression))
-		 * IS R13 #frameSize
-		 * STO Reg thisOffset(R13)
-		 * Free Reg
-		 * Make sure types of expressions match
-		 * procedure.call(arguments)
-		 * 
-		 * STATIC LINK 
-		 * STO R12, +2R13
-		 */
 	}
+	
 	
 	void doLink(){
 		if(currentLevel().isGlobal()){
@@ -2796,6 +2846,15 @@ public class SemanticActions implements Mnemonic, CodegenConstants {
 	public void init() {
 		currentLevel = new SemanticLevel();
 		codegen.setSemanticLevel(currentLevel());
+	}
+
+	public void assertProceduresDefined(SymbolTable scope) {
+		for(Entry entry : scope.semanticEntries()){
+			if(entry.semanticRecord() instanceof TupleType){
+				TupleType tuple = (TupleType) entry.semanticRecord();
+				tuple.assertAllProceduresDefined();
+			}
+		}
 	}
 
 }// SemanticActions

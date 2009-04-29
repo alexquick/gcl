@@ -150,6 +150,7 @@ public class Parser {
 			definition(scope);
 			ExpectWeak(9, 3);
 		}
+		semantic.assertProceduresDefined(scope);
 	}
 
 	void block(SymbolTable scope) {
