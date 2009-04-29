@@ -1,0 +1,409 @@
+Compiled on: Wed Apr 29 09:26:52 EDT 2009
+$        LDA     R15, V1
+$        LDA     R14, C1
+$        LD      R13, #16000
+$        JMP     M1
+$   % Not yet found: i
+$   % Not yet found: i
+$   % Entering: private variable entry: ID = i semantic: VariableExpression: level(1) offset(0) direct, with type integer type.
+$   % Not yet found: aa
+$   % Not yet found: aa
+$   % Not yet found: aa
+$   % Entering: public variable entry: ID = aa semantic: VariableExpression: level(2) offset(8) direct, with type integer type.
+$   % Not yet found: result
+$   % Not yet found: result
+$   % Not yet found: result
+$   % Entering: public variable entry: ID = result semantic: VariableExpression: level(2) offset(10) indirect, with type integer type.
+$   % Not yet found: lev0
+$   % Not yet found: lev0
+$   % Entering: public variable entry: ID = lev0 semantic: VariableExpression: level(1) offset(2) direct, with type tupleType:[] with size: 0
+$   % Not yet found: bb
+$   % Not yet found: bb
+$   % Not yet found: bb
+$   % Not yet found: bb
+$   % Entering: public variable entry: ID = bb semantic: VariableExpression: level(3) offset(8) direct, with type integer type.
+$   % Not yet found: result
+$   % Entering: public variable entry: ID = result semantic: VariableExpression: level(3) offset(10) indirect, with type integer type.
+$   % Not yet found: lev1
+$   % Not yet found: lev1
+$   % Not yet found: lev1
+$   % Entering: public variable entry: ID = lev1 semantic: VariableExpression: level(2) offset(0) direct, with type tupleType:[] with size: 0
+$   % Not yet found: cc
+$   % Not yet found: cc
+$   % Not yet found: cc
+$   % Not yet found: cc
+$   % Not yet found: cc
+$   % Entering: public variable entry: ID = cc semantic: VariableExpression: level(4) offset(8) direct, with type integer type.
+$   % Not yet found: result
+$   % Entering: public variable entry: ID = result semantic: VariableExpression: level(4) offset(10) indirect, with type integer type.
+$   % Not yet found: lev2
+$   % Not yet found: lev2
+$   % Not yet found: lev2
+$   % Not yet found: lev2
+$   % Entering: public variable entry: ID = lev2 semantic: VariableExpression: level(3) offset(0) direct, with type tupleType:[] with size: 0
+$   % Not yet found: dd
+$   % Not yet found: dd
+$   % Not yet found: dd
+$   % Not yet found: dd
+$   % Not yet found: dd
+$   % Not yet found: dd
+$   % Entering: public variable entry: ID = dd semantic: VariableExpression: level(5) offset(8) direct, with type integer type.
+$   % Not yet found: result
+$   % Entering: public variable entry: ID = result semantic: VariableExpression: level(5) offset(10) indirect, with type integer type.
+$   % Not yet found: lev3
+$   % Not yet found: lev3
+$   % Not yet found: lev3
+$   % Not yet found: lev3
+$   % Not yet found: lev3
+$   % Entering: public variable entry: ID = lev3 semantic: VariableExpression: level(4) offset(0) direct, with type tupleType:[] with size: 0
+$   % Not yet found: ee
+$   % Not yet found: ee
+$   % Not yet found: ee
+$   % Not yet found: ee
+$   % Not yet found: ee
+$   % Not yet found: ee
+$   % Not yet found: ee
+$   % Entering: public variable entry: ID = ee semantic: VariableExpression: level(6) offset(8) direct, with type integer type.
+$   % Not yet found: result
+$   % Entering: public variable entry: ID = result semantic: VariableExpression: level(6) offset(10) indirect, with type integer type.
+$   % Not yet found: lev4
+$   % Not yet found: lev4
+$   % Not yet found: lev4
+$   % Not yet found: lev4
+$   % Not yet found: lev4
+$   % Not yet found: lev4
+$   % Entering: public variable entry: ID = lev4 semantic: VariableExpression: level(5) offset(0) direct, with type tupleType:[] with size: 0
+$    LABEL P6
+$        STO     R11, +4(R13)
+$        LD      R11, +2(R13)
+$        STO     R12, +0(R13)
+$        LDA     R12, +0(R13)
+$        IS      R13, #22
+$        STO     R0, +0(R13)
+$        STO     R1, +2(R13)
+$        STO     R2, +4(R13)
+$        STO     R3, +6(R13)
+$        STO     R4, +8(R13)
+$        STO     R5, +10(R13)
+$        STO     R6, +12(R13)
+$        STO     R7, +14(R13)
+$        STO     R8, +16(R13)
+$        STO     R9, +18(R13)
+$        STO     R10, +20(R13)
+$   % Not yet found: lev0
+$   % Not yet found: lev0
+$   % Not yet found: lev0
+$   % Not yet found: lev0
+$   % Not yet found: lev0
+$   % Not yet found: aa
+$   % Not yet found: aa
+$   % Not yet found: aa
+$   % Not yet found: aa
+$        LDA     R0, +2(R15)
+$        IS      R13, #12
+$        STO     R0, +6(R13)
+At -- line 18 col 25: error 98
+COMPILER ERROR -> An case of address mode/level was not handled properly. 
+
+$        HALT    
+$        LD      R0, +2(R11)
+$        LD      R0, +2(R0)
+$        LD      R0, +2(R0)
+$        LD      R1, +8(R0)
+$        STO     R1, +8(R13)
+$        LDA     R1, *+10(R12)
+$        STO     R1, +10(R13)
+$        JSR     R11, P2
+$        STO     R12, +2(R12)
+$        IA      R13, #12
+$   % Not yet found: lev1
+$   % Not yet found: lev1
+$   % Not yet found: lev1
+$   % Not yet found: lev1
+$   % Not yet found: bb
+$   % Not yet found: bb
+$   % Not yet found: bb
+$        LD      R1, +2(R11)
+$        LD      R1, +2(R1)
+$        LD      R1, +2(R1)
+$        LDA     R2, +0(R1)
+$        IS      R13, #12
+$        STO     R2, +6(R13)
+At -- line 19 col 25: error 98
+COMPILER ERROR -> An case of address mode/level was not handled properly. 
+
+$        HALT    
+$        LD      R2, +2(R11)
+$        LD      R2, +2(R2)
+$        LD      R3, +8(R2)
+$        STO     R3, +8(R13)
+$        LDA     R3, *+10(R12)
+$        STO     R3, +10(R13)
+$        JSR     R11, P3
+$        STO     R12, +2(R12)
+$        IA      R13, #12
+$   % Not yet found: lev2
+$   % Not yet found: lev2
+$   % Not yet found: lev2
+$   % Not yet found: cc
+$   % Not yet found: cc
+$        LD      R3, +2(R11)
+$        LD      R3, +2(R3)
+$        LDA     R4, +0(R3)
+$        IS      R13, #12
+$        STO     R4, +6(R13)
+At -- line 20 col 25: error 98
+COMPILER ERROR -> An case of address mode/level was not handled properly. 
+
+$        HALT    
+$        LD      R4, +2(R11)
+$        LD      R5, +8(R4)
+$        STO     R5, +8(R13)
+$        LDA     R5, *+10(R12)
+$        STO     R5, +10(R13)
+$        JSR     R11, P4
+$        STO     R12, +2(R12)
+$        IA      R13, #12
+$   % Not yet found: lev3
+$   % Not yet found: lev3
+$   % Not yet found: dd
+$        LD      R5, +2(R11)
+$        LDA     R6, +0(R5)
+$        IS      R13, #12
+$        STO     R6, +6(R13)
+At -- line 21 col 25: error 98
+COMPILER ERROR -> An case of address mode/level was not handled properly. 
+
+$        HALT    
+$        LD      R6, +8(R11)
+$        STO     R6, +8(R13)
+$        LDA     R6, *+10(R12)
+$        STO     R6, +10(R13)
+$        JSR     R11, P5
+$        STO     R12, +2(R12)
+$        IA      R13, #12
+$   % Not yet found: lev4
+$        LDA     R6, +0(R11)
+$        IS      R13, #12
+$        STO     R6, +6(R13)
+$        STO     R12, +2(R13)
+$        LD      R6, +8(R12)
+$        STO     R6, +8(R13)
+$        LDA     R6, *+10(R12)
+$        STO     R6, +10(R13)
+$        JSR     R11, P6
+$        STO     R12, +2(R12)
+$        IA      R13, #12
+$    LABEL U6
+$        LD      R0, +0(R13)
+$        LD      R1, +2(R13)
+$        LD      R2, +4(R13)
+$        LD      R3, +6(R13)
+$        LD      R4, +8(R13)
+$        LD      R5, +10(R13)
+$        LD      R6, +12(R13)
+$        LD      R7, +14(R13)
+$        LD      R8, +16(R13)
+$        LD      R9, +18(R13)
+$        LD      R10, +20(R13)
+$        IA      R13, #22
+$        LD      R12, +0(R13)
+$        LD      R11, +4(R13)
+$        JMP     *R11
+$    LABEL P5
+$        STO     R11, +4(R13)
+$        LD      R11, +2(R13)
+$        STO     R12, +0(R13)
+$        LDA     R12, +0(R13)
+$        IS      R13, #22
+$        STO     R0, +0(R13)
+$        STO     R1, +2(R13)
+$        STO     R2, +4(R13)
+$        STO     R3, +6(R13)
+$        STO     R4, +8(R13)
+$        STO     R5, +10(R13)
+$        STO     R6, +12(R13)
+$        STO     R7, +14(R13)
+$        STO     R8, +16(R13)
+$        STO     R9, +18(R13)
+$        STO     R10, +20(R13)
+$        LDA     R6, +0(R12)
+$        IS      R13, #12
+$        STO     R6, +6(R13)
+$        STO     R11, +2(R13)
+$        LD      R6, +8(R12)
+$        STO     R6, +8(R13)
+$        LDA     R6, *+10(R12)
+$        STO     R6, +10(R13)
+$        JSR     R11, P6
+$        STO     R12, +2(R12)
+$        IA      R13, #12
+$    LABEL U5
+$        LD      R0, +0(R13)
+$        LD      R1, +2(R13)
+$        LD      R2, +4(R13)
+$        LD      R3, +6(R13)
+$        LD      R4, +8(R13)
+$        LD      R5, +10(R13)
+$        LD      R6, +12(R13)
+$        LD      R7, +14(R13)
+$        LD      R8, +16(R13)
+$        LD      R9, +18(R13)
+$        LD      R10, +20(R13)
+$        IA      R13, #22
+$        LD      R12, +0(R13)
+$        LD      R11, +4(R13)
+$        JMP     *R11
+$    LABEL P4
+$        STO     R11, +4(R13)
+$        LD      R11, +2(R13)
+$        STO     R12, +0(R13)
+$        LDA     R12, +0(R13)
+$        IS      R13, #22
+$        STO     R0, +0(R13)
+$        STO     R1, +2(R13)
+$        STO     R2, +4(R13)
+$        STO     R3, +6(R13)
+$        STO     R4, +8(R13)
+$        STO     R5, +10(R13)
+$        STO     R6, +12(R13)
+$        STO     R7, +14(R13)
+$        STO     R8, +16(R13)
+$        STO     R9, +18(R13)
+$        STO     R10, +20(R13)
+$        LDA     R6, +0(R12)
+$        IS      R13, #12
+$        STO     R6, +6(R13)
+$        STO     R11, +2(R13)
+$        LD      R6, +8(R12)
+$        STO     R6, +8(R13)
+$        LDA     R6, *+10(R12)
+$        STO     R6, +10(R13)
+$        JSR     R11, P5
+$        STO     R12, +2(R12)
+$        IA      R13, #12
+$    LABEL U4
+$        LD      R0, +0(R13)
+$        LD      R1, +2(R13)
+$        LD      R2, +4(R13)
+$        LD      R3, +6(R13)
+$        LD      R4, +8(R13)
+$        LD      R5, +10(R13)
+$        LD      R6, +12(R13)
+$        LD      R7, +14(R13)
+$        LD      R8, +16(R13)
+$        LD      R9, +18(R13)
+$        LD      R10, +20(R13)
+$        IA      R13, #22
+$        LD      R12, +0(R13)
+$        LD      R11, +4(R13)
+$        JMP     *R11
+$    LABEL P3
+$        STO     R11, +4(R13)
+$        LD      R11, +2(R13)
+$        STO     R12, +0(R13)
+$        LDA     R12, +0(R13)
+$        IS      R13, #22
+$        STO     R0, +0(R13)
+$        STO     R1, +2(R13)
+$        STO     R2, +4(R13)
+$        STO     R3, +6(R13)
+$        STO     R4, +8(R13)
+$        STO     R5, +10(R13)
+$        STO     R6, +12(R13)
+$        STO     R7, +14(R13)
+$        STO     R8, +16(R13)
+$        STO     R9, +18(R13)
+$        STO     R10, +20(R13)
+$        LDA     R6, +0(R12)
+$        IS      R13, #12
+$        STO     R6, +6(R13)
+$        STO     R11, +2(R13)
+$        LD      R6, +8(R12)
+$        STO     R6, +8(R13)
+$        LDA     R6, *+10(R12)
+$        STO     R6, +10(R13)
+$        JSR     R11, P4
+$        STO     R12, +2(R12)
+$        IA      R13, #12
+$    LABEL U3
+$        LD      R0, +0(R13)
+$        LD      R1, +2(R13)
+$        LD      R2, +4(R13)
+$        LD      R3, +6(R13)
+$        LD      R4, +8(R13)
+$        LD      R5, +10(R13)
+$        LD      R6, +12(R13)
+$        LD      R7, +14(R13)
+$        LD      R8, +16(R13)
+$        LD      R9, +18(R13)
+$        LD      R10, +20(R13)
+$        IA      R13, #22
+$        LD      R12, +0(R13)
+$        LD      R11, +4(R13)
+$        JMP     *R11
+$    LABEL P2
+$        STO     R11, +4(R13)
+$        LD      R11, +2(R13)
+$        STO     R12, +0(R13)
+$        LDA     R12, +0(R13)
+$        IS      R13, #22
+$        STO     R0, +0(R13)
+$        STO     R1, +2(R13)
+$        STO     R2, +4(R13)
+$        STO     R3, +6(R13)
+$        STO     R4, +8(R13)
+$        STO     R5, +10(R13)
+$        STO     R6, +12(R13)
+$        STO     R7, +14(R13)
+$        STO     R8, +16(R13)
+$        STO     R9, +18(R13)
+$        STO     R10, +20(R13)
+$        LDA     R6, +0(R12)
+$        IS      R13, #12
+$        STO     R6, +6(R13)
+$        STO     R11, +2(R13)
+$        LD      R6, +8(R12)
+$        STO     R6, +8(R13)
+$        LDA     R6, *+10(R12)
+$        STO     R6, +10(R13)
+$        JSR     R11, P3
+$        STO     R12, +2(R12)
+$        IA      R13, #12
+$    LABEL U2
+$        LD      R0, +0(R13)
+$        LD      R1, +2(R13)
+$        LD      R2, +4(R13)
+$        LD      R3, +6(R13)
+$        LD      R4, +8(R13)
+$        LD      R5, +10(R13)
+$        LD      R6, +12(R13)
+$        LD      R7, +14(R13)
+$        LD      R8, +16(R13)
+$        LD      R9, +18(R13)
+$        LD      R10, +20(R13)
+$        IA      R13, #22
+$        LD      R12, +0(R13)
+$        LD      R11, +4(R13)
+$        JMP     *R11
+$    LABEL M1
+$        LDA     R6, +2(R15)
+$        IS      R13, #12
+$        STO     R6, +6(R13)
+$        STO     R11, +2(R13)
+$        LD      R6, +0(R14)
+$        STO     R6, +8(R13)
+$        LDA     R6, +0(R15)
+$        STO     R6, +10(R13)
+$        JSR     R11, P2
+$        STO     R12, +2(R12)
+$        IA      R13, #12
+$        HALT    
+$    LABEL C1
+$        INT      1
+$    LABEL V1
+$        SKIP     2
+  <end of compilation> 	There were 4 errors detected
+  Allocated Registers: 0 1 2 3 4 5 11 12 13 14 15 
+
+$        HALT    

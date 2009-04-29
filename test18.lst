@@ -1,0 +1,246 @@
+Compiled on: Wed Apr 29 09:02:21 EDT 2009
+$        LDA     R15, V1
+$        LDA     R14, C1
+$        LD      R13, #16000
+$        JMP     M1
+$   % Not yet found: max
+$   % Declaring Constant: public constant entry: ID = max semantic: ConstantExpression: 10 with type integer type.
+$   % Declaring type constant: subs as 1..10
+$   % Declaring type constant: elements as [1..10]integer type.
+$   % Not yet found: val
+$   % Not yet found: val
+$   % Entering: public variable entry: ID = val semantic: VariableExpression: level(2) offset(8) direct, with type integer type.
+$   % Not yet found: val
+$   % Not yet found: val
+$   % Entering: public variable entry: ID = val semantic: VariableExpression: level(2) offset(8) indirect, with type integer type.
+$   % Declaring type constant: Stack as tupleType:[[1..10]integer type. : e, 1..10 : t, ] with size: 22
+$   % Not yet found: stack
+$   % Entering: public variable entry: ID = stack semantic: VariableExpression: level(1) offset(0) direct, with type tupleType:[[1..10]integer type. : e, 1..10 : t, ] with size: 22
+$    LABEL P4
+$        STO     R11, +4(R13)
+$        LD      R11, +2(R13)
+$        STO     R12, +0(R13)
+$        LDA     R12, +0(R13)
+$        IS      R13, #22
+$        STO     R0, +0(R13)
+$        STO     R1, +2(R13)
+$        STO     R2, +4(R13)
+$        STO     R3, +6(R13)
+$        STO     R4, +8(R13)
+$        STO     R5, +10(R13)
+$        STO     R6, +12(R13)
+$        STO     R7, +14(R13)
+$        STO     R8, +16(R13)
+$        STO     R9, +18(R13)
+$        STO     R10, +20(R13)
+$        LD      R0, +6(R12)
+$        IA      R0, #20
+$        LD      R1, +4(R14)
+$        STO     R1, *R0
+$    LABEL U4
+$        LD      R0, +0(R13)
+$        LD      R1, +2(R13)
+$        LD      R2, +4(R13)
+$        LD      R3, +6(R13)
+$        LD      R4, +8(R13)
+$        LD      R5, +10(R13)
+$        LD      R6, +12(R13)
+$        LD      R7, +14(R13)
+$        LD      R8, +16(R13)
+$        LD      R9, +18(R13)
+$        LD      R10, +20(R13)
+$        IA      R13, #22
+$        LD      R12, +0(R13)
+$        LD      R11, +4(R13)
+$        JMP     *R11
+$    LABEL P2
+$        STO     R11, +4(R13)
+$        LD      R11, +2(R13)
+$        STO     R12, +0(R13)
+$        LDA     R12, +0(R13)
+$        IS      R13, #22
+$        STO     R0, +0(R13)
+$        STO     R1, +2(R13)
+$        STO     R2, +4(R13)
+$        STO     R3, +6(R13)
+$        STO     R4, +8(R13)
+$        STO     R5, +10(R13)
+$        STO     R6, +12(R13)
+$        STO     R7, +14(R13)
+$        STO     R8, +16(R13)
+$        STO     R9, +18(R13)
+$        STO     R10, +20(R13)
+$        LD      R0, +6(R12)
+$        IA      R0, #0
+$        LD      R1, +6(R12)
+$        IA      R1, #20
+$        LD      R2, *R1
+$        TRNG    R2, +0(R14)
+$        LD      R1, *R1
+$        IS      R1, #1
+$        IM      R1, #2
+$        IA      R0, R1
+$        IS      R13, #2
+$        LD      R1, +8(R12)
+$        STO     R1, *R13
+$        LD      R1, *R13
+$        STO     R1, *R0
+$        IA      R13, #2
+$        LD      R0, +6(R12)
+$        IA      R0, #20
+$        LD      R1, +6(R12)
+$        IA      R1, #20
+$        LD      R2, *R1
+$        IA      R2, +6(R14)
+$        TRNG    R2, +0(R14)
+$        STO     R2, *R0
+$    LABEL U2
+$        LD      R0, +0(R13)
+$        LD      R1, +2(R13)
+$        LD      R2, +4(R13)
+$        LD      R3, +6(R13)
+$        LD      R4, +8(R13)
+$        LD      R5, +10(R13)
+$        LD      R6, +12(R13)
+$        LD      R7, +14(R13)
+$        LD      R8, +16(R13)
+$        LD      R9, +18(R13)
+$        LD      R10, +20(R13)
+$        IA      R13, #22
+$        LD      R12, +0(R13)
+$        LD      R11, +4(R13)
+$        JMP     *R11
+$    LABEL P3
+$        STO     R11, +4(R13)
+$        LD      R11, +2(R13)
+$        STO     R12, +0(R13)
+$        LDA     R12, +0(R13)
+$        IS      R13, #22
+$        STO     R0, +0(R13)
+$        STO     R1, +2(R13)
+$        STO     R2, +4(R13)
+$        STO     R3, +6(R13)
+$        STO     R4, +8(R13)
+$        STO     R5, +10(R13)
+$        STO     R6, +12(R13)
+$        STO     R7, +14(R13)
+$        STO     R8, +16(R13)
+$        STO     R9, +18(R13)
+$        STO     R10, +20(R13)
+$        LD      R0, +6(R12)
+$        IA      R0, #20
+$        LD      R1, +6(R12)
+$        IA      R1, #20
+$        LD      R2, *R1
+$        IS      R2, +8(R14)
+$        TRNG    R2, +0(R14)
+$        STO     R2, *R0
+$        LD      R0, +6(R12)
+$        IA      R0, #0
+$        LD      R1, +6(R12)
+$        IA      R1, #20
+$        LD      R2, *R1
+$        TRNG    R2, +0(R14)
+$        LD      R1, *R1
+$        IS      R1, #1
+$        IM      R1, #2
+$        IA      R0, R1
+$        IS      R13, #2
+$        LD      R1, *R0
+$        STO     R1, *R13
+$        LD      R0, *R13
+$        STO     R0, *+8(R12)
+$        IA      R13, #2
+$    LABEL U3
+$        LD      R0, +0(R13)
+$        LD      R1, +2(R13)
+$        LD      R2, +4(R13)
+$        LD      R3, +6(R13)
+$        LD      R4, +8(R13)
+$        LD      R5, +10(R13)
+$        LD      R6, +12(R13)
+$        LD      R7, +14(R13)
+$        LD      R8, +16(R13)
+$        LD      R9, +18(R13)
+$        LD      R10, +20(R13)
+$        IA      R13, #22
+$        LD      R12, +0(R13)
+$        LD      R11, +4(R13)
+$        JMP     *R11
+$   % Not yet found: val
+$   % Entering: public variable entry: ID = val semantic: VariableExpression: level(1) offset(22) direct, with type integer type.
+$    LABEL M1
+$   % Not yet found: stack
+$        LDA     R0, +0(R15)
+$        IS      R13, #8
+$        STO     R0, +6(R13)
+$        STO     R11, +2(R13)
+$        JSR     R11, P4
+$        STO     R12, +2(R12)
+$        IA      R13, #8
+$   % Not yet found: stack
+$        LDA     R0, +0(R15)
+$        IS      R13, #10
+$        STO     R0, +6(R13)
+$        STO     R11, +2(R13)
+$        LD      R0, +10(R14)
+$        STO     R0, +8(R13)
+$        JSR     R11, P2
+$        STO     R12, +2(R12)
+$        IA      R13, #10
+$   % Not yet found: stack
+$        LDA     R0, +0(R15)
+$        IS      R13, #10
+$        STO     R0, +6(R13)
+$        STO     R11, +2(R13)
+$        LD      R0, +12(R14)
+$        STO     R0, +8(R13)
+$        JSR     R11, P2
+$        STO     R12, +2(R12)
+$        IA      R13, #10
+$   % Not yet found: stack
+$   % Not yet found: val
+$        LDA     R0, +0(R15)
+$        IS      R13, #10
+$        STO     R0, +6(R13)
+$        STO     R11, +2(R13)
+$        LDA     R0, +22(R15)
+$        STO     R0, +8(R13)
+$        JSR     R11, P3
+$        STO     R12, +2(R12)
+$        IA      R13, #10
+$        WRST    +14(R14)
+$   % Not yet found: val
+$        WRI     +22(R15)
+$        WRNL    
+$   % Not yet found: stack
+$   % Not yet found: val
+$        LDA     R0, +0(R15)
+$        IS      R13, #10
+$        STO     R0, +6(R13)
+$        STO     R11, +2(R13)
+$        LDA     R0, +22(R15)
+$        STO     R0, +8(R13)
+$        JSR     R11, P3
+$        STO     R12, +2(R12)
+$        IA      R13, #10
+$        WRST    +28(R14)
+$   % Not yet found: val
+$        WRI     +22(R15)
+$        WRNL    
+$        HALT    
+$    LABEL C1
+$        INT      1
+$        INT      10
+$        INT      1
+$        INT      1
+$        INT      1
+$        INT      4
+$        INT      3
+$        STRING   "Just popped "
+$        STRING   "Just popped "
+$    LABEL V1
+$        SKIP     24
+  <end of compilation> 	There were 0 errors detected
+  Allocated Registers: 11 12 13 14 15 
+

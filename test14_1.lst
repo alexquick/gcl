@@ -1,0 +1,150 @@
+Compiled on: Tue Apr 28 07:13:36 EDT 2009
+$        LDA     R15, V1
+$        LDA     R14, C1
+$        LD      R13, #16000
+$        JMP     M1
+$   % Not yet found: inArg
+$   % Not yet found: inArg
+$   % Entering: private variable entry: ID = inArg semantic: VariableExpression: level(1) offset(0) direct, with type integer type.
+$   % Not yet found: result
+$   % Not yet found: result
+$   % Entering: private variable entry: ID = result semantic: VariableExpression: level(1) offset(2) direct, with type integer type.
+$   % Not yet found: oldArg
+$   % Not yet found: oldArg
+$   % Entering: private variable entry: ID = oldArg semantic: VariableExpression: level(1) offset(4) direct, with type integer type.
+$   % Declaring type constant: factorial as tupleType:[] with size: 0
+$   % Not yet found: fac
+$   % Not yet found: fac
+$   % Entering: public variable entry: ID = fac semantic: VariableExpression: level(1) offset(6) direct, with type tupleType:[] with size: 0
+$    LABEL P2
+$        STO     R11, +4(R13)
+$        LD      R11, +2(R13)
+$        STO     R12, +0(R13)
+$        LDA     R12, +0(R13)
+$        IS      R13, #22
+$        STO     R0, +0(R13)
+$        STO     R1, +2(R13)
+$        STO     R2, +4(R13)
+$        STO     R3, +6(R13)
+$        STO     R4, +8(R13)
+$        STO     R5, +10(R13)
+$        STO     R6, +12(R13)
+$        STO     R7, +14(R13)
+$        STO     R8, +16(R13)
+$        STO     R9, +18(R13)
+$        STO     R10, +20(R13)
+$   % Not yet found: inArg
+$        LD      R1, +0(R15)
+$        LD      R0, #1
+$        IC      R1, +0(R14)
+$        JEQ     &4
+$        LD      R0, #0
+$        IC      R0, #1
+$        JNE     J4
+$   % Not yet found: result
+$        LD      R0, +2(R14)
+$        STO     R0, +2(R15)
+$        JMP     J3
+$    LABEL J4
+$   % Not yet found: inArg
+$        LD      R1, +0(R15)
+$        LD      R0, #1
+$        IC      R1, +4(R14)
+$        JGT     &4
+$        LD      R0, #0
+$        IC      R0, #1
+$        JNE     J5
+$   % Not yet found: inArg
+$   % Not yet found: oldArg
+$   % Not yet found: inArg
+$        LD      R0, +0(R15)
+$        IS      R0, +6(R14)
+$   % Not yet found: inArg
+$        IS      R13, #2
+$        LD      R1, +0(R15)
+$        STO     R1, *R13
+$        LD      R1, *R13
+$        STO     R1, +4(R15)
+$        IA      R13, #2
+$        STO     R0, +0(R15)
+$   % Not yet found: fac
+$        LDA     R0, +6(R15)
+$        IS      R13, #8
+$        STO     R0, +6(R13)
+$        STO     R12, +2(R13)
+$        STO     R12, +2(R13)
+$        JSR     R11, P2
+$        STO     R12, +2(R12)
+$        IA      R13, #8
+$   % Not yet found: oldArg
+$   % Not yet found: result
+$   % Not yet found: inArg
+$   % Not yet found: oldArg
+$        LD      R1, +4(R15)
+$        IA      R1, +8(R14)
+$   % Not yet found: oldArg
+$   % Not yet found: result
+$        LD      R2, +4(R15)
+$        IM      R2, +2(R15)
+$   % Not yet found: oldArg
+$        IS      R13, #2
+$        LD      R3, +4(R15)
+$        STO     R3, *R13
+$        LD      R3, *R13
+$        STO     R3, +0(R15)
+$        IA      R13, #2
+$        STO     R2, +2(R15)
+$        STO     R1, +4(R15)
+$        JMP     J3
+$    LABEL J5
+$        HALT    
+$    LABEL J3
+$    LABEL U2
+$        LD      R0, +0(R13)
+$        LD      R1, +2(R13)
+$        LD      R2, +4(R13)
+$        LD      R3, +6(R13)
+$        LD      R4, +8(R13)
+$        LD      R5, +10(R13)
+$        LD      R6, +12(R13)
+$        LD      R7, +14(R13)
+$        LD      R8, +16(R13)
+$        LD      R9, +18(R13)
+$        LD      R10, +20(R13)
+$        IA      R13, #22
+$        LD      R12, +0(R13)
+$        LD      R11, +4(R13)
+$        JMP     *R11
+$    LABEL M1
+$        LD      R1, +10(R14)
+$        STO     R1, +4(R15)
+$        WRST    +12(R14)
+$        WRNL    
+$        RDI     +0(R15)
+$        LDA     R1, +6(R15)
+$        IS      R13, #8
+$        STO     R1, +6(R13)
+$        STO     R11, +2(R13)
+$        STO     R12, +2(R13)
+$        JSR     R11, P2
+$        STO     R12, +2(R12)
+$        IA      R13, #8
+$        WRI     +0(R15)
+$        WRST    +28(R14)
+$        WRI     +2(R15)
+$        WRNL    
+$        HALT    
+$    LABEL C1
+$        INT      0
+$        INT      1
+$        INT      0
+$        INT      1
+$        INT      1
+$        INT      0
+$        STRING   " Enter number:: "
+$        STRING   " factorial is "
+$    LABEL V1
+$        SKIP     6
+  <end of compilation> 	There were 0 errors detected
+  Allocated Registers: 0 1 11 12 13 14 15 
+

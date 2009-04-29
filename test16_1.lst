@@ -1,0 +1,161 @@
+Compiled on: Wed Apr 29 07:16:35 EDT 2009
+$        LDA     R15, V1
+$        LDA     R14, C1
+$        LD      R13, #16000
+$        JMP     M1
+$   % Not yet found: i
+$   % Not yet found: i
+$   % Entering: private variable entry: ID = i semantic: VariableExpression: level(1) offset(0) direct, with type integer type.
+$   % Not yet found: power
+$   % Not yet found: power
+$   % Declaring Constant: private constant entry: ID = power semantic: ConstantExpression: 4 with type integer type.
+$   % Not yet found: b
+$   % Not yet found: b
+$   % Entering: private variable entry: ID = b semantic: VariableExpression: level(1) offset(2) direct, with type Boolean type.
+$   % Not yet found: in
+$   % Not yet found: in
+$   % Not yet found: in
+$   % Entering: public variable entry: ID = in semantic: VariableExpression: level(2) offset(8) direct, with type integer type.
+$   % Not yet found: power
+$   % Entering: public variable entry: ID = power semantic: VariableExpression: level(2) offset(10) indirect, with type integer type.
+$   % Declaring type constant: Errors as tupleType:[] with size: 0
+$   % Not yet found: err
+$   % Not yet found: err
+$   % Entering: public variable entry: ID = err semantic: VariableExpression: level(1) offset(4) direct, with type tupleType:[] with size: 0
+$   % Not yet found: j
+$   % Not yet found: j
+$   % Not yet found: j
+$   % Entering: public variable entry: ID = j semantic: VariableExpression: level(2) offset(-2) direct, with type integer type.
+$    LABEL P2
+$        STO     R11, +4(R13)
+$        LD      R11, +2(R13)
+$        STO     R12, +0(R13)
+$        LDA     R12, +0(R13)
+$        IS      R13, #24
+$        STO     R0, +0(R13)
+$        STO     R1, +2(R13)
+$        STO     R2, +4(R13)
+$        STO     R3, +6(R13)
+$        STO     R4, +8(R13)
+$        STO     R5, +10(R13)
+$        STO     R6, +12(R13)
+$        STO     R7, +14(R13)
+$        STO     R8, +16(R13)
+$        STO     R9, +18(R13)
+$        STO     R10, +20(R13)
+$        LD      R0, +0(R14)
+$        STO     R0, -2(R12)
+$        LD      R0, +2(R14)
+$        STO     R0, *+10(R12)
+$    LABEL J4
+$        LD      R1, -2(R12)
+$        LD      R0, #1
+$        IC      R1, +8(R12)
+$        JLE     &4
+$        LD      R0, #0
+$        IC      R0, #1
+$        JNE     J5
+$        LD      R0, *+10(R12)
+$        IM      R0, +4(R14)
+$        STO     R0, *+10(R12)
+$        LD      R0, -2(R12)
+$        IA      R0, +6(R14)
+$        STO     R0, -2(R12)
+$        JMP     J3
+$    LABEL J5
+$        JMP     &4
+$    LABEL J3
+$        JMP     J4
+$        JMP     U2
+$    LABEL U2
+$        LD      R0, +0(R13)
+$        LD      R1, +2(R13)
+$        LD      R2, +4(R13)
+$        LD      R3, +6(R13)
+$        LD      R4, +8(R13)
+$        LD      R5, +10(R13)
+$        LD      R6, +12(R13)
+$        LD      R7, +14(R13)
+$        LD      R8, +16(R13)
+$        LD      R9, +18(R13)
+$        LD      R10, +20(R13)
+$        IA      R13, #24
+$        LD      R12, +0(R13)
+$        LD      R11, +4(R13)
+$        JMP     *R11
+$    LABEL M1
+$        WRST    +8(R14)
+$        WRNL    
+$        LD      R0, +44(R14)
+$        STO     R0, +0(R15)
+$    LABEL J7
+$        LD      R1, +0(R15)
+$        LD      R0, #1
+$        IC      R1, +46(R14)
+$        JLE     &4
+$        LD      R0, #0
+$        IC      R0, #1
+$        JNE     J8
+$        LDA     R0, +4(R15)
+$        IS      R13, #12
+$        STO     R0, +6(R13)
+$        STO     R11, +2(R13)
+Expected: integer type. Got: Boolean type.
+At -- line 31 col 25: error 8
+ERROR -> Operand types are not equivalent. 
+
+$        HALT    
+Constants cannot be passed by reference.
+At -- line 31 col 25: error 15
+ERROR -> Passed argument is not correct 
+
+$        HALT    
+$        JSR     R11, P2
+$        STO     R12, +2(R12)
+$        IA      R13, #12
+$        LDA     R1, +4(R15)
+$        IS      R13, #12
+$        STO     R1, +6(R13)
+$        STO     R11, +2(R13)
+$        LD      R2, +0(R15)
+$        STO     R2, +8(R13)
+This procedure has been invoked with too few arguments.
+At -- line 32 col 18: error 14
+ERROR -> Wrong number of procedure arguments. 
+
+$        HALT    
+$        JSR     R11, P2
+$        STO     R12, +2(R12)
+$        IA      R13, #12
+$        WRST    +48(R14)
+$        WRI     +0(R15)
+$        WRST    +52(R14)
+$        WRI     +56(R14)
+$        WRNL    
+$        LD      R2, +0(R15)
+$        IA      R2, +58(R14)
+$        STO     R2, +0(R15)
+$        JMP     J6
+$    LABEL J8
+$        JMP     &4
+$    LABEL J6
+$        JMP     J7
+$        HALT    
+$    LABEL C1
+$        INT      1
+$        INT      1
+$        INT      2
+$        INT      1
+$        STRING   "Calculate the first 5 powers of 2::"
+$        INT      1
+$        INT      5
+$        STRING   "2**"
+$        STRING   " = "
+$        INT      4
+$        INT      1
+$    LABEL V1
+$        SKIP     4
+  <end of compilation> 	There were 3 errors detected
+  Allocated Registers: 0 1 11 12 13 14 15 
+
+$        HALT    

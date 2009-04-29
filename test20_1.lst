@@ -1,0 +1,108 @@
+Compiled on: Wed Apr 29 09:46:16 EDT 2009
+$        LDA     R15, V1
+$        LDA     R14, C1
+$        LD      R13, #16000
+$        JMP     M1
+$   % Declaring type constant: sub as 0..1
+$   % Not yet found: x
+$   % Not yet found: x
+$   % Entering: private variable entry: ID = x semantic: VariableExpression: level(1) offset(0) direct, with type [0..1]integer type.
+$   % Not yet found: z
+$   % Not yet found: z
+$   % Entering: private variable entry: ID = z semantic: VariableExpression: level(1) offset(4) direct, with type [0..1]integer type.
+$   % Not yet found: sub
+$   % Not yet found: A
+$   % Not yet found: A
+$   % Not yet found: A
+$   % Entering: public variable entry: ID = A semantic: VariableExpression: level(2) offset(8) direct, with type [0..1]integer type.
+$   % Not yet found: sub
+$   % Not yet found: X
+$   % Not yet found: X
+$   % Not yet found: X
+$   % Entering: public variable entry: ID = X semantic: VariableExpression: level(2) offset(12) indirect, with type [0..1]integer type.
+$   % Not yet found: check
+$   % Not yet found: check
+$   % Entering: public variable entry: ID = check semantic: VariableExpression: level(1) offset(8) direct, with type tupleType:[] with size: 0
+$    LABEL P2
+$        STO     R11, +4(R13)
+$        LD      R11, +2(R13)
+$        STO     R12, +0(R13)
+$        LDA     R12, +0(R13)
+$        IS      R13, #22
+$        STO     R0, +0(R13)
+$        STO     R1, +2(R13)
+$        STO     R2, +4(R13)
+$        STO     R3, +6(R13)
+$        STO     R4, +8(R13)
+$        STO     R5, +10(R13)
+$        STO     R6, +12(R13)
+$        STO     R7, +14(R13)
+$        STO     R8, +16(R13)
+$        STO     R9, +18(R13)
+$        STO     R10, +20(R13)
+$        IS      R13, #4
+$        LDA     R0, +8(R12)
+$        LD      R1, #4
+$        BKT     R0, *R13
+$        LD      R0, R13
+$        LD      R1, #4
+$        BKT     R0, *+12(R12)
+$        IA      R13, #4
+$        JMP     U2
+$    LABEL U2
+$        LD      R0, +0(R13)
+$        LD      R1, +2(R13)
+$        LD      R2, +4(R13)
+$        LD      R3, +6(R13)
+$        LD      R4, +8(R13)
+$        LD      R5, +10(R13)
+$        LD      R6, +12(R13)
+$        LD      R7, +14(R13)
+$        LD      R8, +16(R13)
+$        LD      R9, +18(R13)
+$        LD      R10, +20(R13)
+$        IA      R13, #22
+$        LD      R12, +0(R13)
+$        LD      R11, +4(R13)
+$        JMP     *R11
+$    LABEL M1
+$        LDA     R0, +0(R15)
+$        IA      R0, #0
+$        LD      R1, +4(R14)
+$        STO     R1, *R0
+$        LDA     R0, +0(R15)
+$        IA      R0, #2
+$        LD      R1, +6(R14)
+$        STO     R1, *R0
+$        LDA     R0, +8(R15)
+$        IS      R13, #14
+$        STO     R0, +6(R13)
+$        STO     R11, +2(R13)
+$        LD      R0, +0(R15)
+$        LD      R1, #4
+$        BKT     R0, +8(R13)
+$        LDA     R0, +4(R15)
+$        STO     R0, +12(R13)
+$        JSR     R11, P2
+$        STO     R12, +2(R12)
+$        IA      R13, #14
+$        LDA     R0, +4(R15)
+$        IA      R0, #0
+$        WRI     *R0
+$        WRST    +8(R14)
+$        LDA     R0, +4(R15)
+$        IA      R0, #2
+$        WRI     *R0
+$        WRNL    
+$        HALT    
+$    LABEL C1
+$        INT      0
+$        INT      1
+$        INT      1
+$        INT      2
+$        STRING   " "
+$    LABEL V1
+$        SKIP     8
+  <end of compilation> 	There were 0 errors detected
+  Allocated Registers: 11 12 13 14 15 
+

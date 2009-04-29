@@ -50,14 +50,14 @@ gcl
 /*----------------------------------------------------------*/
 module<SymbolTable scope> 
 =
-	"module" identifier (. Module module = semantic.declareModule(scope, new Identifier(currentToken().spelling())); .)
-		definitionPart<scope> (. semantic.endModuleDefinitionPart(module); .)
+	"module" identifier (. semantic.declareModule(scope, new Identifier(currentToken().spelling())); .)
+		definitionPart<scope>
 	["private" (.scope = scope.openScope(false);.) block<scope>]	
 	"." .
 /*----------------------------------------------------------*/
 block<SymbolTable scope>
 =
-     definitionPart<scope> SYNC "begin"  statementPart<scope> "end".
+     definitionPart<scope> SYNC "begin" (. semantic.doLink(); .) statementPart<scope> "end".
 /*----------------------------------------------------------*/
 definitionPart<SymbolTable scope>   =    {SYNC definition<scope> WEAK ";" }.
 /*----------------------------------------------------------*/
@@ -68,28 +68,32 @@ statementPart<SymbolTable scope>
 definition<SymbolTable scope>  
 	(. TypeDescriptor type =null; Identifier id =null; Expression expression =null; SemanticItem result = null;.)
 =  
-	//check the level->paramkind
-	variableDefinition<scope, ParameterKind.NOT_A_PARAMETER> 
+	(variableDefinition<scope, ParameterKind.NOT_A_PARAMETER>)
 	|
-	"constant" identifier (. id = new Identifier(currentToken().spelling());.) 
+	("constant" identifier (. id = new Identifier(currentToken().spelling());.) 
 		"=" expression<^expression, scope>
-		(.semantic.declareConstant(scope, id, expression); .) 
+		(.semantic.declareConstant(scope, id, expression); .))
 	|
-	"typedefinition" type<^type,scope> identifier (. 
+	("typedefinition" type<^type,scope> identifier (. 
 		id = new Identifier(currentToken().spelling());
-		semantic.declareType(scope, id, type); .) 
+		semantic.declareType(scope, id, type); .))
 	|
-	"procedure" identifier 
+	("procedure" identifier 
 		(. id = new Identifier(currentToken().spelling());
 		   SemanticItem containingSemanticItem = scope.lookupIdentifier(id).semanticRecord();
 		.) 
 	"@" identifier 
 		(.	id = new Identifier(currentToken().spelling());
 			Procedure procedure = semantic.startProcedureDefinition(id, containingSemanticItem);
+			if(procedure == null){
+				scope = SymbolTable.unchained();
+			}else{
+				scope = procedure.scope();
+			}
 		.)
-		block<procedure.scope()>
+		block<scope>
 		(.	semantic.endProcedureDefinition(procedure);
-		.)
+		.))
 .
 
 /*----------------------------------------------------------*/
@@ -121,16 +125,12 @@ typeSymbol<^TypeDescriptor result, SymbolTable scope> (. result = noType; Semant
 	| qualifiedIdentifier<^item, scope>(. result = item.expectTypeDescriptor(GCLCompiler.err); .).
 /*----------------------------------------------------------*/
 tupleType<^TupleType result, SymbolTable scope>
-=
-	//TODO: worry about levels, scopes, 
 	(. TupleCarrier carrier = new TupleCarrier(); .)
+=
 	"tuple" "[" (procedures<carrier, scope> | fieldsAndProcedures<carrier, scope>) "]"
-	// "procedure" identifier (.startProcedureDefinition.)"(" { procedureParameter<carrier> } ")"(.endProcedureDefinition.)
-     (. result = new TupleType(carrier); .)
+    (. result = new TupleType(carrier); .)
 .
-//procedureParameter<^carrier, carrier>
-	//"value" | "reference" variableDefinition yadda declareVariable
-//.
+
 fieldsAndProcedures<TupleCarrier carrier, SymbolTable scope>
 	 (. TypeDescriptor type; Identifier id;.)
 =
@@ -142,12 +142,12 @@ fieldsAndProcedures<TupleCarrier carrier, SymbolTable scope>
 moreFieldsAndProcedures<TupleCarrier carrier, SymbolTable scope>
 	 (. TypeDescriptor type; Identifier id;.)
 =
-	("," typeSymbol<^type, scope> identifier 
-	(.id = new Identifier(currentToken().spelling()); carrier.enter(type, id);.)
-	moreFieldsAndProcedures<carrier, scope>
+	"," ((typeSymbol<^type, scope> identifier 
+	(.id = new Identifier(currentToken().spelling()); carrier.enter(type, id);.))
 	|
-	procedures<carrier, scope>
-	)
+	(procedures<carrier, scope>))
+	[moreFieldsAndProcedures<carrier, scope>]
+	
 .
 
 procedures<TupleCarrier carrier, SymbolTable scope>
@@ -191,12 +191,10 @@ arrayType<^TypeDescriptor result, TypeDescriptor baseType, SymbolTable scope>
 (.result = carrier.buildType();.)
 .
 /*----------------------------------------------------------*/
-//TODO: refactor assignStatement into both assignments and method invocations
-//then we should have pt 14
 statement<SymbolTable scope>
 =
 	emptyStatement | readStatement<scope>  | writeStatement<scope> 
-	| assignStatement<scope> | ifStatement<scope> | doStatement<scope> | forStatement<scope> .
+	| variableOperationStatement<scope> | ifStatement<scope> | doStatement<scope> | forStatement<scope> | returnStatement<> .
 /*----------------------------------------------------------*/
 emptyStatement     = "skip".
 /*----------------------------------------------------------*/
@@ -217,15 +215,37 @@ writeItem<SymbolTable scope>(. Expression exp; .)
 	| string (. semantic.writeString(currentToken().spelling()); .) .
  
 /*----------------------------------------------------------*/
-assignStatement<SymbolTable scope>
-		(. AssignRecord expressions = new AssignRecord(); Expression exp; .)
+
+variableOperationStatement<SymbolTable scope>
+		(. Expression exp; .)
 =
-	variableAccess<^exp, scope> (. expressions.left(exp); .)
-		{ "," variableAccess<^exp, scope> (. expressions.left(exp); .) }
-		":="
-		expression<^exp, scope> (. expressions.right(exp); .)
-		{ "," expression<^exp, scope> (. expressions.right(exp); .) }
-		(. semantic.parallelAssign(expressions); .).
+		variableAccess<^exp, scope>
+		(assignStatement<exp, scope> | procedureInvocation<exp, scope>)
+.
+assignStatement<Expression exp, SymbolTable scope>
+	(. AssignRecord expressions = new AssignRecord();.)
+=
+	(. expressions.left(exp);.)
+	{ "," variableAccess<^exp, scope> (. expressions.left(exp); .) }
+	":="
+	expression<^exp, scope> (. expressions.right(exp); .)
+	{ "," expression<^exp, scope> (. expressions.right(exp); .) }
+	(. semantic.parallelAssign(expressions); .)
+.
+
+procedureInvocation<Expression tupleExpression, SymbolTable scope>
+	(. Identifier procedureName; ExpressionList arguments = new ExpressionList(); Expression argument;.)
+=
+	"!" identifier 
+	(.procedureName = new Identifier(currentToken().spelling());.) 
+	"("[ expression<^argument, scope>(.arguments.enter(argument);.){"," expression<^argument, scope> (.arguments.enter(argument);.)}] ")" 
+	(.semantic.callProcedure(tupleExpression, procedureName, arguments);.)
+.
+
+returnStatement<>
+=
+	"return" (. semantic.doReturn(); .)
+.
 /*----------------------------------------------------------*/
 forStatement<SymbolTable scope> (. GCRecord forallRecord; Expression control;  .)
 =
@@ -335,16 +355,20 @@ identifier (. Identifier id = new Identifier(currentToken().spelling());
 						result = semantic.semanticValue(scope, newId, result); .)].
 /*----------------------------------------------------------*/
 variableAccess<^Expression result, SymbolTable scope>  
-      (. SemanticItem workValue; .)   
+      (. SemanticItem workValue; result = null;.)   
 =
-qualifiedIdentifier<^workValue, scope> (. result = workValue.expectExpression(err); .) 
-	[{subscriptsAndComponents<^result, scope, result>}].
+	((qualifiedIdentifier<^workValue, scope> (. result = workValue.expectExpression(err); .))
+	|
+	("this" (.result = semantic.resolveThis();.)))
+	
+	[{subscriptsAndComponents<^result, scope, result>}]
+	.
 
 /*----------------------------------------------------------*/
 subscriptsAndComponents<^Expression result, SymbolTable scope, Expression workValue>
 	(. Identifier id; result = null;.)
 =
-  "@" identifier (. id = new Identifier(currentToken().spelling()); result = semantic.extractTupleField(workValue, id);.)
-  | "[" expression<^result, scope> "]" (. result = semantic.extractArrayElement(workValue, result); .)
+  ("@" identifier (. id = new Identifier(currentToken().spelling()); result = semantic.extractTupleField(workValue, id);.))
+  | ("[" expression<^result, scope> "]" (. result = semantic.extractArrayElement(workValue, result); .))
 .
 END gcl.

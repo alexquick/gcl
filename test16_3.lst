@@ -1,0 +1,108 @@
+Compiled on: Wed Apr 29 07:28:12 EDT 2009
+$        LDA     R15, V1
+$        LDA     R14, C1
+$        LD      R13, #16000
+$        JMP     M1
+$   % Declaring type constant: Pair as tupleType:[integer type. : first, integer type. : second, ] with size: 4
+$   % Not yet found: Pair
+$   % Not yet found: val
+$   % Not yet found: val
+$   % Entering: public variable entry: ID = val semantic: VariableExpression: level(2) offset(8) indirect, with type tupleType:[integer type. : first, integer type. : second, ] with size: 4
+$   % Declaring type constant: Call as tupleType:[] with size: 0
+$   % Not yet found: twoInts
+$   % Entering: public variable entry: ID = twoInts semantic: VariableExpression: level(1) offset(0) direct, with type tupleType:[integer type. : first, integer type. : second, ] with size: 4
+$   % Not yet found: sender
+$   % Entering: public variable entry: ID = sender semantic: VariableExpression: level(1) offset(4) direct, with type tupleType:[] with size: 0
+$    LABEL P2
+$        STO     R11, +4(R13)
+$        LD      R11, +2(R13)
+$        STO     R12, +0(R13)
+$        LDA     R12, +0(R13)
+$        IS      R13, #22
+$        STO     R0, +0(R13)
+$        STO     R1, +2(R13)
+$        STO     R2, +4(R13)
+$        STO     R3, +6(R13)
+$        STO     R4, +8(R13)
+$        STO     R5, +10(R13)
+$        STO     R6, +12(R13)
+$        STO     R7, +14(R13)
+$        STO     R8, +16(R13)
+$        STO     R9, +18(R13)
+$        STO     R10, +20(R13)
+$        LD      R0, +8(R12)
+$        IA      R0, #0
+$        LD      R1, +0(R14)
+$        STO     R1, *R0
+$        LD      R0, +8(R12)
+$        IA      R0, #2
+$        LD      R1, +2(R14)
+$        STO     R1, *R0
+$    LABEL U2
+$        LD      R0, +0(R13)
+$        LD      R1, +2(R13)
+$        LD      R2, +4(R13)
+$        LD      R3, +6(R13)
+$        LD      R4, +8(R13)
+$        LD      R5, +10(R13)
+$        LD      R6, +12(R13)
+$        LD      R7, +14(R13)
+$        LD      R8, +16(R13)
+$        LD      R9, +18(R13)
+$        LD      R10, +20(R13)
+$        IA      R13, #22
+$        LD      R12, +0(R13)
+$        LD      R11, +4(R13)
+$        JMP     *R11
+$    LABEL M1
+$   % Not yet found: twoInts
+$   % Tuple component of size 2 at 4
+$        LD      R0, +4(R14)
+$        STO     R0, +4(R15)
+$   % Tuple component of size 2 at 6
+$        LD      R0, +6(R14)
+$        STO     R0, +6(R15)
+$        IS      R13, #4
+$        LDA     R0, +4(R15)
+$        LD      R1, #4
+$        BKT     R0, *R13
+$        LD      R0, R13
+$        LD      R1, #4
+$        BKT     R0, +0(R15)
+$        IA      R13, #4
+$   % Not yet found: twoInts
+$        WRI     +0(R15)
+$        WRST    +8(R14)
+$   % Not yet found: twoInts
+$        WRI     +2(R15)
+$        WRNL    
+$   % Not yet found: sender
+$   % Not yet found: twoInts
+$        LDA     R0, +4(R15)
+$        IS      R13, #10
+$        STO     R0, +6(R13)
+$        STO     R11, +2(R13)
+$        LDA     R0, +0(R15)
+$        STO     R0, +8(R13)
+$        JSR     R11, P2
+$        STO     R12, +2(R12)
+$        IA      R13, #10
+$   % Not yet found: twoInts
+$        WRI     +0(R15)
+$        WRST    +10(R14)
+$   % Not yet found: twoInts
+$        WRI     +2(R15)
+$        WRNL    
+$        HALT    
+$    LABEL C1
+$        INT      1
+$        INT      1
+$        INT      0
+$        INT      0
+$        STRING   " "
+$        STRING   " "
+$    LABEL V1
+$        SKIP     8
+  <end of compilation> 	There were 0 errors detected
+  Allocated Registers: 11 12 13 14 15 
+

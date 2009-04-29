@@ -1,0 +1,101 @@
+Compiled on: Tue Apr 28 09:01:13 EDT 2009
+module test14_1 { factorial
+$        LDA     R15, V1
+$        LDA     R14, C1
+$        LD      R13, #16000
+ test of recursive procedures with  parameters in  gcl }
+private
+$        JMP     M1
+ integer inArg, { input argument}
+$   % Not yet found: inArg
+$   % Not yet found: inArg
+$   % Entering: private variable entry: ID = inArg semantic: VariableExpression: level(1) offset(0) direct, with type integer type.
+	 result,    { return result}
+$   % Not yet found: result
+$   % Not yet found: result
+$   % Entering: private variable entry: ID = result semantic: VariableExpression: level(1) offset(2) direct, with type integer type.
+	 oldArg;    { local to nFac}
+$   % Not yet found: oldArg
+$   % Not yet found: oldArg
+$   % Entering: private variable entry: ID = oldArg semantic: VariableExpression: level(1) offset(4) direct, with type integer type.
+	 
+ typedefinition tuple [procedure nFac()] factorial;
+$   % Declaring type constant: factorial as tupleType:[] with size: 0
+ 
+ factorial fac;
+$   % Not yet found: fac
+$   % Not yet found: fac
+$   % Entering: public variable entry: ID = fac semantic: VariableExpression: level(1) offset(6) direct, with type tupleType:[] with size: 0
+ 
+ procedure factorial@nFac
+ 	integer i;
+$    LABEL P2
+$        STO     R11, +4(R13)
+$        LD      R11, +2(R13)
+$        STO     R12, +0(R13)
+$        LDA     R12, +0(R13)
+$        IS      R13, #22
+$        STO     R0, +0(R13)
+$        STO     R1, +2(R13)
+$        STO     R2, +4(R13)
+$        STO     R3, +6(R13)
+$        STO     R4, +8(R13)
+$        STO     R5, +10(R13)
+$        STO     R6, +12(R13)
+$        STO     R7, +14(R13)
+$        STO     R8, +16(R13)
+$        STO     R9, +18(R13)
+$        STO     R10, +20(R13)
+$   % Not yet found: i
+$   % Not yet found: i
+$   % Not yet found: i
+$   % Entering: public variable entry: ID = i semantic: VariableExpression: level(2) offset(-2) direct, with type integer type.
+ 	begin
+		write i;
+$        WRI     -2(R12)
+$        WRNL    
+		i := i + 1;
+$        LD      R0, -2(R12)
+$        IA      R0, +0(R14)
+$        STO     R0, -2(R12)
+	end;
+$    LABEL U2
+$        LD      R0, +0(R13)
+$        LD      R1, +2(R13)
+$        LD      R2, +4(R13)
+$        LD      R3, +6(R13)
+$        LD      R4, +8(R13)
+$        LD      R5, +10(R13)
+$        LD      R6, +12(R13)
+$        LD      R7, +14(R13)
+$        LD      R8, +16(R13)
+$        LD      R9, +18(R13)
+$        LD      R10, +20(R13)
+$        IA      R13, #24
+$        LD      R12, +0(R13)
+$        LD      R11, +4(R13)
+$        JMP     *R11
+	
+begin 
+	oldArg := 0;
+$    LABEL M1
+$        LD      R0, +2(R14)
+$        STO     R0, +4(R15)
+	fac!nFac();
+$        LDA     R0, +6(R15)
+$        IS      R13, #8
+$        STO     R0, +6(R13)
+$        STO     R11, +2(R13)
+$        JSR     R11, P2
+$        STO     R12, +2(R12)
+$        IA      R13, #8
+end.
+$        HALT    
+$    LABEL C1
+$        INT      1
+$        INT      0
+$    LABEL V1
+$        SKIP     6
+  <end of compilation> 	There were 0 errors detected
+  Allocated Registers: 0 11 12 13 14 15 
+

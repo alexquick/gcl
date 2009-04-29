@@ -1,0 +1,305 @@
+Compiled on: Wed Apr 29 06:40:01 EDT 2009
+$        LDA     R15, V1
+$        LDA     R14, C1
+$        LD      R13, #16000
+$        JMP     M1
+$   % Declaring type constant: zero_nine as 0..9
+$   % Declaring type constant: sortable as [0..9]integer type.
+$   % Not yet found: x
+$   % Not yet found: x
+$   % Entering: private variable entry: ID = x semantic: VariableExpression: level(1) offset(0) direct, with type [0..9]integer type.
+$   % Not yet found: i
+$   % Not yet found: i
+$   % Entering: private variable entry: ID = i semantic: VariableExpression: level(1) offset(20) direct, with type integer type.
+$   % Not yet found: sortable
+$   % Not yet found: y
+$   % Not yet found: y
+$   % Not yet found: y
+$   % Entering: public variable entry: ID = y semantic: VariableExpression: level(2) offset(8) indirect, with type [0..9]integer type.
+$   % Not yet found: sortIt
+$   % Not yet found: sortIt
+$   % Entering: public variable entry: ID = sortIt semantic: VariableExpression: level(1) offset(22) direct, with type tupleType:[] with size: 0
+$   % Not yet found: x
+$   % Not yet found: x
+$   % Entering: public variable entry: ID = x semantic: VariableExpression: level(3) offset(8) indirect, with type integer type.
+$   % Not yet found: y
+$   % Entering: public variable entry: ID = y semantic: VariableExpression: level(3) offset(10) indirect, with type integer type.
+$   % Not yet found: swapper
+$   % Not yet found: swapper
+$   % Not yet found: swapper
+$   % Entering: public variable entry: ID = swapper semantic: VariableExpression: level(2) offset(0) direct, with type tupleType:[] with size: 0
+$    LABEL P3
+$        STO     R11, +4(R13)
+$        LD      R11, +2(R13)
+$        STO     R12, +0(R13)
+$        LDA     R12, +0(R13)
+$        IS      R13, #22
+$        STO     R0, +0(R13)
+$        STO     R1, +2(R13)
+$        STO     R2, +4(R13)
+$        STO     R3, +6(R13)
+$        STO     R4, +8(R13)
+$        STO     R5, +10(R13)
+$        STO     R6, +12(R13)
+$        STO     R7, +14(R13)
+$        STO     R8, +16(R13)
+$        STO     R9, +18(R13)
+$        STO     R10, +20(R13)
+$        IS      R13, #2
+$        LD      R0, *+10(R12)
+$        STO     R0, *R13
+$        IS      R13, #2
+$        LD      R0, *+8(R12)
+$        STO     R0, *R13
+$        LD      R0, *R13
+$        STO     R0, *+10(R12)
+$        IA      R13, #2
+$        LD      R0, *R13
+$        STO     R0, *+8(R12)
+$        IA      R13, #2
+$    LABEL U3
+$        LD      R0, +0(R13)
+$        LD      R1, +2(R13)
+$        LD      R2, +4(R13)
+$        LD      R3, +6(R13)
+$        LD      R4, +8(R13)
+$        LD      R5, +10(R13)
+$        LD      R6, +12(R13)
+$        LD      R7, +14(R13)
+$        LD      R8, +16(R13)
+$        LD      R9, +18(R13)
+$        LD      R10, +20(R13)
+$        IA      R13, #22
+$        LD      R12, +0(R13)
+$        LD      R11, +4(R13)
+$        JMP     *R11
+$   % Not yet found: i
+$   % Entering: public variable entry: ID = i semantic: VariableExpression: level(2) offset(-2) direct, with type integer type.
+$   % Not yet found: j
+$   % Not yet found: j
+$   % Not yet found: j
+$   % Entering: public variable entry: ID = j semantic: VariableExpression: level(2) offset(-4) direct, with type integer type.
+$    LABEL P2
+$        STO     R11, +4(R13)
+$        LD      R11, +2(R13)
+$        STO     R12, +0(R13)
+$        LDA     R12, +0(R13)
+$        IS      R13, #26
+$        STO     R0, +0(R13)
+$        STO     R1, +2(R13)
+$        STO     R2, +4(R13)
+$        STO     R3, +6(R13)
+$        STO     R4, +8(R13)
+$        STO     R5, +10(R13)
+$        STO     R6, +12(R13)
+$        STO     R7, +14(R13)
+$        STO     R8, +16(R13)
+$        STO     R9, +18(R13)
+$        STO     R10, +20(R13)
+$        LD      R0, +4(R14)
+$        STO     R0, -2(R12)
+$    LABEL J5
+$        LD      R1, -2(R12)
+$        LD      R0, #1
+$        IC      R1, +6(R14)
+$        JGT     &4
+$        LD      R0, #0
+$        IC      R0, #1
+$        JNE     J6
+$        LD      R0, -2(R12)
+$        IS      R0, +8(R14)
+$        STO     R0, -2(R12)
+$        LD      R0, +10(R14)
+$        STO     R0, -4(R12)
+$    LABEL J8
+$        LD      R1, -4(R12)
+$        LD      R0, #1
+$        IC      R1, -2(R12)
+$        JLE     &4
+$        LD      R0, #0
+$        IC      R0, #1
+$        JNE     J9
+$        LD      R0, -4(R12)
+$        IS      R0, +12(R14)
+$        TRNG    R0, +0(R14)
+$        IM      R0, #2
+$        LDA     R1, *+8(R12)
+$        IA      R1, R0
+$        LD      R0, -4(R12)
+$        TRNG    R0, +0(R14)
+$        LD      R2, -4(R12)
+$        IM      R2, #2
+$        LDA     R3, *+8(R12)
+$        IA      R3, R2
+$        LD      R4, *R1
+$        LD      R2, #1
+$        IC      R4, *R3
+$        JGT     &4
+$        LD      R2, #0
+$        IC      R2, #1
+$        JNE     J11
+$        LD      R1, -4(R12)
+$        TRNG    R1, +0(R14)
+$        LD      R2, -4(R12)
+$        IM      R2, #2
+$        LDA     R3, *+8(R12)
+$        IA      R3, R2
+$        LD      R2, -4(R12)
+$        IS      R2, +14(R14)
+$        TRNG    R2, +0(R14)
+$        IM      R2, #2
+$        LDA     R4, *+8(R12)
+$        IA      R4, R2
+$        LDA     R2, +0(R12)
+$        IS      R13, #12
+$        STO     R2, +6(R13)
+$        STO     R11, +2(R13)
+$        STO     R3, +8(R13)
+$        STO     R4, +10(R13)
+$        JSR     R11, P3
+$        STO     R12, +2(R12)
+$        IA      R13, #12
+$        LD      R3, -4(R12)
+$        IA      R3, +16(R14)
+$        STO     R3, -4(R12)
+$        JMP     J10
+$    LABEL J11
+$        LD      R3, -4(R12)
+$        IS      R3, +18(R14)
+$        TRNG    R3, +0(R14)
+$        IM      R3, #2
+$        LDA     R4, *+8(R12)
+$        IA      R4, R3
+$        LD      R3, -4(R12)
+$        TRNG    R3, +0(R14)
+$        LD      R5, -4(R12)
+$        IM      R5, #2
+$        LDA     R6, *+8(R12)
+$        IA      R6, R5
+$        LD      R7, *R4
+$        LD      R5, #1
+$        IC      R7, *R6
+$        JLE     &4
+$        LD      R5, #0
+$        IC      R5, #1
+$        JNE     J12
+$        LD      R4, -4(R12)
+$        IA      R4, +20(R14)
+$        STO     R4, -4(R12)
+$        JMP     J10
+$    LABEL J12
+$        HALT    
+$    LABEL J10
+$        JMP     J7
+$    LABEL J9
+$        JMP     &4
+$    LABEL J7
+$        JMP     J8
+$        JMP     J4
+$    LABEL J6
+$        JMP     &4
+$    LABEL J4
+$        JMP     J5
+$    LABEL U2
+$        LD      R0, +0(R13)
+$        LD      R1, +2(R13)
+$        LD      R2, +4(R13)
+$        LD      R3, +6(R13)
+$        LD      R4, +8(R13)
+$        LD      R5, +10(R13)
+$        LD      R6, +12(R13)
+$        LD      R7, +14(R13)
+$        LD      R8, +16(R13)
+$        LD      R9, +18(R13)
+$        LD      R10, +20(R13)
+$        IA      R13, #26
+$        LD      R12, +0(R13)
+$        LD      R11, +4(R13)
+$        JMP     *R11
+$    LABEL M1
+$        LD      R4, +22(R14)
+$        STO     R4, +20(R15)
+$    LABEL J14
+$        LD      R5, +20(R15)
+$        LD      R4, #1
+$        IC      R5, +24(R14)
+$        JLT     &4
+$        LD      R4, #0
+$        IC      R4, #1
+$        JNE     J15
+$        LD      R4, +20(R15)
+$        TRNG    R4, +0(R14)
+$        LD      R5, +20(R15)
+$        IM      R5, #2
+$        LDA     R6, +0(R15)
+$        IA      R6, R5
+$        RDI     *R6
+$        LD      R5, +20(R15)
+$        IA      R5, +26(R14)
+$        STO     R5, +20(R15)
+$        JMP     J13
+$    LABEL J15
+$        JMP     &4
+$    LABEL J13
+$        JMP     J14
+$        LDA     R5, +22(R15)
+$        IS      R13, #10
+$        STO     R5, +6(R13)
+$        STO     R11, +2(R13)
+$        LDA     R7, +0(R15)
+$        STO     R7, +8(R13)
+$        JSR     R11, P2
+$        STO     R12, +2(R12)
+$        IA      R13, #10
+$        LD      R7, +28(R14)
+$        STO     R7, +20(R15)
+$    LABEL J17
+$        LD      R8, +20(R15)
+$        LD      R7, #1
+$        IC      R8, +30(R14)
+$        JLT     &4
+$        LD      R7, #0
+$        IC      R7, #1
+$        JNE     J18
+$        LD      R7, +20(R15)
+$        TRNG    R7, +0(R14)
+$        LD      R8, +20(R15)
+$        IM      R8, #2
+$        LDA     R9, +0(R15)
+$        IA      R9, R8
+$        WRI     *R9
+$        WRST    +32(R14)
+$        WRNL    
+$        LD      R8, +20(R15)
+$        IA      R8, +36(R14)
+$        STO     R8, +20(R15)
+$        JMP     J16
+$    LABEL J18
+$        JMP     &4
+$    LABEL J16
+$        JMP     J17
+$        HALT    
+$    LABEL C1
+$        INT      0
+$        INT      9
+$        INT      10
+$        INT      0
+$        INT      1
+$        INT      1
+$        INT      1
+$        INT      1
+$        INT      1
+$        INT      1
+$        INT      1
+$        INT      0
+$        INT      10
+$        INT      1
+$        INT      0
+$        INT      10
+$        STRING   ", "
+$        INT      1
+$    LABEL V1
+$        SKIP     22
+  <end of compilation> 	There were 0 errors detected
+  Allocated Registers: 0 1 2 3 4 5 6 7 11 12 13 14 15 
+

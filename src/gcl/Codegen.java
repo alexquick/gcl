@@ -496,9 +496,9 @@ public class Codegen implements Mnemonic, CodegenConstants {
 			freeRegisters[i] = true;
 			pair[i] = false;
 		}
-		freeRegisters[STACK_POINTER] = false;
 		freeRegisters[CONSTANT_BASE] = false;
 		freeRegisters[VARIABLE_BASE] = false;
+		freeRegisters[STACK_POINTER] = false;
 		freeRegisters[STATIC_POINTER] = false;
 		freeRegisters[FRAME_POINTER] = false;
 		variableIndex = 0;

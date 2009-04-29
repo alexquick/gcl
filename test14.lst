@@ -1,0 +1,128 @@
+Compiled on: Tue Apr 28 07:13:23 EDT 2009
+$        LDA     R15, V1
+$        LDA     R14, C1
+$        LD      R13, #16000
+$        JMP     M1
+$   % Not yet found: i
+$   % Entering: public variable entry: ID = i semantic: VariableExpression: level(1) offset(0) direct, with type integer type.
+$   % Not yet found: adder
+$   % Entering: public variable entry: ID = adder semantic: VariableExpression: level(1) offset(2) direct, with type tupleType:[] with size: 0
+$    LABEL P2
+$        STO     R11, +4(R13)
+$        LD      R11, +2(R13)
+$        STO     R12, +0(R13)
+$        LDA     R12, +0(R13)
+$        IS      R13, #22
+$        STO     R0, +0(R13)
+$        STO     R1, +2(R13)
+$        STO     R2, +4(R13)
+$        STO     R3, +6(R13)
+$        STO     R4, +8(R13)
+$        STO     R5, +10(R13)
+$        STO     R6, +12(R13)
+$        STO     R7, +14(R13)
+$        STO     R8, +16(R13)
+$        STO     R9, +18(R13)
+$        STO     R10, +20(R13)
+$   % Not yet found: i
+$   % Not yet found: i
+$        LD      R0, +0(R15)
+$        IA      R0, +0(R14)
+$        STO     R0, +0(R15)
+$    LABEL U2
+$        LD      R0, +0(R13)
+$        LD      R1, +2(R13)
+$        LD      R2, +4(R13)
+$        LD      R3, +6(R13)
+$        LD      R4, +8(R13)
+$        LD      R5, +10(R13)
+$        LD      R6, +12(R13)
+$        LD      R7, +14(R13)
+$        LD      R8, +16(R13)
+$        LD      R9, +18(R13)
+$        LD      R10, +20(R13)
+$        IA      R13, #22
+$        LD      R12, +0(R13)
+$        LD      R11, +4(R13)
+$        JMP     *R11
+$    LABEL P3
+$        STO     R11, +4(R13)
+$        LD      R11, +2(R13)
+$        STO     R12, +0(R13)
+$        LDA     R12, +0(R13)
+$        IS      R13, #22
+$        STO     R0, +0(R13)
+$        STO     R1, +2(R13)
+$        STO     R2, +4(R13)
+$        STO     R3, +6(R13)
+$        STO     R4, +8(R13)
+$        STO     R5, +10(R13)
+$        STO     R6, +12(R13)
+$        STO     R7, +14(R13)
+$        STO     R8, +16(R13)
+$        STO     R9, +18(R13)
+$        STO     R10, +20(R13)
+$   % Not yet found: adder
+$        LDA     R0, +2(R15)
+$        IS      R13, #8
+$        STO     R0, +6(R13)
+$        STO     R12, +2(R13)
+$        STO     R12, +2(R13)
+$        JSR     R11, P2
+$        STO     R12, +2(R12)
+$        IA      R13, #8
+$    LABEL U3
+$        LD      R0, +0(R13)
+$        LD      R1, +2(R13)
+$        LD      R2, +4(R13)
+$        LD      R3, +6(R13)
+$        LD      R4, +8(R13)
+$        LD      R5, +10(R13)
+$        LD      R6, +12(R13)
+$        LD      R7, +14(R13)
+$        LD      R8, +16(R13)
+$        LD      R9, +18(R13)
+$        LD      R10, +20(R13)
+$        IA      R13, #22
+$        LD      R12, +0(R13)
+$        LD      R11, +4(R13)
+$        JMP     *R11
+$    LABEL M1
+$   % Not yet found: i
+$        LD      R1, +2(R14)
+$        STO     R1, +0(R15)
+$        WRST    +4(R14)
+$   % Not yet found: i
+$        WRI     +0(R15)
+$        WRST    +8(R14)
+$        WRNL    
+$   % Not yet found: adder
+$        LDA     R1, +2(R15)
+$        IS      R13, #8
+$        STO     R1, +6(R13)
+$        STO     R11, +2(R13)
+$        STO     R12, +2(R13)
+$        JSR     R11, P3
+$        STO     R12, +2(R12)
+$        IA      R13, #8
+$        WRST    +24(R14)
+$   % Not yet found: i
+$        WRI     +0(R15)
+$        WRST    +28(R14)
+$        WRNL    
+$        WRST    +44(R14)
+$        WRNL    
+$        HALT    
+$    LABEL C1
+$        INT      1
+$        INT      0
+$        STRING   " = "
+$        STRING   " (should be 0)"
+$        STRING   " = "
+$        STRING   " (should be 1)"
+$        STRING   "All done!"
+$    LABEL V1
+$        SKIP     2
+  <end of compilation> 	There were 0 errors detected
+  Allocated Registers: 0 1 11 12 13 14 15 
+

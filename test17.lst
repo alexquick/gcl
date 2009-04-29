@@ -1,0 +1,211 @@
+Compiled on: Wed Apr 29 07:22:48 EDT 2009
+$        LDA     R15, V1
+$        LDA     R14, C1
+$        LD      R13, #16000
+$        JMP     M1
+$   % Not yet found: n
+$   % Not yet found: n
+$   % Not yet found: n
+$   % Entering: public variable entry: ID = n semantic: VariableExpression: level(2) offset(8) direct, with type integer type.
+$   % Not yet found: result
+$   % Not yet found: result
+$   % Not yet found: result
+$   % Entering: public variable entry: ID = result semantic: VariableExpression: level(2) offset(10) indirect, with type integer type.
+$   % Not yet found: fibber
+$   % Not yet found: fibber
+$   % Entering: public variable entry: ID = fibber semantic: VariableExpression: level(1) offset(0) direct, with type tupleType:[] with size: 0
+$   % Not yet found: f
+$   % Not yet found: f
+$   % Not yet found: f
+$   % Not yet found: f
+$   % Entering: public variable entry: ID = f semantic: VariableExpression: level(3) offset(8) direct, with type integer type.
+$   % Not yet found: s
+$   % Not yet found: s
+$   % Not yet found: s
+$   % Not yet found: s
+$   % Entering: public variable entry: ID = s semantic: VariableExpression: level(3) offset(10) direct, with type integer type.
+$   % Not yet found: c
+$   % Not yet found: c
+$   % Not yet found: c
+$   % Not yet found: c
+$   % Entering: public variable entry: ID = c semantic: VariableExpression: level(3) offset(12) direct, with type integer type.
+$   % Not yet found: iv
+$   % Not yet found: iv
+$   % Not yet found: iv
+$   % Not yet found: iv
+$   % Entering: public variable entry: ID = iv semantic: VariableExpression: level(3) offset(14) direct, with type integer type.
+$   % Not yet found: r
+$   % Not yet found: r
+$   % Not yet found: r
+$   % Not yet found: r
+$   % Entering: public variable entry: ID = r semantic: VariableExpression: level(3) offset(16) indirect, with type integer type.
+$   % Not yet found: helper
+$   % Not yet found: helper
+$   % Not yet found: helper
+$   % Entering: public variable entry: ID = helper semantic: VariableExpression: level(2) offset(0) direct, with type tupleType:[] with size: 0
+$    LABEL P3
+$        STO     R11, +4(R13)
+$        LD      R11, +2(R13)
+$        STO     R12, +0(R13)
+$        LDA     R12, +0(R13)
+$        IS      R13, #22
+$        STO     R0, +0(R13)
+$        STO     R1, +2(R13)
+$        STO     R2, +4(R13)
+$        STO     R3, +6(R13)
+$        STO     R4, +8(R13)
+$        STO     R5, +10(R13)
+$        STO     R6, +12(R13)
+$        STO     R7, +14(R13)
+$        STO     R8, +16(R13)
+$        STO     R9, +18(R13)
+$        STO     R10, +20(R13)
+$        LD      R1, +12(R12)
+$        LD      R0, #1
+$        IC      R1, +14(R12)
+$        JGE     &4
+$        LD      R0, #0
+$        IC      R0, #1
+$        JNE     J5
+$        IS      R13, #2
+$        LD      R0, +10(R12)
+$        STO     R0, *R13
+$        LD      R0, *R13
+$        STO     R0, *+16(R12)
+$        IA      R13, #2
+$        JMP     J4
+$    LABEL J5
+$        LD      R1, +12(R12)
+$        LD      R0, #1
+$        IC      R1, +14(R12)
+$        JLT     &4
+$        LD      R0, #0
+$        IC      R0, #1
+$        JNE     J6
+$   % Not yet found: helper
+$        LD      R0, +8(R12)
+$        IA      R0, +10(R12)
+$        LD      R1, +12(R12)
+$        IA      R1, +0(R14)
+$        LDA     R2, +0(R11)
+$        IS      R13, #18
+$        STO     R2, +6(R13)
+$        STO     R12, +2(R13)
+$        LD      R3, +10(R12)
+$        STO     R3, +8(R13)
+$        STO     R0, +10(R13)
+$        STO     R1, +12(R13)
+$        LD      R0, +14(R12)
+$        STO     R0, +14(R13)
+$        LDA     R0, *+16(R12)
+$        STO     R0, +16(R13)
+$        JSR     R11, P3
+$        STO     R12, +2(R12)
+$        IA      R13, #18
+$        JMP     J4
+$    LABEL J6
+$        HALT    
+$    LABEL J4
+$    LABEL U3
+$        LD      R0, +0(R13)
+$        LD      R1, +2(R13)
+$        LD      R2, +4(R13)
+$        LD      R3, +6(R13)
+$        LD      R4, +8(R13)
+$        LD      R5, +10(R13)
+$        LD      R6, +12(R13)
+$        LD      R7, +14(R13)
+$        LD      R8, +16(R13)
+$        LD      R9, +18(R13)
+$        LD      R10, +20(R13)
+$        IA      R13, #22
+$        LD      R12, +0(R13)
+$        LD      R11, +4(R13)
+$        JMP     *R11
+$    LABEL P2
+$        STO     R11, +4(R13)
+$        LD      R11, +2(R13)
+$        STO     R12, +0(R13)
+$        LDA     R12, +0(R13)
+$        IS      R13, #22
+$        STO     R0, +0(R13)
+$        STO     R1, +2(R13)
+$        STO     R2, +4(R13)
+$        STO     R3, +6(R13)
+$        STO     R4, +8(R13)
+$        STO     R5, +10(R13)
+$        STO     R6, +12(R13)
+$        STO     R7, +14(R13)
+$        STO     R8, +16(R13)
+$        STO     R9, +18(R13)
+$        STO     R10, +20(R13)
+$        LDA     R0, +0(R12)
+$        IS      R13, #18
+$        STO     R0, +6(R13)
+$        STO     R11, +2(R13)
+$        LD      R1, +2(R14)
+$        STO     R1, +8(R13)
+$        LD      R1, +4(R14)
+$        STO     R1, +10(R13)
+$        LD      R1, +6(R14)
+$        STO     R1, +12(R13)
+$        LD      R1, +8(R12)
+$        STO     R1, +14(R13)
+$        LDA     R1, *+10(R12)
+$        STO     R1, +16(R13)
+$        JSR     R11, P3
+$        STO     R12, +2(R12)
+$        IA      R13, #18
+$    LABEL U2
+$        LD      R0, +0(R13)
+$        LD      R1, +2(R13)
+$        LD      R2, +4(R13)
+$        LD      R3, +6(R13)
+$        LD      R4, +8(R13)
+$        LD      R5, +10(R13)
+$        LD      R6, +12(R13)
+$        LD      R7, +14(R13)
+$        LD      R8, +16(R13)
+$        LD      R9, +18(R13)
+$        LD      R10, +20(R13)
+$        IA      R13, #22
+$        LD      R12, +0(R13)
+$        LD      R11, +4(R13)
+$        JMP     *R11
+$   % Not yet found: i
+$   % Not yet found: i
+$   % Entering: public variable entry: ID = i semantic: VariableExpression: level(1) offset(0) direct, with type integer type.
+$   % Not yet found: result
+$   % Not yet found: result
+$   % Entering: public variable entry: ID = result semantic: VariableExpression: level(1) offset(2) direct, with type integer type.
+$    LABEL M1
+$        RDI     +0(R15)
+$        LDA     R1, +0(R15)
+$        IS      R13, #12
+$        STO     R1, +6(R13)
+$        STO     R11, +2(R13)
+$        LD      R3, +0(R15)
+$        STO     R3, +8(R13)
+$        LDA     R3, +2(R15)
+$        STO     R3, +10(R13)
+$        JSR     R11, P2
+$        STO     R12, +2(R12)
+$        IA      R13, #12
+$        WRST    +8(R14)
+$        WRI     +0(R15)
+$        WRST    +14(R14)
+$        WRI     +2(R15)
+$        WRNL    
+$        HALT    
+$    LABEL C1
+$        INT      1
+$        INT      1
+$        INT      1
+$        INT      1
+$        STRING   "fib("
+$        STRING   ") = "
+$    LABEL V1
+$        SKIP     4
+  <end of compilation> 	There were 0 errors detected
+  Allocated Registers: 0 1 2 11 12 13 14 15 
+

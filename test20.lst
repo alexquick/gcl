@@ -1,0 +1,159 @@
+Compiled on: Wed Apr 29 09:26:05 EDT 2009
+$        LDA     R15, V1
+$        LDA     R14, C1
+$        LD      R13, #16000
+$        JMP     M1
+$   % Not yet found: i
+$   % Not yet found: i
+$   % Entering: private variable entry: ID = i semantic: VariableExpression: level(1) offset(0) direct, with type integer type.
+$   % Not yet found: res
+$   % Not yet found: res
+$   % Entering: private variable entry: ID = res semantic: VariableExpression: level(1) offset(2) direct, with type integer type.
+$   % Not yet found: res
+$   % Entering: public variable entry: ID = res semantic: VariableExpression: level(2) offset(8) indirect, with type integer type.
+$   % Not yet found: fac
+$   % Not yet found: fac
+$   % Entering: public variable entry: ID = fac semantic: VariableExpression: level(1) offset(4) direct, with type tupleType:[] with size: 0
+$   % Not yet found: j
+$   % Not yet found: j
+$   % Not yet found: j
+$   % Entering: public variable entry: ID = j semantic: VariableExpression: level(2) offset(-2) direct, with type integer type.
+$   % Not yet found: result
+$   % Not yet found: result
+$   % Not yet found: result
+$   % Not yet found: result
+$   % Entering: public variable entry: ID = result semantic: VariableExpression: level(3) offset(8) indirect, with type integer type.
+At -- line 16 col 17: error 2
+ERROR -> The item is already defined. 
+
+$        HALT    
+$   % Not yet found: res
+$   % Entering: public variable entry: ID = res semantic: VariableExpression: level(3) offset(8) indirect, with type integer type.
+$   % Not yet found: result
+$   % Not yet found: result
+$   % Not yet found: result
+$   % Not yet found: result
+$   % Entering: public variable entry: ID = result semantic: VariableExpression: level(3) offset(8) indirect, with type integer type.
+$   % Not yet found: tester
+$   % Not yet found: tester
+$   % Not yet found: tester
+$   % Entering: public variable entry: ID = tester semantic: VariableExpression: level(2) offset(-2) direct, with type tupleType:[] with size: 0
+-- line 21 col 25: this symbol not expected in block
+$    LABEL P6
+$        STO     R11, +4(R13)
+$        LD      R11, +2(R13)
+$        STO     R12, +0(R13)
+$        LDA     R12, +0(R13)
+$        IS      R13, #22
+$        STO     R0, +0(R13)
+$        STO     R1, +2(R13)
+$        STO     R2, +4(R13)
+$        STO     R3, +6(R13)
+$        STO     R4, +8(R13)
+$        STO     R5, +10(R13)
+$        STO     R6, +12(R13)
+$        STO     R7, +14(R13)
+$        STO     R8, +16(R13)
+$        STO     R9, +18(R13)
+$        STO     R10, +20(R13)
+$   % Not yet found: i
+At -- line 23 col 8: error 7
+ERROR -> Expression required. 
+
+$        HALT    
+$   % Expression Required Got:Unknown semantic item. 
+$   % Not yet found: i
+At -- line 23 col 12: error 7
+ERROR -> Expression required. 
+
+$        HALT    
+$   % Expression Required Got:Unknown semantic item. 
+$   % Not yet found: j
+At -- line 23 col 14: error 7
+ERROR -> Expression required. 
+
+$        HALT    
+$   % Expression Required Got:Unknown semantic item. 
+$   % Type:Error type. is not compatible with type: Error type.
+$   % Not yet found: j
+At -- line 24 col 11: error 7
+ERROR -> Expression required. 
+
+$        HALT    
+$   % Expression Required Got:Unknown semantic item. 
+$   % Not yet found: i
+At -- line 24 col 15: error 7
+ERROR -> Expression required. 
+
+$        HALT    
+$   % Expression Required Got:Unknown semantic item. 
+$   % Type:Error type. is not compatible with type: Error type.
+$   % Not yet found: j
+At -- line 24 col 20: error 7
+ERROR -> Expression required. 
+
+$        HALT    
+$   % Expression Required Got:Unknown semantic item. 
+$   % Not yet found: j
+At -- line 24 col 24: error 7
+ERROR -> Expression required. 
+
+$        HALT    
+$   % Expression Required Got:Unknown semantic item. 
+$   % Type:Error type. is not compatible with type: integer type.
+$   % Not yet found: tester
+$        LDA     R0, -2(R11)
+$        IS      R13, #10
+$        STO     R0, +6(R13)
+$        STO     R12, +2(R13)
+This procedure has been invoked with too few arguments.
+At -- line 25 col 20: error 14
+ERROR -> Wrong number of procedure arguments. 
+
+$        HALT    
+$        JSR     R11, P6
+$        STO     R12, +2(R12)
+$        IA      R13, #10
+$        JMP     J7
+$    LABEL J0
+$   % Not yet found: j
+At -- line 26 col 12: error 7
+ERROR -> Expression required. 
+
+$        HALT    
+$   % Expression Required Got:Unknown semantic item. 
+$   % Not yet found: i
+At -- line 26 col 16: error 7
+ERROR -> Expression required. 
+
+$        HALT    
+$   % Expression Required Got:Unknown semantic item. 
+$   % Type:Error type. is not compatible with type: Error type.
+$        JMP     J7
+$    LABEL J0
+$        HALT    
+$    LABEL J7
+$   % Not yet found: tester
+$   % Not yet found: fubar
+java.lang.NullPointerException
+	at gcl.TupleType.getProcedure(SemanticActions.java:1245)
+	at gcl.SemanticActions.callProcedure(SemanticActions.java:2595)
+	at gcl.Parser.procedureInvocation(Parser.java:574)
+	at gcl.Parser.variableOperationStatement(Parser.java:472)
+	at gcl.Parser.statement(Parser.java:229)
+	at gcl.Parser.statementPart(Parser.java:170)
+	at gcl.Parser.block(Parser.java:160)
+	at gcl.Parser.definition(Parser.java:208)
+	at gcl.Parser.definitionPart(Parser.java:150)
+	at gcl.Parser.block(Parser.java:156)
+	at gcl.Parser.definition(Parser.java:208)
+	at gcl.Parser.definitionPart(Parser.java:150)
+	at gcl.Parser.block(Parser.java:156)
+	at gcl.Parser.module(Parser.java:142)
+	at gcl.Parser.gcl(Parser.java:125)
+	at gcl.Parser.Parse(Parser.java:798)
+	at gcl.GCLCompiler.main(GCLCompiler.java:74)
+  <end of compilation> 	There were 12 errors detected
+  Allocated Registers: 11 12 13 14 15 
+
+$        HALT    

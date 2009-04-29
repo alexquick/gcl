@@ -1,7 +1,8 @@
-Compiled on: Wed Apr 01 00:20:09 EDT 2009
+Compiled on: Wed Apr 29 09:23:53 EDT 2009
 $        LDA     R15, V1
 $        LDA     R14, C1
 $        LD      R13, #16000
+$        JMP     M1
 $   % Not yet found: a
 $   % Not yet found: a
 $   % Entering: private variable entry: ID = a semantic: VariableExpression: level(1) offset(0) direct, with type integer type.
@@ -17,6 +18,7 @@ $   % Declaring Constant: private constant entry: ID = t semantic: ConstantExpre
 $   % Not yet found: neg
 $   % Not yet found: neg
 $   % Declaring Constant: private constant entry: ID = neg semantic: ConstantExpression: -3 with type integer type.
+$    LABEL M1
 $        LD      R0, +0(R14)
 $        STO     R0, +0(R15)
 $        LD      R0, +0(R15)
@@ -63,6 +65,6 @@ $        INT      0
 $    LABEL V1
 $        SKIP     2
   <end of compilation> 	There were 4 errors detected
-  Allocated Registers: 13 14 15 
+  Allocated Registers: 11 12 13 14 15 
 
 $        HALT    

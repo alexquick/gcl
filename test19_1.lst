@@ -1,0 +1,441 @@
+Compiled on: Wed Apr 29 09:38:28 EDT 2009
+$        LDA     R15, V1
+$        LDA     R14, C1
+$        LD      R13, #16000
+$        JMP     M1
+$   % Declaring type constant: int as integer type.
+$   % Declaring type constant: innerOne as tupleType:[integer type. : val, ] with size: 2
+$   % Declaring type constant: innerTwo as tupleType:[integer type. : first, integer type. : second, ] with size: 4
+$    LABEL P3
+$        STO     R11, +4(R13)
+$        LD      R11, +2(R13)
+$        STO     R12, +0(R13)
+$        LDA     R12, +0(R13)
+$        IS      R13, #22
+$        STO     R0, +0(R13)
+$        STO     R1, +2(R13)
+$        STO     R2, +4(R13)
+$        STO     R3, +6(R13)
+$        STO     R4, +8(R13)
+$        STO     R5, +10(R13)
+$        STO     R6, +12(R13)
+$        STO     R7, +14(R13)
+$        STO     R8, +16(R13)
+$        STO     R9, +18(R13)
+$        STO     R10, +20(R13)
+$        WRST    +0(R14)
+$        WRNL    
+$    LABEL U3
+$        LD      R0, +0(R13)
+$        LD      R1, +2(R13)
+$        LD      R2, +4(R13)
+$        LD      R3, +6(R13)
+$        LD      R4, +8(R13)
+$        LD      R5, +10(R13)
+$        LD      R6, +12(R13)
+$        LD      R7, +14(R13)
+$        LD      R8, +16(R13)
+$        LD      R9, +18(R13)
+$        LD      R10, +20(R13)
+$        IA      R13, #22
+$        LD      R12, +0(R13)
+$        LD      R11, +4(R13)
+$        JMP     *R11
+$   % Not yet found: x
+$   % Not yet found: x
+$   % Entering: public variable entry: ID = x semantic: VariableExpression: level(1) offset(0) direct, with type tupleType:[integer type. : f1, integer type. : f2, tupleType:[integer type. : val, ] with size: 2 : f3, tupleType:[integer type. : first, integer type. : second, ] with size: 4 : f4, ] with size: 10
+$    LABEL P4
+$        STO     R11, +4(R13)
+$        LD      R11, +2(R13)
+$        STO     R12, +0(R13)
+$        LDA     R12, +0(R13)
+$        IS      R13, #22
+$        STO     R0, +0(R13)
+$        STO     R1, +2(R13)
+$        STO     R2, +4(R13)
+$        STO     R3, +6(R13)
+$        STO     R4, +8(R13)
+$        STO     R5, +10(R13)
+$        STO     R6, +12(R13)
+$        STO     R7, +14(R13)
+$        STO     R8, +16(R13)
+$        STO     R9, +18(R13)
+$        STO     R10, +20(R13)
+$        LD      R0, +6(R12)
+$        IA      R0, #0
+$        WRI     *R0
+$        WRNL    
+$        LD      R0, +6(R12)
+$        IA      R0, #4
+$        IS      R13, #8
+$        STO     R0, +6(R13)
+$        STO     R12, +2(R13)
+$        JSR     R11, P2
+$        STO     R12, +2(R12)
+$        IA      R13, #8
+$        LD      R0, +6(R12)
+$        IA      R0, #6
+$        IS      R13, #8
+$        STO     R0, +6(R13)
+$        STO     R12, +2(R13)
+$        JSR     R11, P3
+$        STO     R12, +2(R12)
+$        IA      R13, #8
+$    LABEL U4
+$        LD      R0, +0(R13)
+$        LD      R1, +2(R13)
+$        LD      R2, +4(R13)
+$        LD      R3, +6(R13)
+$        LD      R4, +8(R13)
+$        LD      R5, +10(R13)
+$        LD      R6, +12(R13)
+$        LD      R7, +14(R13)
+$        LD      R8, +16(R13)
+$        LD      R9, +18(R13)
+$        LD      R10, +20(R13)
+$        IA      R13, #22
+$        LD      R12, +0(R13)
+$        LD      R11, +4(R13)
+$        JMP     *R11
+$   % Not yet found: int
+$   % Declaring type constant: innerTwo as tupleType:[integer type. : f1, ] with size: 2
+$   % Not yet found: int
+$   % Declaring type constant: innerOne as tupleType:[integer type. : f1, tupleType:[integer type. : f1, ] with size: 2 : f2, ] with size: 4
+$   % Not yet found: int
+$   % Not yet found: y
+$   % Not yet found: y
+$   % Not yet found: y
+$   % Entering: public variable entry: ID = y semantic: VariableExpression: level(2) offset(-6) direct, with type tupleType:[integer type. : f1, tupleType:[integer type. : f1, tupleType:[integer type. : f1, ] with size: 2 : f2, ] with size: 4 : f2, ] with size: 6
+$    LABEL P6
+$        STO     R11, +4(R13)
+$        LD      R11, +2(R13)
+$        STO     R12, +0(R13)
+$        LDA     R12, +0(R13)
+$        IS      R13, #22
+$        STO     R0, +0(R13)
+$        STO     R1, +2(R13)
+$        STO     R2, +4(R13)
+$        STO     R3, +6(R13)
+$        STO     R4, +8(R13)
+$        STO     R5, +10(R13)
+$        STO     R6, +12(R13)
+$        STO     R7, +14(R13)
+$        STO     R8, +16(R13)
+$        STO     R9, +18(R13)
+$        STO     R10, +20(R13)
+$        LD      R0, +6(R12)
+$        IA      R0, #2
+$        IS      R13, #8
+$        STO     R0, +6(R13)
+$        STO     R12, +2(R13)
+$        JSR     R11, P5
+$        STO     R12, +2(R12)
+$        IA      R13, #8
+$    LABEL U6
+$        LD      R0, +0(R13)
+$        LD      R1, +2(R13)
+$        LD      R2, +4(R13)
+$        LD      R3, +6(R13)
+$        LD      R4, +8(R13)
+$        LD      R5, +10(R13)
+$        LD      R6, +12(R13)
+$        LD      R7, +14(R13)
+$        LD      R8, +16(R13)
+$        LD      R9, +18(R13)
+$        LD      R10, +20(R13)
+$        IA      R13, #22
+$        LD      R12, +0(R13)
+$        LD      R11, +4(R13)
+$        JMP     *R11
+$   % Not yet found: int
+$   % Not yet found: int
+$   % Not yet found: z
+$   % Not yet found: z
+$   % Not yet found: z
+$   % Not yet found: z
+$   % Entering: public variable entry: ID = z semantic: VariableExpression: level(3) offset(-2) direct, with type tupleType:[integer type. : val, ] with size: 2
+$    LABEL P8
+$        STO     R11, +4(R13)
+$        LD      R11, +2(R13)
+$        STO     R12, +0(R13)
+$        LDA     R12, +0(R13)
+$        IS      R13, #22
+$        STO     R0, +0(R13)
+$        STO     R1, +2(R13)
+$        STO     R2, +4(R13)
+$        STO     R3, +6(R13)
+$        STO     R4, +8(R13)
+$        STO     R5, +10(R13)
+$        STO     R6, +12(R13)
+$        STO     R7, +14(R13)
+$        STO     R8, +16(R13)
+$        STO     R9, +18(R13)
+$        STO     R10, +20(R13)
+$   % Not yet found: y
+$   % Not yet found: y
+$   % Not yet found: y
+$   % Not yet found: y
+$        IS      R13, #2
+$        LD      R0, -2(R15)
+$        STO     R0, *R13
+$        LD      R0, *R13
+$        STO     R0, -6(R15)
+$        IA      R13, #2
+$   % Not yet found: y
+$   % Not yet found: y
+$        LD      R0, -6(R15)
+$        IS      R0, +6(R14)
+$        WRI     R0
+$        WRNL    
+$        JMP     U8
+$   % Not yet found: y
+$   % Not yet found: y
+$        LDA     R0, -2(R15)
+$        IS      R13, #8
+$        STO     R0, +6(R13)
+$        LDA     R0, -2(R15)
+$        IS      R13, #8
+$        STO     R0, +6(R13)
+$        LDA     R0, -2(R15)
+$        IS      R13, #8
+$        STO     R0, +6(R13)
+$        STO     R12, +2(R13)
+$        JSR     R11, P5
+$        STO     R12, +2(R12)
+$        IA      R13, #8
+$   % Not yet found: z
+$        LDA     R0, -2(R11)
+$        IS      R13, #8
+$        STO     R0, +6(R13)
+$        STO     R12, +2(R13)
+$        JSR     R11, P8
+$        STO     R12, +2(R12)
+$        IA      R13, #8
+$        LDA     R0, *+6(R12)
+$        IS      R13, #8
+$        STO     R0, +6(R13)
+$        STO     R12, +2(R13)
+$        JSR     R11, P8
+$        STO     R12, +2(R12)
+$        IA      R13, #8
+$    LABEL U8
+$        LD      R0, +0(R13)
+$        LD      R1, +2(R13)
+$        LD      R2, +4(R13)
+$        LD      R3, +6(R13)
+$        LD      R4, +8(R13)
+$        LD      R5, +10(R13)
+$        LD      R6, +12(R13)
+$        LD      R7, +14(R13)
+$        LD      R8, +16(R13)
+$        LD      R9, +18(R13)
+$        LD      R10, +20(R13)
+$        IA      R13, #22
+$        LD      R12, +0(R13)
+$        LD      R11, +4(R13)
+$        JMP     *R11
+$    LABEL P5
+$        STO     R11, +4(R13)
+$        LD      R11, +2(R13)
+$        STO     R12, +0(R13)
+$        LDA     R12, +0(R13)
+$        IS      R13, #24
+$        STO     R0, +0(R13)
+$        STO     R1, +2(R13)
+$        STO     R2, +4(R13)
+$        STO     R3, +6(R13)
+$        STO     R4, +8(R13)
+$        STO     R5, +10(R13)
+$        STO     R6, +12(R13)
+$        STO     R7, +14(R13)
+$        STO     R8, +16(R13)
+$        STO     R9, +18(R13)
+$        STO     R10, +20(R13)
+$   % Not yet found: y
+$   % Tuple component of size 2 at 10
+$        LD      R0, +8(R14)
+$        STO     R0, +10(R15)
+$   % Tuple component of size 2 at 12
+$        LD      R0, +10(R14)
+$        STO     R0, +12(R15)
+$   % Tuple component of size 2 at 14
+$        LD      R0, +10(R15)
+$        STO     R0, +14(R15)
+$   % Tuple component of size 2 at 16
+$        LD      R0, +12(R14)
+$        STO     R0, +16(R15)
+$   % Tuple component of size 4 at 18
+$        LDA     R0, +12(R15)
+$        LD      R1, #4
+$        BKT     R0, +18(R15)
+$        IS      R13, #6
+$        LDA     R0, +16(R15)
+$        LD      R1, #6
+$        BKT     R0, *R13
+$        LD      R0, R13
+$        LD      R1, #6
+$        BKT     R0, -6(R11)
+$        IA      R13, #6
+$        LDA     R0, -2(R12)
+$        IS      R13, #8
+$        STO     R0, +6(R13)
+$        STO     R11, +2(R13)
+$        JSR     R11, P8
+$        STO     R12, +2(R12)
+$        IA      R13, #8
+$    LABEL U5
+$        LD      R0, +0(R13)
+$        LD      R1, +2(R13)
+$        LD      R2, +4(R13)
+$        LD      R3, +6(R13)
+$        LD      R4, +8(R13)
+$        LD      R5, +10(R13)
+$        LD      R6, +12(R13)
+$        LD      R7, +14(R13)
+$        LD      R8, +16(R13)
+$        LD      R9, +18(R13)
+$        LD      R10, +20(R13)
+$        IA      R13, #24
+$        LD      R12, +0(R13)
+$        LD      R11, +4(R13)
+$        JMP     *R11
+$    LABEL P7
+$        STO     R11, +4(R13)
+$        LD      R11, +2(R13)
+$        STO     R12, +0(R13)
+$        LDA     R12, +0(R13)
+$        IS      R13, #22
+$        STO     R0, +0(R13)
+$        STO     R1, +2(R13)
+$        STO     R2, +4(R13)
+$        STO     R3, +6(R13)
+$        STO     R4, +8(R13)
+$        STO     R5, +10(R13)
+$        STO     R6, +12(R13)
+$        STO     R7, +14(R13)
+$        STO     R8, +16(R13)
+$        STO     R9, +18(R13)
+$        STO     R10, +20(R13)
+$        LD      R0, +6(R12)
+$        IA      R0, #2
+$        IS      R13, #8
+$        STO     R0, +6(R13)
+$        STO     R12, +2(R13)
+$        JSR     R11, P6
+$        STO     R12, +2(R12)
+$        IA      R13, #8
+$    LABEL U7
+$        LD      R0, +0(R13)
+$        LD      R1, +2(R13)
+$        LD      R2, +4(R13)
+$        LD      R3, +6(R13)
+$        LD      R4, +8(R13)
+$        LD      R5, +10(R13)
+$        LD      R6, +12(R13)
+$        LD      R7, +14(R13)
+$        LD      R8, +16(R13)
+$        LD      R9, +18(R13)
+$        LD      R10, +20(R13)
+$        IA      R13, #22
+$        LD      R12, +0(R13)
+$        LD      R11, +4(R13)
+$        JMP     *R11
+$    LABEL P2
+$        STO     R11, +4(R13)
+$        LD      R11, +2(R13)
+$        STO     R12, +0(R13)
+$        LDA     R12, +0(R13)
+$        IS      R13, #28
+$        STO     R0, +0(R13)
+$        STO     R1, +2(R13)
+$        STO     R2, +4(R13)
+$        STO     R3, +6(R13)
+$        STO     R4, +8(R13)
+$        STO     R5, +10(R13)
+$        STO     R6, +12(R13)
+$        STO     R7, +14(R13)
+$        STO     R8, +16(R13)
+$        STO     R9, +18(R13)
+$        STO     R10, +20(R13)
+$        LDA     R0, -6(R12)
+$        IS      R13, #8
+$        STO     R0, +6(R13)
+$        STO     R11, +2(R13)
+$        JSR     R11, P7
+$        STO     R12, +2(R12)
+$        IA      R13, #8
+$        LD      R0, +6(R12)
+$        IA      R0, #0
+$        WRI     *R0
+$        WRNL    
+$    LABEL U2
+$        LD      R0, +0(R13)
+$        LD      R1, +2(R13)
+$        LD      R2, +4(R13)
+$        LD      R3, +6(R13)
+$        LD      R4, +8(R13)
+$        LD      R5, +10(R13)
+$        LD      R6, +12(R13)
+$        LD      R7, +14(R13)
+$        LD      R8, +16(R13)
+$        LD      R9, +18(R13)
+$        LD      R10, +20(R13)
+$        IA      R13, #28
+$        LD      R12, +0(R13)
+$        LD      R11, +4(R13)
+$        JMP     *R11
+$    LABEL M1
+$   % Tuple component of size 2 at 22
+$        LD      R0, +14(R14)
+$        STO     R0, +22(R15)
+$   % Tuple component of size 2 at 24
+$        LD      R0, +16(R14)
+$        STO     R0, +24(R15)
+$   % Tuple component of size 2 at 26
+$        LD      R0, +18(R14)
+$        STO     R0, +26(R15)
+$   % Tuple component of size 2 at 28
+$        LD      R0, +20(R14)
+$        STO     R0, +28(R15)
+$   % Tuple component of size 2 at 30
+$        LD      R0, +22(R14)
+$        STO     R0, +30(R15)
+$   % Tuple component of size 2 at 32
+$        LD      R0, +22(R15)
+$        STO     R0, +32(R15)
+$   % Tuple component of size 4 at 34
+$        LDA     R0, +24(R15)
+$        LD      R1, #4
+$        BKT     R0, +34(R15)
+$        IS      R13, #10
+$        LDA     R0, +28(R15)
+$        LD      R1, #10
+$        BKT     R0, *R13
+$        LD      R0, R13
+$        LD      R1, #10
+$        BKT     R0, +0(R15)
+$        IA      R13, #10
+$        LDA     R0, +0(R15)
+$        IS      R13, #8
+$        STO     R0, +6(R13)
+$        STO     R11, +2(R13)
+$        JSR     R11, P4
+$        STO     R12, +2(R12)
+$        IA      R13, #8
+$        HALT    
+$    LABEL C1
+$        STRING   "done"
+$        INT      1
+$        INT      3
+$        INT      6
+$        INT      5
+$        INT      3
+$        INT      4
+$        INT      5
+$        INT      1
+$        INT      2
+$    LABEL V1
+$        SKIP     38
+  <end of compilation> 	There were 0 errors detected
+  Allocated Registers: 11 12 13 14 15 
+

@@ -1,0 +1,24 @@
+Compiled on: Wed Apr 29 09:22:27 EDT 2009
+$        LDA     R15, V1
+$        LDA     R14, C1
+$        LD      R13, #16000
+$        JMP     M1
+$   % Declaring type constant: bar as tupleType:[] with size: 0
+$   % Not yet found: b
+$   % Entering: public variable entry: ID = b semantic: VariableExpression: level(1) offset(0) direct, with type tupleType:[] with size: 0
+$    LABEL M1
+$   % Not yet found: b
+$        LDA     R0, +0(R15)
+$        IS      R13, #8
+$        STO     R0, +6(R13)
+$        STO     R11, +2(R13)
+$        JSR     R11, P2
+$        STO     R12, +2(R12)
+$        IA      R13, #8
+$        HALT    
+$    LABEL C1
+$    LABEL V1
+$        SKIP     0
+  <end of compilation> 	There were 0 errors detected
+  Allocated Registers: 11 12 13 14 15 
+
